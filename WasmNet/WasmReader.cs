@@ -422,6 +422,15 @@ namespace WasmNet {
                 case WasmOpcodeType.End: return new EndOpcode();
                 case WasmOpcodeType.Br: return new BrOpcode { RelativeDepth = ReadVarUInt32() };
                 case WasmOpcodeType.BrIf: return new BrIfOpcode { RelativeDepth = ReadVarUInt32() };
+                case WasmOpcodeType.BrTable:
+                    var res = new BrTableOpcode();
+                    var cnt = ReadVarUInt32();
+                    for (var i = 0; i < cnt; i++) {
+                        res.Targets.Add(ReadVarUInt32());
+                    }
+                    res.DefaultTarget = ReadVarUInt32();
+                    return res;
+
                 case WasmOpcodeType.Return: return new ReturnOpcode();
 
                 case WasmOpcodeType.Call: return new CallOpcode { FunctionIndex = ReadVarUInt32() };
@@ -438,9 +447,13 @@ namespace WasmNet {
                 case WasmOpcodeType.I64Load: return new I64LoadOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Load8S: return new I32Load8SOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Load8U: return new I32Load8UOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I32Load16S: return new I32Load16SOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I32Load16U: return new I32Load16UOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Store: return new I32StoreOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I64Store: return new I64StoreOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Store8: return new I32Store8Opcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I32Store16: return new I32Store16Opcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Store8: return new I64Store8Opcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I64Store32: return new I64Store32Opcode { Address = ReadMemoryImmediate() };
 
                 case WasmOpcodeType.I32Const: return new I32ConstOpcode { Value = ReadVarInt32() };
@@ -452,15 +465,44 @@ namespace WasmNet {
                 case WasmOpcodeType.I32Lts: return new I32LtsOpcode();
                 case WasmOpcodeType.I32Ltu: return new I32LtuOpcode();
                 case WasmOpcodeType.I32Gts: return new I32GtsOpcode();
+                case WasmOpcodeType.I32Gtu: return new I32GtuOpcode();
                 case WasmOpcodeType.I32Les: return new I32LesOpcode();
+                case WasmOpcodeType.I32Leu: return new I32LeuOpcode();
+                case WasmOpcodeType.I32Ges: return new I32GesOpcode();
+                case WasmOpcodeType.I32Geu: return new I32GeuOpcode();
 
+                case WasmOpcodeType.I64Eqz: return new I64EqzOpcode();
                 case WasmOpcodeType.I64Eq: return new I64EqOpcode();
+                case WasmOpcodeType.I64Ne: return new I64NeOpcode();
+                case WasmOpcodeType.I64Lts: return new I64LtsOpcode();
+                case WasmOpcodeType.I64Ltu: return new I64LtuOpcode();
+                case WasmOpcodeType.I64Gts: return new I64GtsOpcode();
                 case WasmOpcodeType.I64Gtu: return new I64GtuOpcode();
+                case WasmOpcodeType.I64Les: return new I64LesOpcode();
+                case WasmOpcodeType.I64Leu: return new I64LeuOpcode();
+                case WasmOpcodeType.I64Ges: return new I64GesOpcode();
                 case WasmOpcodeType.I64Geu: return new I64GeuOpcode();
+
+                case WasmOpcodeType.F32Eq: return new F32EqOpcode();
+                case WasmOpcodeType.F32Ne: return new F32NeOpcode();
+                case WasmOpcodeType.F32Lt: return new F32LtOpcode();
+                case WasmOpcodeType.F32Gt: return new F32GtOpcode();
+                case WasmOpcodeType.F32Le: return new F32LeOpcode();
+                case WasmOpcodeType.F32Ge: return new F32GeOpcode();
+
+                case WasmOpcodeType.F64Eq: return new F64EqOpcode();
+                case WasmOpcodeType.F64Ne: return new F64NeOpcode();
+                case WasmOpcodeType.F64Lt: return new F64LtOpcode();
+                case WasmOpcodeType.F64Gt: return new F64GtOpcode();
+                case WasmOpcodeType.F64Le: return new F64LeOpcode();
+                case WasmOpcodeType.F64Ge: return new F64GeOpcode();
 
                 case WasmOpcodeType.I32Add: return new I32AddOpcode();
                 case WasmOpcodeType.I32Sub: return new I32SubOpcode();
+                case WasmOpcodeType.I32Mul: return new I32MulOpcode();
                 case WasmOpcodeType.I32Divs: return new I32DivsOpcode();
+                case WasmOpcodeType.I32Divu: return new I32DivuOpcode();
+                case WasmOpcodeType.I32RemU: return new I32RemUOpcode();
                 case WasmOpcodeType.I32And: return new I32AndOpcode();
                 case WasmOpcodeType.I32Or: return new I32OrOpcode();
                 case WasmOpcodeType.I32Xor: return new I32XorOpcode();
@@ -470,7 +512,9 @@ namespace WasmNet {
 
                 case WasmOpcodeType.I64Add: return new I64AddOpcode();
                 case WasmOpcodeType.I64Sub: return new I64SubOpcode();
+                case WasmOpcodeType.I64Mul: return new I64MulOpcode();
                 case WasmOpcodeType.I64And: return new I64AndOpcode();
+                case WasmOpcodeType.I64Or: return new I64OrOpcode();
                 case WasmOpcodeType.I64Xor: return new I64XorOpcode();
                 case WasmOpcodeType.I64Shl: return new I64ShlOpcode();
                 case WasmOpcodeType.I64ShrU: return new I64ShrUOpcode();
