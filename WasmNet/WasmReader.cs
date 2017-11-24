@@ -416,24 +416,69 @@ namespace WasmNet {
                 case WasmOpcodeType.Unreachable: return new UnreachableOpcode();
                 case WasmOpcodeType.Nop: return new NopOpcode();
                 case WasmOpcodeType.Block: return new BlockOpcode { Signature = ReadBlockType() };
+                case WasmOpcodeType.Loop: return new LoopOpcode { Signature = ReadBlockType() };
                 case WasmOpcodeType.If: return new IfOpcode { Signature = ReadBlockType() };
                 case WasmOpcodeType.Else: return new ElseOpcode();
                 case WasmOpcodeType.End: return new EndOpcode();
+                case WasmOpcodeType.Br: return new BrOpcode { RelativeDepth = ReadVarUInt32() };
+                case WasmOpcodeType.BrIf: return new BrIfOpcode { RelativeDepth = ReadVarUInt32() };
+                case WasmOpcodeType.Return: return new ReturnOpcode();
+
                 case WasmOpcodeType.Call: return new CallOpcode { FunctionIndex = ReadVarUInt32() };
+                case WasmOpcodeType.CallIndirect: return new CallIndirectOpcode { TypeIndex = ReadVarUInt32(), Reserved = ReadVarUInt1() };
                 case WasmOpcodeType.Drop: return new DropOpcode();
+
                 case WasmOpcodeType.GetLocal: return new GetLocalOpcode { LocalIndex = ReadVarUInt32() };
                 case WasmOpcodeType.SetLocal: return new SetLocalOpcode { LocalIndex = ReadVarUInt32() };
                 case WasmOpcodeType.TeeLocal: return new TeeLocalOpcode { LocalIndex = ReadVarUInt32() };
                 case WasmOpcodeType.GetGlobal: return new GetGlobalOpcode { GlobalIndex = ReadVarUInt32() };
                 case WasmOpcodeType.SetGlobal: return new SetGlobalOpcode { GlobalIndex = ReadVarUInt32() };
+
                 case WasmOpcodeType.I32Load: return new I32LoadOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load: return new I64LoadOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I32Load8S: return new I32Load8SOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I32Load8U: return new I32Load8UOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Store: return new I32StoreOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Store: return new I64StoreOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I32Store8: return new I32Store8Opcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Store32: return new I64Store32Opcode { Address = ReadMemoryImmediate() };
+
                 case WasmOpcodeType.I32Const: return new I32ConstOpcode { Value = ReadVarInt32() };
+                case WasmOpcodeType.I64Const: return new I64ConstOpcode { Value = ReadVarInt64() };
+
                 case WasmOpcodeType.I32Eqz: return new I32EqzOpcode();
+                case WasmOpcodeType.I32Eq: return new I32EqOpcode();
+                case WasmOpcodeType.I32Ne: return new I32NeOpcode();
+                case WasmOpcodeType.I32Lts: return new I32LtsOpcode();
+                case WasmOpcodeType.I32Ltu: return new I32LtuOpcode();
+                case WasmOpcodeType.I32Gts: return new I32GtsOpcode();
+                case WasmOpcodeType.I32Les: return new I32LesOpcode();
+
+                case WasmOpcodeType.I64Eq: return new I64EqOpcode();
+                case WasmOpcodeType.I64Gtu: return new I64GtuOpcode();
+                case WasmOpcodeType.I64Geu: return new I64GeuOpcode();
+
                 case WasmOpcodeType.I32Add: return new I32AddOpcode();
+                case WasmOpcodeType.I32Sub: return new I32SubOpcode();
+                case WasmOpcodeType.I32Divs: return new I32DivsOpcode();
                 case WasmOpcodeType.I32And: return new I32AndOpcode();
+                case WasmOpcodeType.I32Or: return new I32OrOpcode();
+                case WasmOpcodeType.I32Xor: return new I32XorOpcode();
                 case WasmOpcodeType.I32Shl: return new I32ShlOpcode();
+                case WasmOpcodeType.I32ShrS: return new I32ShrSOpcode();
+                case WasmOpcodeType.I32ShrU: return new I32ShrUOpcode();
+
+                case WasmOpcodeType.I64Add: return new I64AddOpcode();
+                case WasmOpcodeType.I64Sub: return new I64SubOpcode();
+                case WasmOpcodeType.I64And: return new I64AndOpcode();
+                case WasmOpcodeType.I64Xor: return new I64XorOpcode();
+                case WasmOpcodeType.I64Shl: return new I64ShlOpcode();
+                case WasmOpcodeType.I64ShrU: return new I64ShrUOpcode();
+
+                case WasmOpcodeType.I32WrapI64: return new I32WrapI64Opcode();
+                case WasmOpcodeType.I64ExtendSI32: return new I64ExtendSI32Opcode();
                 case WasmOpcodeType.I64ExtendUI32: return new I64ExtendUI32Opcode();
+
                 default: throw new WasmFormatException($"unknown opcode 0x{(byte)type:x2}");
             }
         }
