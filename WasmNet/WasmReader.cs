@@ -440,9 +440,62 @@ namespace WasmNet {
                 case WasmOpcodeType.I64Rotl: return new I64RotlOpcode();
                 case WasmOpcodeType.I64Rotr: return new I64RotrOpcode();
 
+                case WasmOpcodeType.F32Abs: return new F32AbsOpcode();
+                case WasmOpcodeType.F32Neg: return new F32NegOpcode();
+                case WasmOpcodeType.F32Ceil: return new F32CeilOpcode();
+                case WasmOpcodeType.F32Floor: return new F32FloorOpcode();
+                case WasmOpcodeType.F32Trunc: return new F32TruncOpcode();
+                case WasmOpcodeType.F32Nearest: return new F32NearestOpcode();
+                case WasmOpcodeType.F32Sqrt: return new F32SqrtOpcode();
+                case WasmOpcodeType.F32Add: return new F32AddOpcode();
+                case WasmOpcodeType.F32Sub: return new F32SubOpcode();
+                case WasmOpcodeType.F32Mul: return new F32MulOpcode();
+                case WasmOpcodeType.F32Div: return new F32DivOpcode();
+                case WasmOpcodeType.F32Min: return new F32MinOpcode();
+                case WasmOpcodeType.F32Max: return new F32MaxOpcode();
+                case WasmOpcodeType.F32CopySign: return new F32CopySignOpcode();
+
+                case WasmOpcodeType.F64Abs: return new F64AbsOpcode();
+                case WasmOpcodeType.F64Neg: return new F64NegOpcode();
+                case WasmOpcodeType.F64Ceil: return new F64CeilOpcode();
+                case WasmOpcodeType.F64Floor: return new F64FloorOpcode();
+                case WasmOpcodeType.F64Trunc: return new F64TruncOpcode();
+                case WasmOpcodeType.F64Nearest: return new F64NearestOpcode();
+                case WasmOpcodeType.F64Sqrt: return new F64SqrtOpcode();
+                case WasmOpcodeType.F64Add: return new F64AddOpcode();
+                case WasmOpcodeType.F64Sub: return new F64SubOpcode();
+                case WasmOpcodeType.F64Mul: return new F64MulOpcode();
+                case WasmOpcodeType.F64Div: return new F64DivOpcode();
+                case WasmOpcodeType.F64Min: return new F64MinOpcode();
+                case WasmOpcodeType.F64Max: return new F64MaxOpcode();
+                case WasmOpcodeType.F64CopySign: return new F64CopySignOpcode();
+
                 case WasmOpcodeType.I32WrapI64: return new I32WrapI64Opcode();
+                case WasmOpcodeType.I32TruncSF32: return new I32TruncSF32Opcode();
+                case WasmOpcodeType.I32TruncUF32: return new I32TruncUF32Opcode();
+                case WasmOpcodeType.I32TruncSF64: return new I32TruncSF64Opcode();
+                case WasmOpcodeType.I32TruncUF64: return new I32TruncUF64Opcode();
                 case WasmOpcodeType.I64ExtendSI32: return new I64ExtendSI32Opcode();
                 case WasmOpcodeType.I64ExtendUI32: return new I64ExtendUI32Opcode();
+                case WasmOpcodeType.I64TruncSF32: return new I64TruncSF32Opcode();
+                case WasmOpcodeType.I64TruncUF32: return new I64TruncUF32Opcode();
+                case WasmOpcodeType.I64TruncSF64: return new I64TruncSF64Opcode();
+                case WasmOpcodeType.I64TruncUF64: return new I64TruncUF64Opcode();
+                case WasmOpcodeType.F32ConvertSI32: return new F32ConvertSI32Opcode();
+                case WasmOpcodeType.F32ConvertUI32: return new F32ConvertUI32Opcode();
+                case WasmOpcodeType.F32ConvertSI64: return new F32ConvertSI64Opcode();
+                case WasmOpcodeType.F32ConvertUI64: return new F32ConvertUI64Opcode();
+                case WasmOpcodeType.F32DemoteF64: return new F32DemoteF64Opcode();
+                case WasmOpcodeType.F64ConvertSI32: return new F64ConvertSI32Opcode();
+                case WasmOpcodeType.F64ConvertUI32: return new F64ConvertUI32Opcode();
+                case WasmOpcodeType.F64ConvertSI64: return new F64ConvertSI64Opcode();
+                case WasmOpcodeType.F64ConvertUI64: return new F64ConvertUI64Opcode();
+                case WasmOpcodeType.F64PromoteF32: return new F64PromoteF32Opcode();
+
+                case WasmOpcodeType.I32ReinterpretF32: return new I32ReinterpretF32Opcode();
+                case WasmOpcodeType.I64ReinterpretF64: return new I64ReinterpretF64Opcode();
+                case WasmOpcodeType.F32ReinterpretI32: return new F32ReinterpretI32Opcode();
+                case WasmOpcodeType.F64ReinterpretI64: return new F64ReinterpretI64Opcode();
 
                 default: throw new WasmFormatException($"unknown opcode 0x{(byte)type:x2}");
             }
