@@ -78,6 +78,13 @@ namespace WasmNet {
             return reader.ReadCodeSection();
         }
 
+        public WasmDataSection ReadDataSection() {
+            var section = FindSection(WasmSectionCode.Data);
+            if (section == null) return null;
+            var reader = new WasmReader(section.Payload);
+            return reader.ReadDataSection();
+        }
+
         private WasmSection FindSection(WasmSectionCode code) {
             foreach (var sec in Sections) {
                 if (sec.Code == code) return sec;

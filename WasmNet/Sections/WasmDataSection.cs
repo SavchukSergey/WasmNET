@@ -1,0 +1,9 @@
+﻿using System.Collections.Generic;
+
+namespace WasmNet.Sections {
+    public class WasmDataSection {
+
+        public IList<WasmDataSegment> Entries { get; } = new List<WasmDataSegment>();
+
+    }
+}

@@ -285,6 +285,16 @@ namespace WasmNet {
             return res;
         }
 
+        public WasmDataSegment ReadDataSegment() {
+            var res = new WasmDataSegment {
+                Index = ReadVarUInt32(),
+                Offset = ReadInitExpression(),
+            };
+            var cnt = ReadVarUInt32();
+            res.Data = ReadBytes(cnt);
+            return res;
+        }
+
         public WasmFunctionBody ReadFunctionBody() {
             var res = new WasmFunctionBody();
             var bodySize = ReadVarUInt32();
@@ -406,6 +416,16 @@ namespace WasmNet {
             for (var i = 0; i < count; i++) {
                 var entry = ReadFunctionBody();
                 res.Bodies.Add(entry);
+            }
+            return res;
+        }
+
+        public WasmDataSection ReadDataSection() {
+            var res = new WasmDataSection();
+            var count = ReadVarUInt32();
+            for (var i = 0; i < count; i++) {
+                var entry = ReadDataSegment();
+                res.Entries.Add(entry);
             }
             return res;
         }

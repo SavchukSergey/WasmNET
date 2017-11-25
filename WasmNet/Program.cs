@@ -18,6 +18,7 @@ namespace WasmNet {
                 var startSection = module.ReadStartSection();
                 var elemSection = module.ReadElementSection();
                 var codeSection = module.ReadCodeSection();
+                var dataSection = module.ReadDataSection();
                 Console.WriteLine("read");
                 Console.ReadKey();
             }
