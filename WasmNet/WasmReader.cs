@@ -5,7 +5,7 @@ using WasmNet.Opcodes;
 using WasmNet.Sections;
 
 namespace WasmNet {
-    public class WasmReader {
+    public partial class WasmReader {
 
         private readonly BinaryReader _reader;
 
@@ -15,139 +15,6 @@ namespace WasmNet {
 
         public WasmReader(byte[] data) : this(new MemoryStream(data)) {
         }
-
-        public byte ReadUInt8() {
-            return _reader.ReadByte();
-        }
-
-        public ushort ReadUInt16() {
-            return _reader.ReadUInt16();
-        }
-
-        public uint ReadUInt32() {
-            return _reader.ReadUInt32();
-        }
-
-        public byte ReadVarUInt1() {
-            return _reader.ReadByte();
-        }
-
-        public uint ReadVarUInt7() {
-            var bt = _reader.ReadByte();
-            if (bt >= 0x80) throw new WasmFormatException("varuint7 overflow");
-            return bt;
-        }
-
-        public uint ReadVarUInt32() {
-            var res = 0u;
-            var pos = 0;
-            byte bt;
-            do {
-                bt = _reader.ReadByte();
-                res |= ((uint)(bt & 0x7f) << pos);
-                pos += 7;
-            } while (bt >= 0x80);
-            return res;
-        }
-
-        public sbyte ReadVarInt7() {
-            var bt = _reader.ReadByte();
-            if (bt >= 0x80) throw new WasmFormatException("varuint7 overflow");
-            return (sbyte)(bt & 0x80);
-        }
-
-        public int ReadVarInt32() {
-            var res = 0u;
-            var pos = 0;
-            byte bt;
-            do {
-                bt = _reader.ReadByte();
-                res |= ((uint)(bt & 0x7f) << pos);
-                pos += 7;
-                if ((bt & 0xff) == 0x40) res |= (~0u << pos);
-            } while (bt >= 0x80);
-            return (int)res;
-        }
-
-        public long ReadVarInt64() {
-            var res = 0ul;
-            var pos = 0;
-            byte bt;
-            do {
-                bt = _reader.ReadByte();
-                res |= ((ulong)(bt & 0x7f) << pos);
-                pos += 7;
-                if ((bt & 0xff) == 0x40) res |= (~0ul << pos);
-            } while (bt >= 0x80);
-            return (long)res;
-        }
-
-        public WasmExternalKind ReadExternalKind() {
-            return (WasmExternalKind)_reader.ReadByte();
-        }
-
-        public WasmSectionCode ReadSectionCode() {
-            return (WasmSectionCode)_reader.ReadByte();
-        }
-
-        public WasmType ReadType() {
-            return (WasmType)_reader.ReadByte();
-        }
-
-        public WasmOpcodeType ReadOpcodeType() {
-            return (WasmOpcodeType)_reader.ReadByte();
-        }
-
-        public WasmType ReadValueType() {
-            var type = ReadType();
-            switch (type) {
-                case WasmType.I32:
-                case WasmType.I64:
-                case WasmType.F32:
-                case WasmType.F64:
-                    return type;
-                default:
-                    throw new WasmFormatException("value type expected");
-            }
-        }
-
-        public WasmType ReadBlockType() {
-            var type = ReadType();
-            switch (type) {
-                case WasmType.I32:
-                case WasmType.I64:
-                case WasmType.F32:
-                case WasmType.F64:
-                case WasmType.BlockType:
-                    return type;
-                default:
-                    throw new WasmFormatException("block type expected");
-            }
-        }
-
-        public WasmType ReadElementType() {
-            var type = ReadType();
-            switch (type) {
-                case WasmType.Anyfunc:
-                    return type;
-                default:
-                    throw new WasmFormatException("element type expected");
-            }
-        }
-
-        public string ReadString() {
-            var len = ReadVarUInt32();
-            var bytes = ReadBytes(len);
-            return Encoding.UTF8.GetString(bytes);
-        }
-
-        public byte[] ReadBytes(uint length) {
-            return _reader.ReadBytes((int)length);
-        }
-
-        public bool Eof => Position == _reader.BaseStream.Length;
-
-        public long Position => _reader.BaseStream.Position;
 
         public WasmModule ReadModule() {
             var magic = ReadUInt32();
@@ -455,7 +322,9 @@ namespace WasmNet {
 
                 case WasmOpcodeType.Call: return new CallOpcode { FunctionIndex = ReadVarUInt32() };
                 case WasmOpcodeType.CallIndirect: return new CallIndirectOpcode { TypeIndex = ReadVarUInt32(), Reserved = ReadVarUInt1() };
+
                 case WasmOpcodeType.Drop: return new DropOpcode();
+                case WasmOpcodeType.Select: return new SelectOpcode();
 
                 case WasmOpcodeType.GetLocal: return new GetLocalOpcode { LocalIndex = ReadVarUInt32() };
                 case WasmOpcodeType.SetLocal: return new SetLocalOpcode { LocalIndex = ReadVarUInt32() };
@@ -465,19 +334,35 @@ namespace WasmNet {
 
                 case WasmOpcodeType.I32Load: return new I32LoadOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I64Load: return new I64LoadOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.F32Load: return new F32LoadOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.F64Load: return new F64LoadOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Load8S: return new I32Load8SOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Load8U: return new I32Load8UOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Load16S: return new I32Load16SOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Load16U: return new I32Load16UOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load8S: return new I64Load8SOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load8U: return new I64Load8UOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load16S: return new I64Load16SOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load16U: return new I64Load16UOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load32S: return new I64Load32SOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Load32U: return new I64Load32UOpcode { Address = ReadMemoryImmediate() };
+
                 case WasmOpcodeType.I32Store: return new I32StoreOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I64Store: return new I64StoreOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.F32Store: return new F32StoreOpcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.F64Store: return new F64StoreOpcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Store8: return new I32Store8Opcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I32Store16: return new I32Store16Opcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I64Store8: return new I64Store8Opcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.I64Store16: return new I64Store16Opcode { Address = ReadMemoryImmediate() };
                 case WasmOpcodeType.I64Store32: return new I64Store32Opcode { Address = ReadMemoryImmediate() };
+                case WasmOpcodeType.CurrentMemory: return new CurrentMemoryOpcode { Reserved = ReadVarUInt1() };
+                case WasmOpcodeType.GrowMemory: return new GrowMemoryOpcode { Reserved = ReadVarUInt1() };
 
                 case WasmOpcodeType.I32Const: return new I32ConstOpcode { Value = ReadVarInt32() };
                 case WasmOpcodeType.I64Const: return new I64ConstOpcode { Value = ReadVarInt64() };
+                case WasmOpcodeType.F32Const: return new F32ConstOpcode { Value = ReadF32() };
+                case WasmOpcodeType.F64Const: return new F64ConstOpcode { Value = ReadF64() };
 
                 case WasmOpcodeType.I32Eqz: return new I32EqzOpcode();
                 case WasmOpcodeType.I32Eq: return new I32EqOpcode();
@@ -517,11 +402,15 @@ namespace WasmNet {
                 case WasmOpcodeType.F64Le: return new F64LeOpcode();
                 case WasmOpcodeType.F64Ge: return new F64GeOpcode();
 
+                case WasmOpcodeType.I32Clz: return new I32ClzOpcode();
+                case WasmOpcodeType.I32Ctz: return new I32CtzOpcode();
+                case WasmOpcodeType.I32PopCnt: return new I32PopCntOpcode();
                 case WasmOpcodeType.I32Add: return new I32AddOpcode();
                 case WasmOpcodeType.I32Sub: return new I32SubOpcode();
                 case WasmOpcodeType.I32Mul: return new I32MulOpcode();
-                case WasmOpcodeType.I32Divs: return new I32DivsOpcode();
-                case WasmOpcodeType.I32Divu: return new I32DivuOpcode();
+                case WasmOpcodeType.I32DivS: return new I32DivSOpcode();
+                case WasmOpcodeType.I32DivU: return new I32DivUOpcode();
+                case WasmOpcodeType.I32RemS: return new I32RemSOpcode();
                 case WasmOpcodeType.I32RemU: return new I32RemUOpcode();
                 case WasmOpcodeType.I32And: return new I32AndOpcode();
                 case WasmOpcodeType.I32Or: return new I32OrOpcode();
@@ -529,15 +418,27 @@ namespace WasmNet {
                 case WasmOpcodeType.I32Shl: return new I32ShlOpcode();
                 case WasmOpcodeType.I32ShrS: return new I32ShrSOpcode();
                 case WasmOpcodeType.I32ShrU: return new I32ShrUOpcode();
+                case WasmOpcodeType.I32Rotl: return new I32RotlOpcode();
+                case WasmOpcodeType.I32Rotr: return new I32RotrOpcode();
 
+                case WasmOpcodeType.I64Clz: return new I64ClzOpcode();
+                case WasmOpcodeType.I64Ctz: return new I64CtzOpcode();
+                case WasmOpcodeType.I64PopCnt: return new I64PopCntOpcode();
                 case WasmOpcodeType.I64Add: return new I64AddOpcode();
                 case WasmOpcodeType.I64Sub: return new I64SubOpcode();
                 case WasmOpcodeType.I64Mul: return new I64MulOpcode();
+                case WasmOpcodeType.I64DivS: return new I64DivSOpcode();
+                case WasmOpcodeType.I64DivU: return new I64DivUOpcode();
+                case WasmOpcodeType.I64RemS: return new I64RemSOpcode();
+                case WasmOpcodeType.I64RemU: return new I64RemUOpcode();
                 case WasmOpcodeType.I64And: return new I64AndOpcode();
                 case WasmOpcodeType.I64Or: return new I64OrOpcode();
                 case WasmOpcodeType.I64Xor: return new I64XorOpcode();
                 case WasmOpcodeType.I64Shl: return new I64ShlOpcode();
+                case WasmOpcodeType.I64ShrS: return new I64ShrSOpcode();
                 case WasmOpcodeType.I64ShrU: return new I64ShrUOpcode();
+                case WasmOpcodeType.I64Rotl: return new I64RotlOpcode();
+                case WasmOpcodeType.I64Rotr: return new I64RotrOpcode();
 
                 case WasmOpcodeType.I32WrapI64: return new I32WrapI64Opcode();
                 case WasmOpcodeType.I64ExtendSI32: return new I64ExtendSI32Opcode();
