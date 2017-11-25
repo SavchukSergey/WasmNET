@@ -57,6 +57,28 @@
 
         #endregion
 
+        #region ConstantOpcodes
+
+        TResult Visit(I32ConstOpcode opcode, TArg arg);
+
+        TResult Visit(I64ConstOpcode opcode, TArg arg);
+
+        TResult Visit(F32ConstOpcode opcode, TArg arg);
+
+        TResult Visit(F64ConstOpcode opcode, TArg arg);
+
+        #endregion
+
+        #region NumericOpcodes
+
+        #region I32
+
+        TResult Visit(I32AddOpcode opcode, TArg arg);
+
+        #endregion
+
+        #endregion
+
         TResult Visit(BaseOpcode opcode, TArg arg);
 
     }
