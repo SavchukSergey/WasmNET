@@ -83,6 +83,18 @@
 
         TResult Visit(I32AndOpcode opcode, TArg arg);
 
+        TResult Visit(I32ShlOpcode opcode, TArg arg);
+
+        #endregion
+
+        #endregion
+
+        #region ConversionOpcodes
+
+        #region I32
+
+        TResult Visit(I64ExtendUI32Opcode opcode, TArg arg);
+
         #endregion
 
         #endregion

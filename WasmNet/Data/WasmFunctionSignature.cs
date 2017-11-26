@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using WasmNet.Data;
 
-namespace WasmNet {
+namespace WasmNet.Data {
     public class WasmFunctionSignature {
 
         public IList<WasmType> Parameters { get; } = new List<WasmType>();

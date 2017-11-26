@@ -17,5 +17,12 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32ShlOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Stack.Pop();
+            var left = arg.Stack.Pop();
+            arg.Stack.Push(new ShlNode(left, right));
+            return null;
+        }
+
     }
 }

@@ -13,6 +13,10 @@ namespace WasmNet.Nodes {
 
         public BlockNode Execution => Blocks.Count > 0 ? Blocks.Peek() : _mainBlock;
 
+        public WasmNodeContext Context { get; set; }
+
+        public FunctionNode Function { get; set; }
+
         public WasmNodeArg() {
             Blocks.Push(_mainBlock);
         }
