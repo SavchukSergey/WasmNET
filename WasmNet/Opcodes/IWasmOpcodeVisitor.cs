@@ -69,11 +69,19 @@
 
         #endregion
 
+        #region ComparisionOpcodes
+
+        TResult Visit(I32EqzOpcode opcode, TArg arg);
+
+        #endregion
+
         #region NumericOpcodes
 
         #region I32
 
         TResult Visit(I32AddOpcode opcode, TArg arg);
+
+        TResult Visit(I32AndOpcode opcode, TArg arg);
 
         #endregion
 

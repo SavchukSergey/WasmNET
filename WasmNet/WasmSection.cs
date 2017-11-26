@@ -1,4 +1,6 @@
-﻿namespace WasmNet {
+﻿using WasmNet.Data;
+
+namespace WasmNet {
     public class WasmSection {
 
         public WasmSectionCode Code { get; set; }

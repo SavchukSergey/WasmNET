@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using WasmNet.Data;
 
 namespace WasmNet {
     public class WasmFunctionSignature {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using WasmNet.Data;
 using WasmNet.Opcodes;
 
 namespace WasmNet {

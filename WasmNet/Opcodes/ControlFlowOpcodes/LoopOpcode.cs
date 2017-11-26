@@ -1,4 +1,6 @@
-﻿namespace WasmNet.Opcodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Opcodes {
     public class LoopOpcode : BaseOpcode {
 
         public WasmType Signature { get; set; }

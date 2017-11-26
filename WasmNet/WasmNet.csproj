@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Update="MSIL\WasmMSIL.*.cs" DependentUpon="MSIL\WasmMSIL.cs" />
+    <Compile Update="Nodes\WasmNode.*.cs" DependentUpon="Nodes\WasmNode.cs" />
   </ItemGroup>
 
 </Project>

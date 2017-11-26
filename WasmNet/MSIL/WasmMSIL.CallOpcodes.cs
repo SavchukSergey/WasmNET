@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection.Emit;
 using WasmNet.Opcodes;
 
 namespace WasmNet.MSIL {

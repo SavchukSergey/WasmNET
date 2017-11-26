@@ -1,4 +1,6 @@
-﻿namespace WasmNet.Opcodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Opcodes {
     public class I32Store16Opcode : BaseOpcode {
 
         public WasmMemoryImmediate Address { get; set; }

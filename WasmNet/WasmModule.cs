@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WasmNet.Data;
 using WasmNet.Sections;
 
 namespace WasmNet {

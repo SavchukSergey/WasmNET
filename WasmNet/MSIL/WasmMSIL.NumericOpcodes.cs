@@ -14,6 +14,11 @@ namespace WasmNet.MSIL {
             return null;
         }
 
+        WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(I32AndOpcode opcode, WasmMSILArg arg) {
+            arg.IL.Emit(OpCodes.And);
+            return null;
+        }
+
         #endregion
 
         #endregion

@@ -1,4 +1,6 @@
-﻿namespace WasmNet.Opcodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Opcodes {
     public class F64LoadOpcode : BaseOpcode {
 
         public WasmMemoryImmediate Address { get; set; }

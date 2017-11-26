@@ -9,7 +9,11 @@ namespace WasmNet.MSIL {
 
         WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(UnreachableOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
         WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(NopOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
-        WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(BlockOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
+
+        WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(BlockOpcode opcode, WasmMSILArg arg) {
+            return null;
+        }
+
         WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(LoopOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
         WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(IfOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
         WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(ElseOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
