@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
     public class IfNode : BaseNode {
 
-        public IfNode(BaseNode condition, BaseNode thenNode, BaseNode elseNode) {
+        public IfNode(BaseNode condition, BlockNode thenNode, BlockNode elseNode) {
             Condition = condition;
             Then = thenNode;
             Else = elseNode;
@@ -9,9 +9,9 @@
 
         public BaseNode Condition { get; set; }
 
-        public BaseNode Then { get; set; }
+        public BlockNode Then { get; set; }
 
-        public BaseNode Else { get; set; }
+        public BlockNode Else { get; set; }
 
         public override void ToString(NodeWriter writer) {
             writer.WriteLine($"if ({Condition}) {{");
@@ -31,6 +31,9 @@
             } else {
                 writer.WriteLine("}");
             }
+        }
+
+        public override void ToSExpressionString(NodeWriter writer) {
         }
 
     }

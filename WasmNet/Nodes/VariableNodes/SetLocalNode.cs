@@ -18,5 +18,13 @@
             writer.EndLine();
         }
 
+        public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine($"(set_local ${Variable.Name}");
+            writer.Indent();
+            Value.ToSExpressionString(writer);
+            writer.Unindent();
+            writer.WriteLine(")");
+        }
+
     }
 }

@@ -7,10 +7,10 @@ namespace WasmNet.Nodes {
             var target = arg.Context.ResolveFunction(opcode.FunctionIndex);
             var node = new CallNode(target);
             for (var i = target.Signature.Parameters.Count - 1; i >= 0; i--) {
-                var param = arg.Stack.Pop();
+                var param = arg.Pop();
                 node.Arguments.Insert(0, param);
             }
-            arg.Stack.Push(node);
+            arg.Push(node);
             return null;
         }
 

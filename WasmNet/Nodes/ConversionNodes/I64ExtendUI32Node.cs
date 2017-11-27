@@ -11,5 +11,8 @@
             writer.Write($"(ulong)({Operand})");
         }
 
+        public override void ToSExpressionString(NodeWriter writer) {
+        }
+
     }
 }

@@ -26,7 +26,8 @@ namespace WasmNet.Nodes {
                 var sig = typeSection.Entries[(int)func];
                 context.Functions.Add(new FunctionNode {
                     Name = $"func_{i}",
-                    Signature = sig
+                    Signature = sig,
+                    Execution = new BlockNode()
                 });
             }
 
@@ -38,18 +39,17 @@ namespace WasmNet.Nodes {
                     Context = context,
                     Function = func
                 };
+                arg.PushBlock(func.Execution);
                 var visitor = new WasmNode();
                 foreach (var opcode in code.Opcodes) {
                     opcode.AcceptVistor(visitor, arg);
                 }
-                if (arg.Stack.Count > 0) {
-                    arg.Execution.Add(new ReturnNode(arg.Stack.Pop()));
-                }
-
-                func.Execution = arg.Execution;
+                //if (arg.Stack.Count > 0) {
+                //    arg.Execution.Add(new ReturnNode(arg.Stack.Pop()));
+                //}
 
                 var writer = new NodeWriter();
-                func.ToString(writer);
+                func.ToSExpressionString(writer);
 
                 Console.WriteLine(writer.ToString());
                 Console.WriteLine();

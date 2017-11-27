@@ -13,5 +13,9 @@
         public override void ToString(NodeWriter writer) {
             writer.Write($"({Left}) << ({Right})");
         }
+
+        public override void ToSExpressionString(NodeWriter writer) {
+        }
+
     }
 }

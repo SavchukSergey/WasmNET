@@ -24,8 +24,9 @@ namespace WasmNet.Nodes {
         }
 
         public void WriteLine(string line) {
-            AddIndentation();
-            _sb.AppendLine(line);
+            StartLine();
+            Write(line);
+            EndLine();
         }
 
         public void Indent() {

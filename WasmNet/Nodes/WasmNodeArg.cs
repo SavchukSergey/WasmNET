@@ -1,32 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using WasmNet.Data;
+﻿using System.Collections.Generic;
 
 namespace WasmNet.Nodes {
     public class WasmNodeArg {
 
-        private BlockNode _mainBlock = new BlockNode();
+        private Stack<BlockNode> Blocks { get; } = new Stack<BlockNode>();
 
-        public Stack<BaseNode> Stack { get; } = new Stack<BaseNode>();
-
-        public Stack<BlockNode> Blocks { get; } = new Stack<BlockNode>();
-
-        public BlockNode Execution => Blocks.Count > 0 ? Blocks.Peek() : _mainBlock;
+        private BlockNode Current => Blocks.Peek();
 
         public WasmNodeContext Context { get; set; }
 
         public FunctionNode Function { get; set; }
 
-        public WasmNodeArg() {
-            Blocks.Push(_mainBlock);
-        }
-
-        public void PushBlock(WasmType signature) {
-            Blocks.Push(new BlockNode());
+        public void PushBlock(BlockNode node) {
+            Blocks.Push(node);
         }
 
         public void PopBlock() {
             Blocks.Pop();
+        }
+
+        public bool HasBlock {
+            get {
+                return Blocks.Count > 1;
+            }
+        }
+
+        public void Push(BaseNode node) {
+            Current.Push(node);
+        }
+
+        public BaseNode Pop() {
+            return Current.Pop();
         }
 
         public GlobalVariable ResolveGlobal(uint index) {

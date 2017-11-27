@@ -3,6 +3,8 @@
 
         public abstract void ToString(NodeWriter writer);
 
+        public abstract void ToSExpressionString(NodeWriter writer);
+
         public sealed override string ToString() {
             var writer = new NodeWriter();
             ToString(writer);

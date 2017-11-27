@@ -11,5 +11,8 @@
             writer.Write(Value);
         }
 
+        public override void ToSExpressionString(NodeWriter writer) {
+        }
+
     }
 }

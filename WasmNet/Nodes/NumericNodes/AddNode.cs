@@ -14,5 +14,8 @@
             writer.Write($"({Left}) + ({Right})");
         }
 
+        public override void ToSExpressionString(NodeWriter writer) {
+        }
+
     }
 }

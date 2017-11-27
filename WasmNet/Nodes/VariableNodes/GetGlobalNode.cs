@@ -11,5 +11,9 @@
             writer.Write(Variable.Name);
         }
 
+        public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine($"(get_global ${Variable.Name})");
+        }
+
     }
 }

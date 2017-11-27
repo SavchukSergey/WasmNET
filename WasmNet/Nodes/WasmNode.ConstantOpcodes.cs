@@ -4,7 +4,7 @@ namespace WasmNet.Nodes {
     public partial class WasmNode {
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32ConstOpcode opcode, WasmNodeArg arg) {
-            arg.Stack.Push(new Int32ConstNode(opcode.Value));
+            arg.Push(new Int32ConstNode(opcode.Value));
             return null;
         }
 

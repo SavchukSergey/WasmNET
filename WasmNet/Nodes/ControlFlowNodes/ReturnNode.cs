@@ -18,5 +18,17 @@
             }
         }
 
+        public override void ToSExpressionString(NodeWriter writer) {
+            if (Expression == null) {
+                writer.WriteLine("(return)");
+            } else {
+                writer.WriteLine("(return");
+                writer.Indent();
+                Expression.ToSExpressionString(writer);
+                writer.Unindent();
+                writer.WriteLine(")");
+            }
+        }
+
     }
 }

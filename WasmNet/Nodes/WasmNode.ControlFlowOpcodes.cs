@@ -6,26 +6,34 @@ namespace WasmNet.Nodes {
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(NopOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BlockOpcode opcode, WasmNodeArg arg) {
-            arg.PushBlock(opcode.Signature);
+            var blockNode = new BlockNode();
+            arg.Push(blockNode);
+            arg.PushBlock(blockNode);
             return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(LoopOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(IfOpcode opcode, WasmNodeArg arg) {
-            var condition = arg.Stack.Pop();
-            var ifNode = new IfNode(condition, null, null);
-            arg.Execution.Add(ifNode);
-
-            arg.PushBlock(opcode.Signature);
-            ifNode.Then = arg.Execution;
+            var condition = arg.Pop();
+            var ifNode = new IfNode(condition, new BlockNode(), null);
+            arg.Push(ifNode);
+            arg.PushBlock(ifNode.Then);
             return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(ElseOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(EndOpcode opcode, WasmNodeArg arg) {
-            arg.PopBlock();
+            if (arg.HasBlock) {
+                arg.PopBlock();
+            } else {
+                var returnType = arg.Function.Signature.Return;
+                if (returnType != null && returnType != Data.WasmType.BlockType) {
+                    var val = arg.Pop();
+                    arg.Push(new ReturnNode(val));
+                }
+            }
             return null;
         }
 
