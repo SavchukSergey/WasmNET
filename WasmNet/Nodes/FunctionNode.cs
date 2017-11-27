@@ -1,23 +1,52 @@
-﻿using WasmNet.Data;
+﻿using System.Collections.Generic;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class FunctionNode : BaseNode {
 
         public string Name { get; set; }
 
-        public WasmFunctionSignature Signature { get; set; }
+        public WasmFunctionSignature Signature { get; }
 
         public BlockNode Execution { get; set; }
+
+        public IList<LocalVariable> Parameters { get; } = new List<LocalVariable>();
+
+        public IList<LocalVariable> Variables { get; } = new List<LocalVariable>();
+
+        public FunctionNode(WasmFunctionSignature signature) {
+            Signature = signature;
+            for (var i = 0; i < Signature.Parameters.Count; i++) {
+                var param = Signature.Parameters[i];
+                Parameters.Add(new LocalVariable {
+                    Name = $"arg{i}",
+                    Type = param
+                });
+            }
+        }
+
+        public void AddLocals(WasmType type, uint count) {
+            for (var i = 0; i < count; i++) {
+                AddLocal(type);
+            }
+        }
+
+        public void AddLocal(WasmType type) {
+            var ind = Variables.Count;
+            Variables.Add(new LocalVariable {
+                Name = $"local{ind}",
+                Type = type
+            });
+        }
 
         public override void ToString(NodeWriter writer) {
             writer.StartLine();
             writer.Write($"{Convert(Signature.Return)} {Name}(");
-            for (var i = 0; i < Signature.Parameters.Count; i++) {
-                if (i != 0) {
-                    writer.Write(", ");
-                }
-                writer.Write(Convert(Signature.Parameters[i]));
-                writer.Write($" arg{i}");
+            for (var i = 0; i < Parameters.Count; i++) {
+                var param = Parameters[i];
+                if (i != 0) writer.Write(", ");
+                writer.Write(Convert(param.Type));
+                writer.Write($" {param.Name}");
             }
             writer.Write(") {");
             writer.EndLine();
@@ -32,8 +61,9 @@ namespace WasmNet.Nodes {
         public override void ToSExpressionString(NodeWriter writer) {
             writer.StartLine();
             writer.Write($"(func ${Name}");
-            for (var i = 0; i < Signature.Parameters.Count; i++) {
-                writer.Write($" (param $arg{i} {ConvertSExpression(Signature.Parameters[i])})");
+            for (var i = 0; i < Parameters.Count; i++) {
+                var param = Parameters[i];
+                writer.Write($" (param ${param.Name} {ConvertSExpression(param.Type)})");
             }
             if (Signature.Return != null) {
                 writer.Write($" (result {ConvertSExpression(Signature.Return)})");

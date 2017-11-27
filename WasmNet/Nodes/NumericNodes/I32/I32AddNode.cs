@@ -1,11 +1,11 @@
 ﻿namespace WasmNet.Nodes {
-    public class AddNode : BaseNode {
+    public class I32AddNode : BaseNode {
 
         public BaseNode Left { get; set; }
 
         public BaseNode Right { get; set; }
 
-        public AddNode(BaseNode left, BaseNode right) {
+        public I32AddNode(BaseNode left, BaseNode right) {
             Left = left;
             Right = right;
         }
@@ -15,6 +15,12 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine($"(i32.add");
+            writer.Indent();
+            Left.ToSExpressionString(writer);
+            Right.ToSExpressionString(writer);
+            writer.Unindent();
+            writer.WriteLine(")");
         }
 
     }

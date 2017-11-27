@@ -14,9 +14,8 @@ namespace WasmNet.Nodes {
             foreach (var import in importSection.Entries) {
                 if (import.Kind == Data.WasmExternalKind.Function) {
                     var type = typeSection.Entries[(int)import.TypeIndex];
-                    context.ImportedFunctions.Add(new FunctionNode {
-                        Name = $"{import.Module}.{import.Field}",
-                        Signature = type
+                    context.ImportedFunctions.Add(new FunctionNode(type) {
+                        Name = $"{import.Module}.{import.Field}"
                     });
                 }
             }
@@ -24,21 +23,25 @@ namespace WasmNet.Nodes {
             for (var i = 0; i < funcSection.Entries.Count; i++) {
                 var func = funcSection.Entries[0];
                 var sig = typeSection.Entries[(int)func];
-                context.Functions.Add(new FunctionNode {
+                var node = new FunctionNode(sig) {
                     Name = $"func_{i}",
-                    Signature = sig,
                     Execution = new BlockNode()
-                });
+                };
+                context.Functions.Add(node);
             }
 
             for (var i = 0; i < codeSection.Bodies.Count; i++) {
                 var code = codeSection.Bodies[i];
                 var func = context.Functions[i];
 
-                var arg = new WasmNodeArg {
-                    Context = context,
-                    Function = func
+                var arg = new WasmNodeArg(func) {
+                    Context = context
                 };
+
+                foreach(var local in code.Locals) {
+                    func.AddLocals(local.Type, local.Count);
+                }
+
                 arg.PushBlock(func.Execution);
                 var visitor = new WasmNode();
                 foreach (var opcode in code.Opcodes) {
