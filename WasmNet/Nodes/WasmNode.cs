@@ -10,7 +10,12 @@ namespace WasmNet.Nodes {
             var typeSection = module.ReadTypeSection();
             var importSection = module.ReadImportSection();
 
-            var context = new WasmNodeContext();
+            var moduleNode = new ModuleNode();
+
+            var context = new WasmNodeContext {
+                Module = moduleNode
+            };
+
             foreach (var import in importSection.Entries) {
                 if (import.Kind == Data.WasmExternalKind.Function) {
                     var type = typeSection.Entries[(int)import.TypeIndex];

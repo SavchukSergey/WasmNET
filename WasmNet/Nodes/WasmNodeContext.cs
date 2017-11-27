@@ -7,6 +7,8 @@ namespace WasmNet.Nodes {
 
         public IList<FunctionNode> ImportedFunctions { get; } = new List<FunctionNode>();
 
+        public ModuleNode Module { get; set; }
+
         public FunctionNode ResolveFunction(uint functionIndex) {
             if (functionIndex < ImportedFunctions.Count) return ImportedFunctions[(int)functionIndex];
             functionIndex -= (uint)ImportedFunctions.Count;
