@@ -9,12 +9,6 @@ namespace WasmNet.Nodes {
 
         public WasmNodeContext Context { get; set; }
 
-        public FunctionNode Function { get; }
-
-        public WasmNodeArg(FunctionNode function) {
-            Function = function;
-        }
-
         public void PushBlock(BlockNode node) {
             Blocks.Push(node);
         }
@@ -37,17 +31,12 @@ namespace WasmNet.Nodes {
             return Current.Pop();
         }
 
-        public GlobalVariable ResolveGlobal(uint index) {
-            return new GlobalVariable {
-                Name = $"global_{index}"
-            };
+        public GlobalNode ResolveGlobal(uint index) {
+            return Context.ResolveGlobal(index);
         }
 
-        public LocalVariable ResolveLocal(uint index) {
-            if (index < Function.Parameters.Count) return Function.Parameters[(int)index];
-            index -= (uint)Function.Parameters.Count;
-            if (index < Function.Variables.Count) return Function.Variables[(int)index];
-            throw new WasmNodeException("Cannot resolve local variable");
+        public virtual LocalNode ResolveLocal(uint index) {
+            throw new WasmNodeException("Local variables are not accessinble in current context");
         }
 
     }

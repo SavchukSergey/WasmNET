@@ -1,9 +1,9 @@
 ﻿namespace WasmNet.Nodes {
     public class GetGlobalNode : BaseNode {
 
-        public GlobalVariable Variable { get; set; }
+        public GlobalNode Variable { get; set; }
 
-        public GetGlobalNode(GlobalVariable variable) {
+        public GetGlobalNode(GlobalNode variable) {
             Variable = variable;
         }
 

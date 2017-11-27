@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
-    public class Int32CmpZNode : BaseNode {
+    public class I32EqzNode : BaseNode {
 
-        public Int32CmpZNode(BaseNode expr) {
+        public I32EqzNode(BaseNode expr) {
             Expression = expr;
         }
 
@@ -12,6 +12,11 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine("(i32.eqz");
+            writer.Indent();
+            Expression.ToSExpressionString(writer);
+            writer.Unindent();
+            writer.WriteLine(")");
         }
 
     }

@@ -15,7 +15,12 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(TeeLocalOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(TeeLocalOpcode opcode, WasmNodeArg arg) {
+            var expr = arg.Pop();
+            var variable = arg.ResolveLocal(opcode.LocalIndex);
+            arg.Push(new TeeLocalNode(variable, expr));
+            return null;
+        }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(GetGlobalOpcode opcode, WasmNodeArg arg) {
             arg.Push(new GetGlobalNode(arg.ResolveGlobal(opcode.GlobalIndex)));

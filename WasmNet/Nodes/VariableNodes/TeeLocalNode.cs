@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
-    public class SetLocalNode : BaseNode {
+    public class TeeLocalNode : BaseNode {
 
-        public SetLocalNode(LocalNode variable, BaseNode value) {
+        public TeeLocalNode(LocalNode variable, BaseNode value) {
             Variable = variable;
             Value = value;
         }
@@ -19,7 +19,7 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine($"(set_local ${Variable.Name}");
+            writer.WriteLine($"(tee_local ${Variable.Name}");
             writer.Indent();
             Value.ToSExpressionString(writer);
             writer.Unindent();

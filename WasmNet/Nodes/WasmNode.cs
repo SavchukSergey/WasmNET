@@ -1,14 +1,58 @@
 ﻿using System;
+using WasmNet.Data;
 using WasmNet.Opcodes;
+using WasmNet.Sections;
 
 namespace WasmNet.Nodes {
     public partial class WasmNode : IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult> {
+
+        private static void DeclareGlobals(WasmNodeContext context, WasmGlobalSection section) {
+            foreach (var global in section.Entries) {
+                var variable = new GlobalNode {
+                    Name = $"global_{context.Module.Globals.Count}",
+                    Mutable = global.Type.Mutable,
+                    Type = global.Type.Type,
+                    Init = new BlockNode()
+                };
+                context.Module.Globals.Add(variable);
+            }
+        }
+
+        private static void DeclareFunctions(WasmNodeContext context, WasmFunctionSection funcSection, WasmTypeSection typeSection) {
+            for (var i = 0; i < funcSection.Entries.Count; i++) {
+                var func = funcSection.Entries[i];
+                var sig = typeSection.Entries[(int)func];
+                var node = new FunctionNode(sig) {
+                    Name = $"func_{i}",
+                    Execution = new BlockNode()
+                };
+                context.Module.Functions.Add(node);
+            }
+        }
+
+        private static void AddGlobals(WasmNodeContext context, WasmGlobalSection section) {
+            DeclareGlobals(context, section);
+            for (var i = 0; i < section.Entries.Count; i++) {
+                var global = section.Entries[i];
+                var variable = context.Module.Globals[i];
+
+                var arg = new WasmNodeArg() {
+                    Context = context
+                };
+                arg.PushBlock(variable.Init);
+                var visitor = new WasmNode();
+                foreach (var opcode in global.Init.Opcodes) {
+                    opcode.AcceptVistor(visitor, arg);
+                }
+            }
+        }
 
         public static void Compile(WasmModule module) {
             var funcSection = module.ReadFunctionSection();
             var codeSection = module.ReadCodeSection();
             var typeSection = module.ReadTypeSection();
             var importSection = module.ReadImportSection();
+            var globalSection = module.ReadGlobalSection();
 
             var moduleNode = new ModuleNode();
 
@@ -17,33 +61,48 @@ namespace WasmNet.Nodes {
             };
 
             foreach (var import in importSection.Entries) {
-                if (import.Kind == Data.WasmExternalKind.Function) {
-                    var type = typeSection.Entries[(int)import.TypeIndex];
-                    context.ImportedFunctions.Add(new FunctionNode(type) {
-                        Name = $"{import.Module}.{import.Field}"
-                    });
+                switch (import.Kind) {
+                    case WasmExternalKind.Function:
+                        var type = typeSection.Entries[(int)import.TypeIndex];
+                        var function = new FunctionNode(type) {
+                            Name = $"{import.Module}_{import.Field}"
+                        };
+                        moduleNode.ImportedFunctions.Add(function);
+                        moduleNode.Imports.Add(new ImportNode {
+                            Module = import.Module,
+                            Field = import.Field,
+                            Node = function
+                        });
+                        break;
+                    case WasmExternalKind.Global:
+                        var global = new GlobalNode {
+                            Name = $"{import.Module}_{import.Field}",
+                            Type = import.Global.Type,
+                            Mutable = import.Global.Mutable
+                        };
+                        moduleNode.ImportedGlobals.Add(global);
+                        moduleNode.Imports.Add(new ImportNode {
+                            Module = import.Module,
+                            Field = import.Field,
+                            Node = global
+                        });
+                        break;
                 }
             }
 
-            for (var i = 0; i < funcSection.Entries.Count; i++) {
-                var func = funcSection.Entries[0];
-                var sig = typeSection.Entries[(int)func];
-                var node = new FunctionNode(sig) {
-                    Name = $"func_{i}",
-                    Execution = new BlockNode()
-                };
-                context.Functions.Add(node);
-            }
+            AddGlobals(context, globalSection);
+
+            DeclareFunctions(context, funcSection, typeSection);
 
             for (var i = 0; i < codeSection.Bodies.Count; i++) {
                 var code = codeSection.Bodies[i];
-                var func = context.Functions[i];
+                var func = moduleNode.Functions[i];
 
-                var arg = new WasmNodeArg(func) {
+                var arg = new WasmFunctionNodeArg(func) {
                     Context = context
                 };
 
-                foreach(var local in code.Locals) {
+                foreach (var local in code.Locals) {
                     func.AddLocals(local.Type, local.Count);
                 }
 
@@ -64,8 +123,7 @@ namespace WasmNet.Nodes {
             }
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(DropOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(SelectOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BaseOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+
     }
 }

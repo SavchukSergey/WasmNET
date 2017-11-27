@@ -1,12 +1,12 @@
 ﻿namespace WasmNet.Nodes {
     public class SetGlobalNode : BaseNode {
 
-        public SetGlobalNode(GlobalVariable variable, BaseNode value) {
+        public SetGlobalNode(GlobalNode variable, BaseNode value) {
             Variable = variable;
             Value = value;
         }
 
-        public GlobalVariable Variable { get; set; }
+        public GlobalNode Variable { get; set; }
 
         public BaseNode Value { get; set; }
 

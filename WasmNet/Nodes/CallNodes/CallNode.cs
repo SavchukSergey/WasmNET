@@ -22,6 +22,20 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
+            writer.StartLine();
+            writer.Write($"(call ${Function.Name}");
+            if (Arguments.Count > 0) {
+                writer.EndLine();
+                writer.Indent();
+                foreach (var arg in Arguments) {
+                    arg.ToSExpressionString(writer);
+                }
+                writer.Unindent();
+                writer.WriteLine(")");
+            } else {
+                writer.Write(")");
+                writer.EndLine();
+            }
         }
 
     }

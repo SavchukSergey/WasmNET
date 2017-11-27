@@ -1,9 +1,9 @@
 ﻿namespace WasmNet.Nodes {
     public class GetLocalNode : BaseNode {
 
-        public LocalVariable Variable { get; set; }
+        public LocalNode Variable { get; set; }
 
-        public GetLocalNode(LocalVariable variable) {
+        public GetLocalNode(LocalNode variable) {
             Variable = variable;
         }
 

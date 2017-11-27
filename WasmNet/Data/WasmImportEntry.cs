@@ -21,7 +21,7 @@
                 case WasmExternalKind.Function:
                     return $"Func({TypeIndex}) = {Module}.{Field}";
                 case WasmExternalKind.Global:
-                    return $"Global({Global.Type} {(Global.Mutable ? "mutable" : "")}) = {Module}.{Field}";
+                    return $"Global({Global.Type}{(Global.Mutable ? " mutable" : "")}) = {Module}.{Field}";
                 case WasmExternalKind.Memory:
                     return $"Memory({Memory.Limits.Initial}, {Memory.Limits.Maximum}) = {Module}.{Field}";
                 case WasmExternalKind.Table:

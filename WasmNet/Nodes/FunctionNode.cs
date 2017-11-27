@@ -10,15 +10,15 @@ namespace WasmNet.Nodes {
 
         public BlockNode Execution { get; set; }
 
-        public IList<LocalVariable> Parameters { get; } = new List<LocalVariable>();
+        public IList<LocalNode> Parameters { get; } = new List<LocalNode>();
 
-        public IList<LocalVariable> Variables { get; } = new List<LocalVariable>();
+        public IList<LocalNode> Variables { get; } = new List<LocalNode>();
 
         public FunctionNode(WasmFunctionSignature signature) {
             Signature = signature;
             for (var i = 0; i < Signature.Parameters.Count; i++) {
                 var param = Signature.Parameters[i];
-                Parameters.Add(new LocalVariable {
+                Parameters.Add(new LocalNode {
                     Name = $"arg{i}",
                     Type = param
                 });
@@ -33,7 +33,7 @@ namespace WasmNet.Nodes {
 
         public void AddLocal(WasmType type) {
             var ind = Variables.Count;
-            Variables.Add(new LocalVariable {
+            Variables.Add(new LocalNode {
                 Name = $"local{ind}",
                 Type = type
             });
@@ -63,16 +63,25 @@ namespace WasmNet.Nodes {
             writer.Write($"(func ${Name}");
             for (var i = 0; i < Parameters.Count; i++) {
                 var param = Parameters[i];
-                writer.Write($" (param ${param.Name} {ConvertSExpression(param.Type)})");
+                writer.Write($" (param ");
+                if (Execution != null) {
+                    writer.Write($"${param.Name} ");
+                }
+                writer.Write($"{ConvertValueType(param.Type)})");
             }
             if (Signature.Return != null) {
-                writer.Write($" (result {ConvertSExpression(Signature.Return)})");
+                writer.Write($" (result {ConvertValueType(Signature.Return.Value)})");
             }
-            writer.EndLine();
-            writer.Indent();
-            Execution.ToSExpressionString(writer);
-            writer.Unindent();
-            writer.StartLine();
+            if (Execution != null) {
+                writer.EndLine();
+                writer.Indent();
+                foreach (var local in Variables) {
+                    local.ToSExpressionString(writer);
+                }
+                Execution.ToSExpressionString(writer);
+                writer.Unindent();
+                writer.StartLine();
+            }
             writer.Write(")");
             writer.EndLine();
         }
@@ -85,17 +94,6 @@ namespace WasmNet.Nodes {
                 case WasmType.I64: return "long";
                 case WasmType.F32: return "float";
                 case WasmType.F64: return "double";
-                default:
-                    throw new WasmNodeException($"unknown type {type}");
-            }
-        }
-
-        private static string ConvertSExpression(WasmType? type) {
-            switch (type) {
-                case WasmType.I32: return "i32";
-                case WasmType.I64: return "i64";
-                case WasmType.F32: return "f32";
-                case WasmType.F64: return "f64";
                 default:
                     throw new WasmNodeException($"unknown type {type}");
             }

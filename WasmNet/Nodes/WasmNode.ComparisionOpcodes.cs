@@ -5,7 +5,7 @@ namespace WasmNet.Nodes {
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32EqzOpcode opcode, WasmNodeArg arg) {
             var expr = arg.Pop();
-            arg.Push(new Int32CmpZNode(expr));
+            arg.Push(new I32EqzNode(expr));
             return null;
         }
 

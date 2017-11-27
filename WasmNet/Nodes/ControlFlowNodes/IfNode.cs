@@ -34,6 +34,13 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine("(if ");
+            writer.Indent();
+            Condition.ToSExpressionString(writer);
+            Then.ToSExpressionString(writer);
+            Else?.ToSExpressionString(writer);
+            writer.Unindent();
+            writer.WriteLine(")");
         }
 
     }

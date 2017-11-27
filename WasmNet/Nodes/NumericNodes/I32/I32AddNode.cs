@@ -1,27 +1,10 @@
 ﻿namespace WasmNet.Nodes {
-    public class I32AddNode : BaseNode {
+    public class I32AddNode : BinaryNumericNode {
 
-        public BaseNode Left { get; set; }
-
-        public BaseNode Right { get; set; }
-
-        public I32AddNode(BaseNode left, BaseNode right) {
-            Left = left;
-            Right = right;
+        public I32AddNode(BaseNode left, BaseNode right) : base(left, right) {
         }
 
-        public override void ToString(NodeWriter writer) {
-            writer.Write($"({Left}) + ({Right})");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine($"(i32.add");
-            writer.Indent();
-            Left.ToSExpressionString(writer);
-            Right.ToSExpressionString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
-        }
+        protected override string NodeName => "i32.add";
 
     }
 }

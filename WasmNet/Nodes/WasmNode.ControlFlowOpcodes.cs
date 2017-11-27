@@ -27,12 +27,6 @@ namespace WasmNet.Nodes {
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(EndOpcode opcode, WasmNodeArg arg) {
             if (arg.HasBlock) {
                 arg.PopBlock();
-            } else {
-                var returnType = arg.Function.Signature.Return;
-                if (returnType != null && returnType != Data.WasmType.BlockType) {
-                    var val = arg.Pop();
-                    arg.Push(new ReturnNode(val));
-                }
             }
             return null;
         }

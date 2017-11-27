@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
-    public class Int32ConstNode : BaseNode {
+    public class I32ConstNode : BaseNode {
 
-        public Int32ConstNode(int value) {
+        public I32ConstNode(int value) {
             Value = value;
         }
 
@@ -12,6 +12,7 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine($"(i32.const {Value})");
         }
 
     }
