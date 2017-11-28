@@ -8,6 +8,10 @@ namespace WasmNet.MSIL {
 
         WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(I32EqzOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
 
+        WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(I32NeOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
+
+        WasmMSILResult IWasmOpcodeVisitor<WasmMSILArg, WasmMSILResult>.Visit(I32LtuOpcode opcode, WasmMSILArg arg) => throw new NotImplementedException();
+
         #endregion
 
     }

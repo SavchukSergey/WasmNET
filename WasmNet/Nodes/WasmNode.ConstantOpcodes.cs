@@ -8,7 +8,11 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64ConstOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64ConstOpcode opcode, WasmNodeArg arg) {
+            arg.Push(new I64ConstNode(opcode.Value));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32ConstOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64ConstOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
 

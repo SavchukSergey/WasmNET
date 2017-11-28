@@ -60,6 +60,10 @@ namespace WasmNet.Nodes {
                 Module = moduleNode
             };
 
+            foreach (var type in typeSection.Entries) {
+                context.Types.Add(type);
+            }
+
             foreach (var import in importSection.Entries) {
                 switch (import.Kind) {
                     case WasmExternalKind.Function:
@@ -111,9 +115,6 @@ namespace WasmNet.Nodes {
                 foreach (var opcode in code.Opcodes) {
                     opcode.AcceptVistor(visitor, arg);
                 }
-                //if (arg.Stack.Count > 0) {
-                //    arg.Execution.Add(new ReturnNode(arg.Stack.Pop()));
-                //}
 
                 var writer = new NodeWriter();
                 func.ToSExpressionString(writer);

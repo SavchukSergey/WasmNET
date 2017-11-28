@@ -8,12 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="MSIL\WasmMSIL.MemoryOpcodes.cs" />
-    <None Include="Nodes\WasmNode.MemoryOpcodes.cs" />
+    <Compile Remove="MSIL\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MSIL\WasmMSIL.*.cs" DependentUpon="MSIL\WasmMSIL.cs" />
     <Compile Update="Nodes\WasmNode.*.cs" DependentUpon="Nodes\WasmNode.cs" />
   </ItemGroup>
 

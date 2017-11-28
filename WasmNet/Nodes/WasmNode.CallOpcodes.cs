@@ -14,7 +14,17 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(CallIndirectOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(CallIndirectOpcode opcode, WasmNodeArg arg) {
+            var target = arg.Context.ResolveType(opcode.TypeIndex);
+            var element = arg.Pop();
+            var node = new CallIndirectNode(target, element);
+            for (var i = target.Parameters.Count - 1; i >= 0; i--) {
+                var param = arg.Pop();
+                node.Arguments.Insert(0, param);
+            }
+            arg.Push(node);
+            return null;
+        }
 
     }
 }

@@ -19,5 +19,7 @@ namespace WasmNet.Nodes {
             return "";
         }
 
+        protected abstract string NodeName { get; }
+
     }
 }
