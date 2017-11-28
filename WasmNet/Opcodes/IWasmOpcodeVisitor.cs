@@ -109,6 +109,8 @@
 
         TResult Visit(I32GtuOpcode opcode, TArg arg);
 
+        TResult Visit(I32LesOpcode opcode, TArg arg);
+
         TResult Visit(I32GeuOpcode opcode, TArg arg);
 
         #endregion
@@ -128,6 +130,8 @@
         TResult Visit(I64GtsOpcode opcode, TArg arg);
 
         TResult Visit(I64GtuOpcode opcode, TArg arg);
+
+        TResult Visit(I64LesOpcode opcode, TArg arg);
 
         TResult Visit(I64GeuOpcode opcode, TArg arg);
 

@@ -59,7 +59,6 @@ namespace WasmNet.Nodes {
             //todo: set relative depth
             var node = new BrNode();
             arg.Push(node);
-            arg.PushBlock(node.Block);
             return null;
         }
 
@@ -72,7 +71,15 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BrTableOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BrTableOpcode opcode, WasmNodeArg arg) {
+            var operand = arg.Pop();
+            var node = new BrTableNode(operand);
+            foreach(var target in opcode.Targets) {
+                node.Targets.Add(target);
+            }
+
+            throw new System.NotImplementedException();
+        }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(ReturnOpcode opcode, WasmNodeArg arg) {
             var farg = (WasmFunctionNodeArg)arg; //todo:

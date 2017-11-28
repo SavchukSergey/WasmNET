@@ -51,6 +51,13 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32LesOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I32LesNode(left, right));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32GeuOpcode opcode, WasmNodeArg arg) {
             var right = arg.Pop();
             var left = arg.Pop();
@@ -104,6 +111,13 @@ namespace WasmNet.Nodes {
             var right = arg.Pop();
             var left = arg.Pop();
             arg.Push(new I64GtuNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64LesOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I64LesNode(left, right));
             return null;
         }
 

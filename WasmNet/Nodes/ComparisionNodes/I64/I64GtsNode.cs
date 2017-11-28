@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I64GtsNode : BinaryNumericNode {
+    public class I64GtsNode : BinaryComparisionNode {
 
         public I64GtsNode(BaseNode left, BaseNode right) : base(left, right) {
         }

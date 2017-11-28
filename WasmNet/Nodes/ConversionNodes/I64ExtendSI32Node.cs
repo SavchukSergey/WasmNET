@@ -1,4 +1,6 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class I64ExtendSI32Node : BaseNode {
 
         public BaseNode Operand { get; set; }
@@ -6,6 +8,8 @@
         public I64ExtendSI32Node(BaseNode operand) {
             Operand = operand;
         }
+
+        public override WasmType ResultType => WasmType.I64;
 
         public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
 
