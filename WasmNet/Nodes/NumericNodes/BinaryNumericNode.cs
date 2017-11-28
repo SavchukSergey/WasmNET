@@ -1,17 +1,22 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public abstract class BinaryNumericNode : BaseNode {
 
         public BaseNode Left { get; set; }
 
         public BaseNode Right { get; set; }
 
-        public BinaryNumericNode(BaseNode left, BaseNode right) {
+        protected BinaryNumericNode(BaseNode left, BaseNode right) {
+            //todo: move to setters? or readonly? check null
+            if (left.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} left operand");
+            if (right.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} right operand");
             Left = left;
             Right = right;
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.Write($"({Left}) + ({Right})");
+            writer.Write($"({Left}) ??? ({Right})");
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
@@ -24,6 +29,8 @@
         }
 
         protected abstract string NodeName { get; }
+
+        public WasmType OperandType => ResultType;
 
     }
 }

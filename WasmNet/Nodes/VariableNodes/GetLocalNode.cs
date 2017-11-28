@@ -1,7 +1,11 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class GetLocalNode : BaseNode {
 
         public LocalNode Variable { get; set; }
+
+        public override WasmType ResultType => Variable.ResultType;
 
         public GetLocalNode(LocalNode variable) {
             Variable = variable;

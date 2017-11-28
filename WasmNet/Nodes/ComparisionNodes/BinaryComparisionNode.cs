@@ -1,5 +1,5 @@
-﻿namespace WasmNet.Nodes.ComparisionNodes {
-    public abstract class BinaryComparisionNode : BaseNode {
+﻿namespace WasmNet.Nodes {
+    public abstract class BinaryComparisionNode : ComparisionNode {
 
         public BaseNode Left { get; set; }
 

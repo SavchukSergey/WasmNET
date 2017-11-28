@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class CallNode : BaseNode {
@@ -10,6 +11,8 @@ namespace WasmNet.Nodes {
         public FunctionNode Function { get; set; }
 
         public IList<BaseNode> Arguments { get; } = new List<BaseNode>();
+
+        public override WasmType ResultType => Function.Signature.Return ?? WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
             writer.Write(Function.Name);

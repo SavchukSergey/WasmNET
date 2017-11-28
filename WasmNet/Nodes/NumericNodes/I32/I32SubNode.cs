@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I32SubNode : BinaryNumericNode {
+    public class I32SubNode : I32BinaryNumericNode {
 
         public I32SubNode(BaseNode left, BaseNode right) : base(left, right) {
         }

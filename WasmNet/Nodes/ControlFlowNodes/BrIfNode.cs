@@ -1,13 +1,15 @@
 ﻿using System;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class BrIfNode : BaseNode {
 
-        public BaseNode Condition { get; set; }
+        public BaseNode Condition { get; }
 
-        public BlockNode Block { get; } = new BlockNode();
+        public BlockNode Block { get; } = new BlockNode(WasmType.BlockType);
 
         public BrIfNode(BaseNode condition) {
+            if (condition.ResultType != WasmType.I32) throw new WasmNodeException($"expected i32 operand");
             Condition = condition;
         }
 
@@ -18,7 +20,7 @@ namespace WasmNet.Nodes {
             writer.WriteLine("(br_if 0");
             writer.Indent();
             Condition?.ToSExpressionString(writer);
-            foreach(var node in Block.Nodes) {
+            foreach (var node in Block.Nodes) {
                 node.ToSExpressionString(writer);
             }
             writer.Unindent();

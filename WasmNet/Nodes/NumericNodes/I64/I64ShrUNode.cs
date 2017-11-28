@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I64ShrUNode : BinaryNumericNode {
+    public class I64ShrUNode : I64BinaryNumericNode {
 
         public I64ShrUNode(BaseNode left, BaseNode right) : base(left, right) {
         }

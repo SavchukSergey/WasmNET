@@ -7,6 +7,8 @@ namespace WasmNet.Nodes {
 
         public WasmType Type { get; set; }
 
+        public override WasmType ResultType => Type;
+
         public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
 
         public override void ToSExpressionString(NodeWriter writer) {

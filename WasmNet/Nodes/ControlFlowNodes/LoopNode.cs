@@ -1,7 +1,9 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class LoopNode : BaseNode {
 
-        public BlockNode Block { get; } = new BlockNode();
+        public BlockNode Block { get; } = new BlockNode(WasmType.BlockType);
 
         public override void ToString(NodeWriter writer) {
             throw new System.NotImplementedException();

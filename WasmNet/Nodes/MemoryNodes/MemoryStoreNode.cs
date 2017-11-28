@@ -18,5 +18,7 @@ namespace WasmNet.Nodes {
             writer.WriteLine(")");
         }
 
+        public override WasmType ResultType => WasmType.BlockType;
+
     }
 }

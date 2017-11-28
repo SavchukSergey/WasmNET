@@ -8,6 +8,8 @@ namespace WasmNet.Nodes {
 
         public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
 
+        public override WasmType ResultType => WasmType.I32;
+
         protected override string NodeName => "i32.load";
 
     }

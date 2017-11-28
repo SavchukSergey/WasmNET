@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I32EqzNode : BaseNode {
+    public class I32EqzNode : ComparisionNode {
 
         public I32EqzNode(BaseNode expr) {
             Expression = expr;

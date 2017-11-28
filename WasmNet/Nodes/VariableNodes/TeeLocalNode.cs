@@ -1,7 +1,10 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class TeeLocalNode : BaseNode {
 
         public TeeLocalNode(LocalNode variable, BaseNode value) {
+            if (variable.ResultType != value.ResultType) throw new WasmNodeException($"cannot assign {value.ResultType} to {variable.ResultType} variable");
             Variable = variable;
             Value = value;
         }
@@ -9,6 +12,8 @@
         public LocalNode Variable { get; set; }
 
         public BaseNode Value { get; set; }
+
+        public override WasmType ResultType => Variable.ResultType;
 
         public override void ToString(NodeWriter writer) {
             writer.StartLine();

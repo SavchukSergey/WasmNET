@@ -13,8 +13,8 @@ namespace WasmNet.Nodes {
             Blocks.Push(node);
         }
 
-        public void PopBlock() {
-            Blocks.Pop();
+        public BlockNode PopBlock() {
+            return Blocks.Pop();
         }
 
         public bool HasBlock {

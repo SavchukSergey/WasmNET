@@ -5,11 +5,13 @@ namespace WasmNet.Nodes {
 
         public string Name { get; set; }
 
-        public WasmType  Type { get; set; }
+        public WasmType Type { get; set; }
 
         public bool Mutable { get; set; }
 
         public BlockNode Init { get; set; }
+
+        public override WasmType ResultType => Type;
 
         public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
 

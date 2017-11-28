@@ -1,7 +1,11 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class GetGlobalNode : BaseNode {
 
         public GlobalNode Variable { get; set; }
+
+        public override WasmType ResultType => Variable.ResultType;
 
         public GetGlobalNode(GlobalNode variable) {
             Variable = variable;

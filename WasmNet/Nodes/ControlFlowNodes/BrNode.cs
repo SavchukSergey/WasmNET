@@ -1,9 +1,10 @@
 ﻿using System;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class BrNode : BaseNode {
 
-        public BlockNode Block { get; } = new BlockNode();
+        public BlockNode Block { get; } = new BlockNode(WasmType.I32);
 
         public override void ToString(NodeWriter writer) => throw new NotImplementedException();
 

@@ -6,7 +6,7 @@ namespace WasmNet.Nodes {
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(NopOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BlockOpcode opcode, WasmNodeArg arg) {
-            var blockNode = new BlockNode();
+            var blockNode = new BlockNode(opcode.Signature);
             arg.Push(blockNode);
             arg.PushBlock(blockNode);
             return null;
@@ -21,7 +21,9 @@ namespace WasmNet.Nodes {
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(IfOpcode opcode, WasmNodeArg arg) {
             var condition = arg.Pop();
-            var ifNode = new IfNode(condition, new BlockNode(), null);
+            var ifNode = new IfNode(condition, opcode.Signature);
+            var thenBlock = new BlockNode(opcode.Signature);
+            ifNode.Then = thenBlock;
             arg.Push(ifNode);
             arg.PushBlock(ifNode.Then);
             return null;
@@ -32,16 +34,23 @@ namespace WasmNet.Nodes {
             var parentNode = arg.Pop();
             var ifNode = parentNode as IfNode;
             if (ifNode == null) throw new WasmNodeException("if node expected");
-            var blockNode = new BlockNode();
-            ifNode.Else = blockNode;
+
+            var thenBlock = ifNode.Then;
+            var thenBlockResult = thenBlock.ResultType;
+            if (thenBlockResult != thenBlock.Signature) throw new WasmNodeException($"cannot assign {thenBlockResult} block to {thenBlock.Signature} block");
+
+            var elseNode = new BlockNode(ifNode.Signature);
+            ifNode.Else = elseNode;
             arg.Push(ifNode);
-            arg.PushBlock(blockNode);
+            arg.PushBlock(elseNode);
             return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(EndOpcode opcode, WasmNodeArg arg) {
             if (arg.HasBlock) {
-                arg.PopBlock();
+                var block = arg.PopBlock();
+                var resultType = block.ResultType;
+                if (resultType != block.Signature) throw new WasmNodeException($"cannot assign {resultType} block to {block.Signature} block");
             }
             return null;
         }

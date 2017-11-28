@@ -1,17 +1,41 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class IfNode : BaseNode {
 
-        public IfNode(BaseNode condition, BlockNode thenNode, BlockNode elseNode) {
+        private BlockNode _then;
+        private BlockNode _else;
+
+        public IfNode(BaseNode condition, WasmType signature) {
             Condition = condition;
-            Then = thenNode;
-            Else = elseNode;
+            Signature = signature;
         }
+
+        public WasmType Signature { get; }
+
+        public override WasmType ResultType => Signature;
 
         public BaseNode Condition { get; set; }
 
-        public BlockNode Then { get; set; }
+        public BlockNode Then {
+            get {
+                return _then;
+            }
+            set {
+                if ((value != null ? value.Signature : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.Signature} then block to {Signature} if block");
+                _then = value;
+            }
+        }
 
-        public BlockNode Else { get; set; }
+        public BlockNode Else {
+            get {
+                return _else;
+            }
+            set {
+                if ((value != null ? value.Signature : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.Signature} else block to {Signature} if block");
+                _else = value;
+            }
+        }
 
         public override void ToString(NodeWriter writer) {
             writer.WriteLine($"if ({Condition}) {{");
@@ -34,7 +58,7 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine("(if ");
+            writer.WriteLine($"(if {ConvertType(Signature)}");
             writer.Indent();
             Condition.ToSExpressionString(writer);
             Then.ToSExpressionString(writer);
