@@ -57,6 +57,18 @@
 
         #endregion
 
+        #region MemoryOpcodes
+
+        TResult Visit(I32LoadOpcode opcode, TArg arg);
+
+        TResult Visit(I64LoadOpcode opcode, TArg arg);
+
+        TResult Visit(I32StoreOpcode opcode, TArg arg);
+
+        TResult Visit(I64StoreOpcode opcode, TArg arg);
+
+        #endregion
+
         #region ConstantOpcodes
 
         TResult Visit(I32ConstOpcode opcode, TArg arg);

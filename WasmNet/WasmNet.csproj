@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Nodes\WasmNode.ParametricOpcodes.cs" />
+    <None Include="MSIL\WasmMSIL.MemoryOpcodes.cs" />
+    <None Include="Nodes\WasmNode.MemoryOpcodes.cs" />
   </ItemGroup>
 
   <ItemGroup>

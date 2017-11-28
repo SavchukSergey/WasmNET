@@ -22,7 +22,16 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(ElseOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(ElseOpcode opcode, WasmNodeArg arg) {
+            arg.PopBlock();
+            var ifNode = arg.Pop() as IfNode;
+            if (ifNode == null) throw new WasmNodeException("if node expected");
+            var blockNode = new BlockNode();
+            ifNode.Else = blockNode;
+            arg.Push(ifNode);
+            arg.PushBlock(blockNode);
+            return null;
+        }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(EndOpcode opcode, WasmNodeArg arg) {
             if (arg.HasBlock) {

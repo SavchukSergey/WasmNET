@@ -12,6 +12,11 @@
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
+            writer.WriteLine("(i64.extend_u/i32");
+            writer.Indent();
+            Operand.ToSExpressionString(writer);
+            writer.Unindent();
+            writer.WriteLine(")");
         }
 
     }
