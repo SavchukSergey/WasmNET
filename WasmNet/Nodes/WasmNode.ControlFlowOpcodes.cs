@@ -13,7 +13,7 @@ namespace WasmNet.Nodes {
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(LoopOpcode opcode, WasmNodeArg arg) {
-            var loopNode = new LoopNode();
+            var loopNode = new LoopNode(opcode.Signature);
             arg.Push(loopNode);
             arg.PushBlock(loopNode.Block);
             return null;
@@ -35,10 +35,6 @@ namespace WasmNet.Nodes {
             var ifNode = parentNode as IfNode;
             if (ifNode == null) throw new WasmNodeException("if node expected");
 
-            var thenBlock = ifNode.Then;
-            var thenBlockResult = thenBlock.ResultType;
-            if (thenBlockResult != thenBlock.Signature) throw new WasmNodeException($"cannot assign {thenBlockResult} block to {thenBlock.Signature} block");
-
             var elseNode = new BlockNode(ifNode.Signature);
             ifNode.Else = elseNode;
             arg.Push(ifNode);
@@ -48,9 +44,7 @@ namespace WasmNet.Nodes {
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(EndOpcode opcode, WasmNodeArg arg) {
             if (arg.HasBlock) {
-                var block = arg.PopBlock();
-                var resultType = block.ResultType;
-                if (resultType != block.Signature) throw new WasmNodeException($"cannot assign {resultType} block to {block.Signature} block");
+                arg.PopBlock();
             }
             return null;
         }
@@ -77,8 +71,9 @@ namespace WasmNet.Nodes {
             foreach(var target in opcode.Targets) {
                 node.Targets.Add(target);
             }
-
-            throw new System.NotImplementedException();
+            node.DefaultTarget = opcode.DefaultTarget;
+            arg.Push(node);
+            return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(ReturnOpcode opcode, WasmNodeArg arg) {

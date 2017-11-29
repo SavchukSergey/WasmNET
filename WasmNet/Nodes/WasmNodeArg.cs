@@ -14,7 +14,10 @@ namespace WasmNet.Nodes {
         }
 
         public BlockNode PopBlock() {
-            return Blocks.Pop();
+            var node = Blocks.Pop();
+            var actualResult = node.ResultType;
+            if (actualResult != node.Signature) throw new WasmNodeException($"cannot assign {actualResult} block to {node.Signature} block");
+            return node;
         }
 
         public bool HasBlock {

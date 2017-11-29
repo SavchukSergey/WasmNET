@@ -7,13 +7,17 @@ namespace WasmNet.Nodes {
 
         public IList<uint> Targets { get; } = new List<uint>(); //tofo: frame reference
 
-        public BaseNode Default { get; set; }
+        public uint DefaultTarget { get; set; }
 
         public BrTableNode(BaseNode operand) {
             Operand = operand;
         }
 
         public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
-        public override void ToSExpressionString(NodeWriter writer) => throw new System.NotImplementedException();
+
+        public override void ToSExpressionString(NodeWriter writer) {
+            //todo:
+        }
+
     }
 }

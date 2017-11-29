@@ -3,7 +3,13 @@
 namespace WasmNet.Nodes {
     public class LoopNode : BaseNode {
 
-        public BlockNode Block { get; } = new BlockNode(WasmType.BlockType);
+        public BlockNode Block { get; }
+
+        public LoopNode(WasmType signature) {
+            Block = new BlockNode(signature);
+        }
+
+        public override WasmType ResultType => Block.Signature;
 
         public override void ToString(NodeWriter writer) {
             throw new System.NotImplementedException();
