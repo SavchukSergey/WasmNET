@@ -1,4 +1,6 @@
-﻿namespace WasmNet.Nodes {
+﻿using WasmNet.Data;
+
+namespace WasmNet.Nodes {
     public class DropNode : BaseNode {
 
         public BaseNode Operand { get; set; }
@@ -6,6 +8,8 @@
         public DropNode(BaseNode operand) {
             Operand = operand;
         }
+
+        public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
 

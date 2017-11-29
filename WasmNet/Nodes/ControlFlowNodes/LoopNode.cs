@@ -9,14 +9,14 @@ namespace WasmNet.Nodes {
             Block = new BlockNode(signature);
         }
 
-        public override WasmType ResultType => Block.Signature;
+        public override WasmType ResultType => Block.Signature ?? WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
             throw new System.NotImplementedException();
         }
 
         public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine($"(loop");
+            writer.WriteLine($"(loop {ConvertType(Block.Signature ?? WasmType.BlockType)}");
             writer.Indent();
             foreach (var node in Block.Nodes) {
                 node.ToSExpressionString(writer);

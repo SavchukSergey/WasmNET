@@ -116,12 +116,12 @@ namespace WasmNet.Nodes {
                     opcode.AcceptVistor(visitor, arg);
                 }
 
-                var writer = new NodeWriter();
-                func.ToSExpressionString(writer);
-
-                Console.WriteLine(writer.ToString());
-                Console.WriteLine();
             }
+
+            var writer = new NodeWriter();
+            moduleNode.ToSExpressionString(writer);
+            Console.WriteLine(writer.ToString());
+            Console.WriteLine();
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BaseOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();

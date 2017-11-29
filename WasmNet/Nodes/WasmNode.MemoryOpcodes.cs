@@ -9,6 +9,12 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64LoadOpcode opcode, WasmNodeArg arg) {
+            var address = arg.Pop();
+            arg.Push(new I64LoadNode(opcode.Address, address));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32Load8SOpcode opcode, WasmNodeArg arg) {
             var address = arg.Pop();
             arg.Push(new I32Load8SNode(opcode.Address, address));
@@ -21,9 +27,27 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64LoadOpcode opcode, WasmNodeArg arg) {
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32Load16SOpcode opcode, WasmNodeArg arg) {
             var address = arg.Pop();
-            arg.Push(new I64LoadNode(opcode.Address, address));
+            arg.Push(new I32Load16SNode(opcode.Address, address));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32Load16UOpcode opcode, WasmNodeArg arg) {
+            var address = arg.Pop();
+            arg.Push(new I32Load16UNode(opcode.Address, address));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64Load16SOpcode opcode, WasmNodeArg arg) {
+            var address = arg.Pop();
+            arg.Push(new I64Load16SNode(opcode.Address, address));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64Load16UOpcode opcode, WasmNodeArg arg) {
+            var address = arg.Pop();
+            arg.Push(new I64Load16UNode(opcode.Address, address));
             return null;
         }
 
@@ -48,10 +72,24 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32Store16Opcode opcode, WasmNodeArg arg) {
+            var value = arg.Pop();
+            var address = arg.Pop();
+            arg.Push(new I32Store16Node(opcode.Address, address, value));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64Store8Opcode opcode, WasmNodeArg arg) {
             var value = arg.Pop();
             var address = arg.Pop();
             arg.Push(new I64Store8Node(opcode.Address, address, value));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64Store16Opcode opcode, WasmNodeArg arg) {
+            var value = arg.Pop();
+            var address = arg.Pop();
+            arg.Push(new I64Store16Node(opcode.Address, address, value));
             return null;
         }
 

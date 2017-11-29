@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I32LesNode : BinaryComparisionNode {
+    public class I32LesNode : I32BinaryComparisionNode {
 
         public I32LesNode(BaseNode left, BaseNode right) : base(left, right) {
         }

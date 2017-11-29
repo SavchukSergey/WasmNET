@@ -6,11 +6,12 @@ namespace WasmNet.Nodes {
 
         public LinkedList<BaseNode> Nodes { get; } = new LinkedList<BaseNode>();
 
-        public BlockNode(WasmType signature) {
+        //todo: not nullable
+        public BlockNode(WasmType? signature = null) {
             Signature = signature;
         }
 
-        public WasmType Signature { get; }
+        public WasmType? Signature { get; }
 
         public override WasmType ResultType {
             get {
@@ -22,9 +23,10 @@ namespace WasmNet.Nodes {
                             result = nodeResult;
                         }
                     } else {
-                        if (nodeResult != WasmType.BlockType) {
-                            throw new WasmNodeException("multiple returns in block node");
-                        }
+                        //todo: uncomment
+                        //if (nodeResult != WasmType.BlockType) {
+                        //    throw new WasmNodeException("multiple returns in block node");
+                        //}
                     }
                 }
                 return result ?? WasmType.BlockType;

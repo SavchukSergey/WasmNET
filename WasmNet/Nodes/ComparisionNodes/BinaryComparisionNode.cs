@@ -6,6 +6,9 @@
         public BaseNode Right { get; set; }
 
         public BinaryComparisionNode(BaseNode left, BaseNode right) {
+            //todo: move to setters? or readonly? check null
+            if (left.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} left operand");
+            if (right.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} right operand");
             Left = left;
             Right = right;
         }
@@ -22,8 +25,6 @@
             writer.Unindent();
             writer.WriteLine(")");
         }
-
-        protected abstract string NodeName { get; }
 
     }
 }

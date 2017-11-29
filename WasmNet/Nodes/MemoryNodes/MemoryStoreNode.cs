@@ -6,7 +6,7 @@ namespace WasmNet.Nodes {
         public BaseNode Value { get; set; }
 
         public MemoryStoreNode(WasmMemoryImmediate immediate, BaseNode address, BaseNode value) : base(immediate, address) {
-            Value = Value;
+            Value = value;
         }
 
         public sealed override void ToSExpressionString(NodeWriter writer) {

@@ -1,9 +1,18 @@
-﻿using WasmNet.Opcodes;
+﻿using WasmNet.Data;
+using WasmNet.Opcodes;
 
 namespace WasmNet.Nodes {
     public partial class WasmNode {
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(UnreachableOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(NopOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(UnreachableOpcode opcode, WasmNodeArg arg) {
+            arg.Push(new UnreachableNode());
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(NopOpcode opcode, WasmNodeArg arg) {
+            arg.Push(new NopNode());
+            return null;
+        }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BlockOpcode opcode, WasmNodeArg arg) {
             var blockNode = new BlockNode(opcode.Signature);
@@ -45,6 +54,8 @@ namespace WasmNet.Nodes {
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(EndOpcode opcode, WasmNodeArg arg) {
             if (arg.HasBlock) {
                 arg.PopBlock();
+            } else {
+                throw new WasmNodeException("there is no block to end");
             }
             return null;
         }
@@ -53,6 +64,11 @@ namespace WasmNet.Nodes {
             //todo: set relative depth
             var node = new BrNode();
             arg.Push(node);
+
+            //Skip unreachable code until end, else. 
+            //Rest commands may violate stack restrictions.
+            var oldBlock = arg.PopBlock();
+            arg.PushBlock(node.UnreachableNodes);
             return null;
         }
 
@@ -61,7 +77,6 @@ namespace WasmNet.Nodes {
             var condition = arg.Pop();
             var node = new BrIfNode(condition);
             arg.Push(node);
-            arg.PushBlock(node.Block);
             return null;
         }
 
@@ -80,10 +95,10 @@ namespace WasmNet.Nodes {
             var farg = (WasmFunctionNodeArg)arg; //todo:
             var returnType = farg.Function.Signature.Return;
             switch (returnType) {
-                case Data.WasmType.I32:
-                case Data.WasmType.I64:
-                case Data.WasmType.F32:
-                case Data.WasmType.F64:
+                case WasmType.I32:
+                case WasmType.I64:
+                case WasmType.F32:
+                case WasmType.F64:
                     var res = arg.Pop();
                     arg.Push(new ReturnNode(res));
                     break;

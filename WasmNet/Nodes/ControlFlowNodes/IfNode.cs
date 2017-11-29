@@ -7,6 +7,7 @@ namespace WasmNet.Nodes {
         private BlockNode _else;
 
         public IfNode(BaseNode condition, WasmType signature) {
+            if (condition.ResultType != WasmType.I32) throw new WasmNodeException($"expected i32 condition");
             Condition = condition;
             Signature = signature;
         }
@@ -38,7 +39,7 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"if ({Condition}) {{");
+            writer.WriteLine($"if {ConvertType(Signature)} ({Condition}) {{");
 
             writer.Indent();
             if (Then != null) {

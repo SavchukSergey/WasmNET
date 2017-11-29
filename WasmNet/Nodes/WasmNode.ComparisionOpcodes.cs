@@ -3,6 +3,8 @@
 namespace WasmNet.Nodes {
     public partial class WasmNode {
 
+        #region I32
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32EqzOpcode opcode, WasmNodeArg arg) {
             var expr = arg.Pop();
             arg.Push(new I32EqzNode(expr));
@@ -58,6 +60,20 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32LeuOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I32LeuNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32GesOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I32GesNode(left, right));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32GeuOpcode opcode, WasmNodeArg arg) {
             var right = arg.Pop();
             var left = arg.Pop();
@@ -65,6 +81,9 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        #endregion
+
+        #region I64
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64EqzOpcode opcode, WasmNodeArg arg) {
             var expr = arg.Pop();
@@ -121,12 +140,120 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64LeuOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I64LeuNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64GesOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I64GesNode(left, right));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64GeuOpcode opcode, WasmNodeArg arg) {
             var right = arg.Pop();
             var left = arg.Pop();
             arg.Push(new I64GeuNode(left, right));
             return null;
         }
+
+        #endregion
+
+        #region F32
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32EqOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F32EqNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32NeOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F32NeNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32LtOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F32LtNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32GtOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F32GtNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32LeOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F32LeNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32GeOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F32GeNode(left, right));
+            return null;
+        }
+
+        #endregion
+
+        #region F64
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64EqOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F64EqNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64NeOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F64NeNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64LtOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F64LtNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64GtOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F64GtNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64LeOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F64LeNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64GeOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new F64GeNode(left, right));
+            return null;
+        }
+
+        #endregion
 
     }
 }

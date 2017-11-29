@@ -19,10 +19,31 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32MulOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I32MulNode(left, right));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32DivSOpcode opcode, WasmNodeArg arg) {
             var right = arg.Pop();
             var left = arg.Pop();
             arg.Push(new I32DivSNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32DivUOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I32DivUNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I32RemUOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I32RemUNode(left, right));
             return null;
         }
 
@@ -86,10 +107,31 @@ namespace WasmNet.Nodes {
             return null;
         }
 
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64MulOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I64MulNode(left, right));
+            return null;
+        }
+
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64DivSOpcode opcode, WasmNodeArg arg) {
             var right = arg.Pop();
             var left = arg.Pop();
             arg.Push(new I64DivSNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64DivUOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I64DivUNode(left, right));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(I64RemUOpcode opcode, WasmNodeArg arg) {
+            var right = arg.Pop();
+            var left = arg.Pop();
+            arg.Push(new I64RemUNode(left, right));
             return null;
         }
 

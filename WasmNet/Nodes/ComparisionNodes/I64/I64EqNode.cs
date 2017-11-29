@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I64EqNode : BinaryComparisionNode {
+    public class I64EqNode : I64BinaryComparisionNode {
 
         public I64EqNode(BaseNode left, BaseNode right) : base(left, right) {
         }

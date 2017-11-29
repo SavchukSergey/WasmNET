@@ -1,7 +1,7 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Opcodes {
-    public class I32Store16Opcode : BaseOpcode {
+    public class I32Store16Opcode : MemoryStoreOpcode {
 
         public WasmMemoryImmediate Address { get; set; }
 

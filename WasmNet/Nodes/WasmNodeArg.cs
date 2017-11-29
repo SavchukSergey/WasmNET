@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class WasmNodeArg {
@@ -15,14 +16,16 @@ namespace WasmNet.Nodes {
 
         public BlockNode PopBlock() {
             var node = Blocks.Pop();
-            var actualResult = node.ResultType;
-            if (actualResult != node.Signature) throw new WasmNodeException($"cannot assign {actualResult} block to {node.Signature} block");
+            //if (node.Signature != null) {
+            //    var actualResult = node.ResultType;
+            //    if (actualResult != node.Signature) throw new WasmNodeException($"cannot assign {actualResult} block to {node.Signature} block");
+            //}
             return node;
         }
 
         public bool HasBlock {
             get {
-                return Blocks.Count > 1;
+                return Blocks.Count > 0;
             }
         }
 

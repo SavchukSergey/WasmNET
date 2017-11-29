@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Nodes {
-    public class I32GeuNode : BinaryComparisionNode {
+    public class I32GeuNode : I32BinaryComparisionNode {
 
         public I32GeuNode(BaseNode left, BaseNode right) : base(left, right) {
         }

@@ -1,23 +1,14 @@
-﻿namespace WasmNet.Nodes {
-    public class I64EqzNode : ComparisionNode {
+﻿using WasmNet.Data;
 
-        public I64EqzNode(BaseNode expr) {
-            Expression = expr;
+namespace WasmNet.Nodes {
+    public class I64EqzNode : UnaryComparisionNode {
+
+        public I64EqzNode(BaseNode expr) : base(expr) {
         }
 
-        public BaseNode Expression { get; set; }
+        protected override WasmType OperandType => WasmType.I64;
 
-        public override void ToString(NodeWriter writer) {
-            writer.Write($"({Expression} == 0)");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine("(i64.eqz");
-            writer.Indent();
-            Expression.ToSExpressionString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
-        }
+        protected override string NodeName => "i64.eqz";
 
     }
 }

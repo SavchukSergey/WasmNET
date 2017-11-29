@@ -19,6 +19,14 @@ namespace WasmNet.Nodes {
             _sb.Append(val);
         }
 
+        public void Write(float val) {
+            _sb.Append(val);
+        }
+
+        public void Write(double val) {
+            _sb.Append(val);
+        }
+
         public void StartLine() {
             AddIndentation();
         }

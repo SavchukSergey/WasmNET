@@ -61,11 +61,19 @@
 
         TResult Visit(I32LoadOpcode opcode, TArg arg);
 
+        TResult Visit(I64LoadOpcode opcode, TArg arg);
+
         TResult Visit(I32Load8SOpcode opcode, TArg arg);
 
         TResult Visit(I32Load8UOpcode opcode, TArg arg);
 
-        TResult Visit(I64LoadOpcode opcode, TArg arg);
+        TResult Visit(I32Load16SOpcode opcode, TArg arg);
+
+        TResult Visit(I32Load16UOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load16SOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load16UOpcode opcode, TArg arg);
 
         TResult Visit(I32StoreOpcode opcode, TArg arg);
 
@@ -73,7 +81,11 @@
 
         TResult Visit(I32Store8Opcode opcode, TArg arg);
 
+        TResult Visit(I32Store16Opcode opcode, TArg arg);
+
         TResult Visit(I64Store8Opcode opcode, TArg arg);
+
+        TResult Visit(I64Store16Opcode opcode, TArg arg);
 
         TResult Visit(I64Store32Opcode opcode, TArg arg);
         
@@ -111,6 +123,10 @@
 
         TResult Visit(I32LesOpcode opcode, TArg arg);
 
+        TResult Visit(I32LeuOpcode opcode, TArg arg);
+
+        TResult Visit(I32GesOpcode opcode, TArg arg);
+
         TResult Visit(I32GeuOpcode opcode, TArg arg);
 
         #endregion
@@ -133,7 +149,43 @@
 
         TResult Visit(I64LesOpcode opcode, TArg arg);
 
+        TResult Visit(I64LeuOpcode opcode, TArg arg);
+
+        TResult Visit(I64GesOpcode opcode, TArg arg);
+
         TResult Visit(I64GeuOpcode opcode, TArg arg);
+
+        #endregion
+
+        #region F32
+
+        TResult Visit(F32EqOpcode opcode, TArg arg);
+
+        TResult Visit(F32NeOpcode opcode, TArg arg);
+
+        TResult Visit(F32LtOpcode opcode, TArg arg);
+
+        TResult Visit(F32GtOpcode opcode, TArg arg);
+
+        TResult Visit(F32LeOpcode opcode, TArg arg);
+
+        TResult Visit(F32GeOpcode opcode, TArg arg);
+
+        #endregion
+
+        #region F64
+
+        TResult Visit(F64EqOpcode opcode, TArg arg);
+
+        TResult Visit(F64NeOpcode opcode, TArg arg);
+
+        TResult Visit(F64LtOpcode opcode, TArg arg);
+
+        TResult Visit(F64GtOpcode opcode, TArg arg);
+
+        TResult Visit(F64LeOpcode opcode, TArg arg);
+
+        TResult Visit(F64GeOpcode opcode, TArg arg);
 
         #endregion
 
@@ -147,7 +199,13 @@
 
         TResult Visit(I32SubOpcode opcode, TArg arg);
 
+        TResult Visit(I32MulOpcode opcode, TArg arg);
+
         TResult Visit(I32DivSOpcode opcode, TArg arg);
+
+        TResult Visit(I32DivUOpcode opcode, TArg arg);
+
+        TResult Visit(I32RemUOpcode opcode, TArg arg);
 
         TResult Visit(I32AndOpcode opcode, TArg arg);
 
@@ -169,7 +227,13 @@
 
         TResult Visit(I64SubOpcode opcode, TArg arg);
 
+        TResult Visit(I64MulOpcode opcode, TArg arg);
+
         TResult Visit(I64DivSOpcode opcode, TArg arg);
+
+        TResult Visit(I64DivUOpcode opcode, TArg arg);
+
+        TResult Visit(I64RemUOpcode opcode, TArg arg);
 
         TResult Visit(I64AndOpcode opcode, TArg arg);
 

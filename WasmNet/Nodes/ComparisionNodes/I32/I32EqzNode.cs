@@ -1,22 +1,17 @@
-﻿namespace WasmNet.Nodes {
-    public class I32EqzNode : ComparisionNode {
+﻿using WasmNet.Data;
 
-        public I32EqzNode(BaseNode expr) {
-            Expression = expr;
+namespace WasmNet.Nodes {
+    public class I32EqzNode : UnaryComparisionNode {
+
+        public I32EqzNode(BaseNode expr) : base(expr) {
         }
 
-        public BaseNode Expression { get; set; }
+        protected override WasmType OperandType => WasmType.I32;
+
+        protected override string NodeName => "i32.eqz";
 
         public override void ToString(NodeWriter writer) {
             writer.Write($"({Expression} == 0)");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine("(i32.eqz");
-            writer.Indent();
-            Expression.ToSExpressionString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
         }
 
     }
