@@ -373,22 +373,6 @@
 
         #endregion
 
-        #region F32
-
-        TResult Visit(F32AbsOpcode opcode, TArg arg);
-
-        TResult Visit(F32NegOpcode opcode, TArg arg);
-
-        #endregion
-
-        #region F64
-
-        TResult Visit(F64AbsOpcode opcode, TArg arg);
-
-        TResult Visit(F64NegOpcode opcode, TArg arg);
-
-        #endregion
-
         #endregion
 
         #region ConversionOpcodes
