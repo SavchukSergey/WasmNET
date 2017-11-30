@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class I64EqzNode : UnaryComparisionNode {
 
-        public I64EqzNode(BaseNode expr) : base(expr) {
+        public I64EqzNode(ExecutableNode expr) : base(expr) {
         }
 
         protected override WasmType OperandType => WasmType.I64;

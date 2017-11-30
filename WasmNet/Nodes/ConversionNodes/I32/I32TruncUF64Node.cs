@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class I32TruncUF64Node : ConversionNode {
 
-        public I32TruncUF64Node(BaseNode operand) : base(operand) {
+        public I32TruncUF64Node(ExecutableNode operand) : base(operand) {
         }
 
         public override WasmType ResultType => WasmType.F64;

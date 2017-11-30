@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
-    public class F64GtNode : I32BinaryComparisionNode {
+    public class F64GtNode : F64BinaryComparisionNode {
 
-        public F64GtNode(BaseNode left, BaseNode right) : base(left, right) {
+        public F64GtNode(ExecutableNode left, ExecutableNode right) : base(left, right) {
         }
 
         protected override string NodeName => "f64.gt";

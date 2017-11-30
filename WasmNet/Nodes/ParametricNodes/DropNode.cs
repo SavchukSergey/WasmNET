@@ -1,22 +1,20 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class DropNode : BaseNode {
+    public class DropNode : ExecutableNode {
 
-        public BaseNode Operand { get; set; }
+        public ExecutableNode Operand { get; set; }
 
-        public DropNode(BaseNode operand) {
+        public DropNode(ExecutableNode operand) {
             Operand = operand;
         }
 
         public override WasmType ResultType => WasmType.BlockType;
 
-        public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
-
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override void ToString(NodeWriter writer) {
             writer.WriteLine("(drop");
             writer.Indent();
-            Operand.ToSExpressionString(writer);
+            Operand.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }

@@ -6,6 +6,37 @@ namespace WasmNet.Nodes {
         private StringBuilder _sb = new StringBuilder();
 
         private int _indentation = 0;
+        private bool _lineSpaced = false;
+
+        public void OpenNode(string nodeName) {
+            EnsureIndentation();
+            _sb.Append('(');
+            _sb.Append(nodeName);
+            Indent();
+        }
+
+        public void CloseNode() {
+            Unindent();
+            EnsureIndentation();
+            _sb.Append(')');
+        }
+
+        public void NewLine() {
+            _sb.AppendLine();
+            _lineSpaced = false;
+        }
+
+        public void EnsureIndentation() {
+            if (!_lineSpaced) {
+                _lineSpaced = true;
+                for (var i = 0; i < _indentation * 4; i++) {
+                    _sb.Append(' ');
+                }
+            }
+        }
+
+
+
 
         public void Write(string val) {
             _sb.Append(val);

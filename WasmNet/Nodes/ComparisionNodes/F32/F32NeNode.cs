@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
-    public class F32NeNode : I32BinaryComparisionNode {
+    public class F32NeNode : F32BinaryComparisionNode {
 
-        public F32NeNode(BaseNode left, BaseNode right) : base(left, right) {
+        public F32NeNode(ExecutableNode left, ExecutableNode right) : base(left, right) {
         }
 
         protected override string NodeName => "f32.ne";

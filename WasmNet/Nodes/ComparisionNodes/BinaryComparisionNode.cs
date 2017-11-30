@@ -1,12 +1,11 @@
 ﻿namespace WasmNet.Nodes {
     public abstract class BinaryComparisionNode : ComparisionNode {
 
-        public BaseNode Left { get; set; }
+        public ExecutableNode Left { get; }
 
-        public BaseNode Right { get; set; }
+        public ExecutableNode Right { get; }
 
-        public BinaryComparisionNode(BaseNode left, BaseNode right) {
-            //todo: move to setters? or readonly? check null
+        protected BinaryComparisionNode(ExecutableNode left, ExecutableNode right) {
             if (left.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} left operand");
             if (right.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} right operand");
             Left = left;
@@ -14,16 +13,12 @@
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.Write($"({Left}) ??? ({Right})");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}");
-            writer.Indent();
-            Left.ToSExpressionString(writer);
-            Right.ToSExpressionString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.NewLine();
+            writer.OpenNode(NodeName);
+            writer.NewLine();
+            Left.ToString(writer);
+            Right.ToString(writer);
+            writer.CloseNode();
         }
 
     }

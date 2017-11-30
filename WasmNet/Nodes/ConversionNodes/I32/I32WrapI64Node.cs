@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class I32WrapI64Node : ConversionNode {
 
-        public I32WrapI64Node(BaseNode operand) : base(operand) {
+        public I32WrapI64Node(ExecutableNode operand) : base(operand) {
         }
 
         public override WasmType ResultType => WasmType.I32;

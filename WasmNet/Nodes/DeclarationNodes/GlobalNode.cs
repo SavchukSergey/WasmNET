@@ -1,27 +1,29 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class GlobalNode : BaseNode {
+    public class GlobalNode : DeclarationNode {
 
         public string Name { get; set; }
 
-        public WasmType Type { get; set; }
+        public WasmType Type { get; private set; }
 
         public bool Mutable { get; set; }
 
         public BlockNode Init { get; set; }
 
-        public override WasmType ResultType => Type;
+        public GlobalNode(WasmType type) {
+            //todo: assert init block type
+            AssertValueType(type);
+            Type = type;
+        }
 
-        public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
-
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override void ToString(NodeWriter writer) {
             writer.StartLine();
             writer.Write($"(global ${Name} ({(Mutable ? "mut " : "")}{ConvertValueType(Type)})");
             if (Init != null) {
                 writer.EndLine();
                 writer.Indent();
-                Init.ToSExpressionString(writer);
+                Init.ToString(writer);
                 writer.Unindent();
                 writer.WriteLine(")");
             } else {

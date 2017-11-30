@@ -3,21 +3,20 @@
 namespace WasmNet.Nodes {
     public abstract class MemoryStoreNode : MemoryAccessNode {
 
-        public BaseNode Value { get; set; }
+        public ExecutableNode Value { get; }
 
-        public MemoryStoreNode(WasmMemoryImmediate immediate, BaseNode address, BaseNode value) : base(immediate, address) {
-            //todo: move to setters? or readonly? check null
+        public MemoryStoreNode(WasmMemoryImmediate immediate, ExecutableNode address, ExecutableNode value) : base(immediate, address) {
             if (value.ResultType != ValueType) throw new WasmNodeException($"expected {ValueType} value");
             Value = value;
         }
 
         protected abstract WasmType ValueType { get; }
 
-        public sealed override void ToSExpressionString(NodeWriter writer) {
+        public sealed override void ToString(NodeWriter writer) {
             writer.WriteLine($"({NodeName}{FormatImmediate()}");
             writer.Indent();
-            Address?.ToSExpressionString(writer);
-            Value?.ToSExpressionString(writer);
+            Address?.ToString(writer);
+            Value?.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }

@@ -3,10 +3,8 @@
 namespace WasmNet.Nodes {
     public class I64Load32UNode : MemoryLoadNode {
 
-        public I64Load32UNode(WasmMemoryImmediate immediate, BaseNode address) : base(immediate, address) {
+        public I64Load32UNode(WasmMemoryImmediate immediate, ExecutableNode address) : base(immediate, address) {
         }
-
-        public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
 
         public override WasmType ResultType => WasmType.I64;
 

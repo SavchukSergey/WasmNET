@@ -1,32 +1,24 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class TeeLocalNode : BaseNode {
+    public class TeeLocalNode : ExecutableNode {
 
-        public TeeLocalNode(LocalNode variable, BaseNode value) {
-            if (variable.ResultType != value.ResultType) throw new WasmNodeException($"cannot assign {value.ResultType} to {variable.ResultType} variable");
+        public LocalNode Variable { get; }
+
+        public BaseNode Value { get; }
+
+        public TeeLocalNode(LocalNode variable, ExecutableNode value) {
+            if (variable.Type != value.ResultType) throw new WasmNodeException($"cannot assign {value.ResultType} to {variable.Type} variable");
             Variable = variable;
             Value = value;
         }
 
-        public LocalNode Variable { get; set; }
-
-        public BaseNode Value { get; set; }
-
-        public override WasmType ResultType => Variable.ResultType;
+        public override WasmType ResultType => Variable.Type;
 
         public override void ToString(NodeWriter writer) {
-            writer.StartLine();
-            writer.Write($"{Variable.Name} = ");
-            Value.ToString(writer);
-            writer.Write(";");
-            writer.EndLine();
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.WriteLine($"(tee_local ${Variable.Name}");
             writer.Indent();
-            Value.ToSExpressionString(writer);
+            Value.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }

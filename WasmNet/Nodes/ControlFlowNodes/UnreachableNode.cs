@@ -1,9 +1,11 @@
-﻿namespace WasmNet.Nodes {
-    public class UnreachableNode : BaseNode {
+﻿using WasmNet.Data;
 
-        public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
+namespace WasmNet.Nodes {
+    public class UnreachableNode : ExecutableNode {
 
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override WasmType ResultType => WasmType.BlockType;
+
+        public override void ToString(NodeWriter writer) {
             writer.WriteLine("(unreachable)");
         }
 

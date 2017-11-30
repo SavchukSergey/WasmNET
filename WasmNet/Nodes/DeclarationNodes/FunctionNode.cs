@@ -2,7 +2,7 @@
 using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class FunctionNode : BaseNode {
+    public class FunctionNode : DeclarationNode {
 
         public string Name { get; set; }
 
@@ -18,9 +18,8 @@ namespace WasmNet.Nodes {
             Signature = signature;
             for (var i = 0; i < Signature.Parameters.Count; i++) {
                 var param = Signature.Parameters[i];
-                Parameters.Add(new LocalNode {
-                    Name = $"arg{i}",
-                    Type = param
+                Parameters.Add(new LocalNode(param) {
+                    Name = $"arg{i}"
                 });
             }
         }
@@ -33,32 +32,12 @@ namespace WasmNet.Nodes {
 
         public void AddLocal(WasmType type) {
             var ind = Variables.Count;
-            Variables.Add(new LocalNode {
-                Name = $"local{ind}",
-                Type = type
+            Variables.Add(new LocalNode(type) {
+                Name = $"local{ind}"
             });
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.StartLine();
-            writer.Write($"{Convert(Signature.Return)} {Name}(");
-            for (var i = 0; i < Parameters.Count; i++) {
-                var param = Parameters[i];
-                if (i != 0) writer.Write(", ");
-                writer.Write(Convert(param.Type));
-                writer.Write($" {param.Name}");
-            }
-            writer.Write(") {");
-            writer.EndLine();
-            writer.Indent();
-            Execution.ToString(writer);
-            writer.Unindent();
-            writer.StartLine();
-            writer.Write("}");
-            writer.EndLine();
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.StartLine();
             writer.Write($"(func ${Name}");
             for (var i = 0; i < Parameters.Count; i++) {
@@ -69,16 +48,16 @@ namespace WasmNet.Nodes {
                 }
                 writer.Write($"{ConvertValueType(param.Type)})");
             }
-            if (Signature.Return != null) {
-                writer.Write($" (result {ConvertValueType(Signature.Return.Value)})");
+            if (Signature.Return != WasmType.BlockType) {
+                writer.Write($" (result {ConvertValueType(Signature.Return)})");
             }
             if (Execution != null) {
                 writer.EndLine();
                 writer.Indent();
                 foreach (var local in Variables) {
-                    local.ToSExpressionString(writer);
+                    local.ToString(writer);
                 }
-                Execution.ToSExpressionString(writer);
+                Execution.ToString(writer);
                 writer.Unindent();
                 writer.StartLine();
             }

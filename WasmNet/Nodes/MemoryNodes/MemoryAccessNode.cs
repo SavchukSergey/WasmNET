@@ -1,13 +1,13 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public abstract class MemoryAccessNode : BaseNode {
+    public abstract class MemoryAccessNode : ExecutableNode {
 
-        public WasmMemoryImmediate Immediate { get; set; }
+        public WasmMemoryImmediate Immediate { get;  }
 
-        public BaseNode Address { get; set; }
+        public ExecutableNode Address { get;  }
 
-        public MemoryAccessNode(WasmMemoryImmediate immediate, BaseNode address) {
+        protected MemoryAccessNode(WasmMemoryImmediate immediate, ExecutableNode address) {
             if (address.ResultType != WasmType.I32) throw new WasmNodeException($"expected i32 address");
 
             Immediate = immediate;

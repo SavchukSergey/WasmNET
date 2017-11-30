@@ -29,11 +29,11 @@ namespace WasmNet.Nodes {
             }
         }
 
-        public void Push(BaseNode node) {
+        public void Push(ExecutableNode node) {
             Current.Push(node);
         }
 
-        public BaseNode Pop() {
+        public ExecutableNode Pop() {
             return Current.Pop();
         }
 

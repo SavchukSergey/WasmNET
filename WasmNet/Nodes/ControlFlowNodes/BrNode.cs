@@ -2,13 +2,13 @@
 using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class BrNode : BaseNode {
+    public class BrNode : ExecutableNode {
 
-        public BlockNode UnreachableNodes { get; } = new BlockNode();
+        public BlockNode UnreachableNodes { get; } = new BlockNode(WasmType.BlockType);
 
-        public override void ToString(NodeWriter writer) => throw new NotImplementedException();
+        public override WasmType ResultType => WasmType.BlockType;
 
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override void ToString(NodeWriter writer) {
             //todo: relative depth
             writer.WriteLine("(br 0)");
         }

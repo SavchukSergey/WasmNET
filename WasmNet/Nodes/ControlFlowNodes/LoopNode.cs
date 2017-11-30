@@ -1,7 +1,7 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class LoopNode : BaseNode {
+    public class LoopNode : ExecutableNode {
 
         public BlockNode Block { get; }
 
@@ -9,17 +9,13 @@ namespace WasmNet.Nodes {
             Block = new BlockNode(signature);
         }
 
-        public override WasmType ResultType => Block.Signature ?? WasmType.BlockType;
+        public override WasmType ResultType => Block.ResultType;
 
         public override void ToString(NodeWriter writer) {
-            throw new System.NotImplementedException();
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine($"(loop {ConvertType(Block.Signature ?? WasmType.BlockType)}");
+            writer.WriteLine($"(loop {ConvertType(Block.ResultType)}");
             writer.Indent();
             foreach (var node in Block.Nodes) {
-                node.ToSExpressionString(writer);
+                node.ToString(writer);
             }
             writer.Unindent();
             writer.WriteLine(")");

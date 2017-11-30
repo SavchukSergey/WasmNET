@@ -1,7 +1,7 @@
 ﻿namespace WasmNet.Nodes {
-    public class F64LtNode : I32BinaryComparisionNode {
+    public class F64LtNode : F64BinaryComparisionNode {
 
-        public F64LtNode(BaseNode left, BaseNode right) : base(left, right) {
+        public F64LtNode(ExecutableNode left, ExecutableNode right) : base(left, right) {
         }
 
         protected override string NodeName => "f64.lt";

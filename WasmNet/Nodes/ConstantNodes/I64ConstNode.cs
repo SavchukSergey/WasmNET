@@ -1,7 +1,7 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class I64ConstNode : BaseNode {
+    public class I64ConstNode : ExecutableNode {
 
         public I64ConstNode(long value) {
             Value = value;
@@ -12,10 +12,6 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.I64;
 
         public override void ToString(NodeWriter writer) {
-            writer.Write(Value);
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.WriteLine($"(i64.const {Value})");
         }
 

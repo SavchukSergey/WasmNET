@@ -1,24 +1,19 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public abstract class ConversionNode : BaseNode {
+    public abstract class ConversionNode : ExecutableNode {
 
-        public BaseNode Expression { get; set; }
+        public ExecutableNode Expression { get; }
 
-        protected ConversionNode(BaseNode expression) {
-            //todo: move to setters? or readonly? check null
+        protected ConversionNode(ExecutableNode expression) {
             if (expression.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} operand");
             Expression = expression;
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.Write($"({Expression}) ???");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.WriteLine($"({NodeName}");
             writer.Indent();
-            Expression.ToSExpressionString(writer);
+            Expression.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }

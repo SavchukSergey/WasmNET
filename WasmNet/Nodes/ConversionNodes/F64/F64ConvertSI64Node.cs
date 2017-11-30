@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class F64ConvertSI64Node : ConversionNode {
 
-        public F64ConvertSI64Node(BaseNode operand) : base(operand) {
+        public F64ConvertSI64Node(ExecutableNode operand) : base(operand) {
         }
 
         public override WasmType ResultType => WasmType.F64;

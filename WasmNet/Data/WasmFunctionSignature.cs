@@ -8,7 +8,7 @@ namespace WasmNet.Data {
 
         public IList<WasmType> Returns { get; } = new List<WasmType>();
 
-        public WasmType? Return => Returns.Count > 0 ? new WasmType?(Returns[0]) : null;
+        public WasmType Return => Returns.Count > 0 ? Returns[0] : WasmType.BlockType;
 
         public override string ToString() {
             var sb = new StringBuilder();

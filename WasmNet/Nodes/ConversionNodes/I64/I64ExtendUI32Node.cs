@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class I64ExtendUI32Node : ConversionNode {
 
-        public I64ExtendUI32Node(BaseNode operand) : base(operand) {
+        public I64ExtendUI32Node(ExecutableNode operand) : base(operand) {
         }
 
         public override WasmType ResultType => WasmType.I64;

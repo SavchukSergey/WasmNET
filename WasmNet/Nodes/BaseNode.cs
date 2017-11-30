@@ -5,13 +5,9 @@ namespace WasmNet.Nodes {
 
         public abstract void ToString(NodeWriter writer);
 
-        public abstract void ToSExpressionString(NodeWriter writer);
-
-        public virtual WasmType ResultType => WasmType.BlockType;
-
         public sealed override string ToString() {
             var writer = new NodeWriter();
-            ToSExpressionString(writer);
+            ToString(writer);
             return writer.ToString().Trim();
         }
 
@@ -36,6 +32,14 @@ namespace WasmNet.Nodes {
                 default:
                     throw new WasmNodeException($"unknown value type {type}");
             }
+        }
+
+        protected static void AssertValueType(WasmType resultType) {
+            if (resultType == WasmType.I32) return;
+            if (resultType == WasmType.I64) return;
+            if (resultType == WasmType.F32) return;
+            if (resultType == WasmType.F64) return;
+            throw new WasmNodeException($"value type expected, but {resultType} occured.");
         }
 
     }

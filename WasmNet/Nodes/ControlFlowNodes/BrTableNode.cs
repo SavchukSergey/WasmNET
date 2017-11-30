@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class BrTableNode : BaseNode {
+    public class BrTableNode : ExecutableNode {
 
-        public BaseNode Operand { get; set; }
+        public ExecutableNode Operand { get; set; }
 
         public IList<uint> Targets { get; } = new List<uint>(); //tofo: frame reference
 
         public uint DefaultTarget { get; set; }
 
-        public BrTableNode(BaseNode operand) {
+        public override WasmType ResultType => WasmType.BlockType;
+
+        public BrTableNode(ExecutableNode operand) {
             Operand = operand;
         }
 
-        public override void ToString(NodeWriter writer) => throw new System.NotImplementedException();
-
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override void ToString(NodeWriter writer) {
             //todo:
         }
 

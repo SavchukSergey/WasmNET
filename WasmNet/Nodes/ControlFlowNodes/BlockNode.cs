@@ -2,57 +2,58 @@
 using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class BlockNode : BaseNode {
+    public class BlockNode : ExecutableNode {
 
-        public LinkedList<BaseNode> Nodes { get; } = new LinkedList<BaseNode>();
+        private WasmType _resultType;
+        public LinkedList<ExecutableNode> Nodes { get; } = new LinkedList<ExecutableNode>();
 
-        //todo: not nullable
-        public BlockNode(WasmType? signature = null) {
-            Signature = signature;
+        public string Label { get; set; }
+
+        public BlockNode(WasmType signature) {
+            _resultType = signature;
         }
 
-        public WasmType? Signature { get; }
+        public override WasmType ResultType => _resultType;
 
-        public override WasmType ResultType {
+        public WasmType ActualResultType {
             get {
-                WasmType? result = null;
-                foreach (var node in Nodes) {
-                    var nodeResult = node.ResultType;
-                    if (result == null) {
-                        if (nodeResult != WasmType.BlockType) {
-                            result = nodeResult;
-                        }
-                    } else {
-                        //todo: uncomment
-                        //if (nodeResult != WasmType.BlockType) {
-                        //    throw new WasmNodeException("multiple returns in block node");
-                        //}
-                    }
+                //all extra values are ignored
+                var walker = Nodes.Last;
+                while (walker != null) {
+                    var type = walker.Value.ResultType;
+                    if (type != WasmType.BlockType) return type;
+                    walker = walker.Previous;
                 }
-                return result ?? WasmType.BlockType;
+                return WasmType.BlockType;
             }
         }
 
-        public void Push(BaseNode node) {
+        public void Push(ExecutableNode node) {
             Nodes.AddLast(node);
         }
 
-        public BaseNode Pop() {
+        public ExecutableNode Pop() {
             var last = Nodes.Last;
             Nodes.RemoveLast();
             return last.Value;
         }
 
         public override void ToString(NodeWriter writer) {
+            writer.NewLine();
+            writer.OpenNode("block");
+            if (ResultType != WasmType.BlockType) {
+                writer.Write(" ");
+                writer.Write(ConvertType(ResultType));
+            }
+            if (!string.IsNullOrWhiteSpace(Label)) {
+                writer.Write("$");
+                writer.Write(Label);
+            }
+            writer.NewLine();
             foreach (var node in Nodes) {
                 node.ToString(writer);
             }
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            foreach (var node in Nodes) {
-                node.ToSExpressionString(writer);
-            }
+            writer.CloseNode();
         }
 
     }

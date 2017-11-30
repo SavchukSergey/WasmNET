@@ -1,24 +1,19 @@
 ﻿namespace WasmNet.Nodes {
     public abstract class UnaryComparisionNode : ComparisionNode {
 
-        public BaseNode Expression { get; set; }
+        public ExecutableNode Expression { get; }
 
-        protected UnaryComparisionNode(BaseNode expression) {
-            //todo: move to setters? or readonly? check null
+        protected UnaryComparisionNode(ExecutableNode expression) {
             if (expression.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} operand");
             Expression = expression;
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.Write($"({Expression}) ???");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}");
-            writer.Indent();
-            Expression.ToSExpressionString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.NewLine();
+            writer.OpenNode(NodeName);
+            writer.NewLine();
+            Expression.ToString(writer);
+            writer.CloseNode();
         }
 
     }

@@ -1,12 +1,14 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class IfNode : BaseNode {
+    public class IfNode : ExecutableNode {
 
         private BlockNode _then;
         private BlockNode _else;
 
-        public IfNode(BaseNode condition, WasmType signature) {
+        public ExecutableNode Condition { get; }
+
+        public IfNode(ExecutableNode condition, WasmType signature) {
             if (condition.ResultType != WasmType.I32) throw new WasmNodeException($"expected i32 condition");
             Condition = condition;
             Signature = signature;
@@ -16,14 +18,12 @@ namespace WasmNet.Nodes {
 
         public override WasmType ResultType => Signature;
 
-        public BaseNode Condition { get; set; }
-
         public BlockNode Then {
             get {
                 return _then;
             }
             set {
-                if ((value != null ? value.Signature : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.Signature} then block to {Signature} if block");
+                if ((value != null ? value.ResultType : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.ResultType} then block to {Signature} if block");
                 _then = value;
             }
         }
@@ -33,37 +33,17 @@ namespace WasmNet.Nodes {
                 return _else;
             }
             set {
-                if ((value != null ? value.Signature : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.Signature} else block to {Signature} if block");
+                if ((value != null ? value.ResultType : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.ResultType} else block to {Signature} if block");
                 _else = value;
             }
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"if {ConvertType(Signature)} ({Condition}) {{");
-
-            writer.Indent();
-            if (Then != null) {
-                Then.ToString(writer);
-            }
-            writer.Unindent();
-
-            if (Else != null) {
-                writer.WriteLine("} else {");
-                writer.Indent();
-                Else.ToString(writer);
-                writer.Unindent();
-                writer.WriteLine("}");
-            } else {
-                writer.WriteLine("}");
-            }
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.WriteLine($"(if {ConvertType(Signature)}");
             writer.Indent();
-            Condition.ToSExpressionString(writer);
-            Then.ToSExpressionString(writer);
-            Else?.ToSExpressionString(writer);
+            Condition.ToString(writer);
+            Then.ToString(writer);
+            Else?.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }

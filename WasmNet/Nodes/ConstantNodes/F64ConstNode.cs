@@ -1,9 +1,9 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class F64ConstNode : BaseNode {
+    public class F64ConstNode : ExecutableNode {
 
-        public F64ConstNode(int value) {
+        public F64ConstNode(double value) {
             Value = value;
         }
 
@@ -12,10 +12,6 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.F64;
 
         public override void ToString(NodeWriter writer) {
-            writer.Write(Value);
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.WriteLine($"(f64.const {Value})");
         }
 

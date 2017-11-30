@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace WasmNet.Nodes {
-    public class ModuleNode : BaseNode {
+    public class ModuleNode : DeclarationNode {
 
         public IList<FunctionNode> Functions { get; } = new List<FunctionNode>();
 
@@ -33,23 +33,20 @@ namespace WasmNet.Nodes {
             throw new WasmNodeException($"cannot resolve function with index {functionIndex}");
         }
 
-
-        public override void ToString(NodeWriter writer) => throw new NotImplementedException();
-
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override void ToString(NodeWriter writer) {
             writer.WriteLine("(module ");
             writer.Indent();
 
             foreach(var import in Imports) {
-                import.ToSExpressionString(writer);
+                import.ToString(writer);
             }
 
             foreach (var global in Globals) {
-                global.ToSExpressionString(writer);
+                global.ToString(writer);
             }
 
             foreach (var func in Functions) {
-                func.ToSExpressionString(writer);
+                func.ToString(writer);
             }
             writer.Unindent();
             writer.WriteLine(")");

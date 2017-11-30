@@ -9,6 +9,13 @@ namespace WasmNet.Nodes {
             return null;
         }
 
-        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(SelectOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(SelectOpcode opcode, WasmNodeArg arg) {
+            var condition = arg.Pop();
+            var second = arg.Pop();
+            var first = arg.Pop();
+            arg.Push(new SelectNode(condition, first, second));
+            return null;
+        }
+
     }
 }

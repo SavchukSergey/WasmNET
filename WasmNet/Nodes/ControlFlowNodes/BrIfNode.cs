@@ -2,22 +2,22 @@
 using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class BrIfNode : BaseNode {
+    public class BrIfNode : ExecutableNode {
 
-        public BaseNode Condition { get; }
+        public ExecutableNode Condition { get; }
 
-        public BrIfNode(BaseNode condition) {
+        public BrIfNode(ExecutableNode condition) {
             if (condition.ResultType != WasmType.I32) throw new WasmNodeException($"expected i32 operand");
             Condition = condition;
         }
 
-        public override void ToString(NodeWriter writer) => throw new NotImplementedException();
+        public override WasmType ResultType => WasmType.BlockType;
 
-        public override void ToSExpressionString(NodeWriter writer) {
+        public override void ToString(NodeWriter writer) {
             //todo: relative depth
             writer.WriteLine("(br_if 0");
             writer.Indent();
-            Condition?.ToSExpressionString(writer);
+            Condition?.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }

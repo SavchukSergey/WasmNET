@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class F32ConvertUI32Node : ConversionNode {
 
-        public F32ConvertUI32Node(BaseNode operand) : base(operand) {
+        public F32ConvertUI32Node(ExecutableNode operand) : base(operand) {
         }
 
         public override WasmType ResultType => WasmType.F32;

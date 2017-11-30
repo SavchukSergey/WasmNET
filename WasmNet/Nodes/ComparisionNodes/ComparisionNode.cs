@@ -1,7 +1,7 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public abstract class ComparisionNode : BaseNode {
+    public abstract class ComparisionNode : ExecutableNode {
 
         public override WasmType ResultType => WasmType.I32;
 

@@ -8,10 +8,9 @@ namespace WasmNet.Nodes {
 
         private static void DeclareGlobals(WasmNodeContext context, WasmGlobalSection section) {
             foreach (var global in section.Entries) {
-                var variable = new GlobalNode {
+                var variable = new GlobalNode (global.Type.Type) {
                     Name = $"global_{context.Module.Globals.Count}",
                     Mutable = global.Type.Mutable,
-                    Type = global.Type.Type,
                     Init = new BlockNode(global.Type.Type)
                 };
                 context.Module.Globals.Add(variable);
@@ -24,7 +23,7 @@ namespace WasmNet.Nodes {
                 var sig = typeSection.Entries[(int)func];
                 var node = new FunctionNode(sig) {
                     Name = $"func_{i}",
-                    Execution = new BlockNode(sig.Return ?? WasmType.BlockType)
+                    Execution = new BlockNode(sig.Return)
                 };
                 context.Module.Functions.Add(node);
             }
@@ -79,9 +78,8 @@ namespace WasmNet.Nodes {
                         });
                         break;
                     case WasmExternalKind.Global:
-                        var global = new GlobalNode {
+                        var global = new GlobalNode (import.Global.Type) {
                             Name = $"{import.Module}_{import.Field}",
-                            Type = import.Global.Type,
                             Mutable = import.Global.Mutable
                         };
                         moduleNode.ImportedGlobals.Add(global);
@@ -119,7 +117,7 @@ namespace WasmNet.Nodes {
             }
 
             var writer = new NodeWriter();
-            moduleNode.ToSExpressionString(writer);
+            moduleNode.ToString(writer);
             Console.WriteLine(writer.ToString());
             Console.WriteLine();
         }

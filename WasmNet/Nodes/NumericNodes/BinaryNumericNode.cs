@@ -1,14 +1,13 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public abstract class BinaryNumericNode : BaseNode {
+    public abstract class BinaryNumericNode : ExecutableNode {
 
-        public BaseNode Left { get; set; }
+        public ExecutableNode Left { get; set; }
 
-        public BaseNode Right { get; set; }
+        public ExecutableNode Right { get; set; }
 
-        protected BinaryNumericNode(BaseNode left, BaseNode right) {
-            //todo: move to setters? or readonly? check null
+        protected BinaryNumericNode(ExecutableNode left, ExecutableNode right) {
             if (left.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} left operand");
             if (right.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} right operand");
             Left = left;
@@ -16,14 +15,10 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.Write($"({Left}) ??? ({Right})");
-        }
-
-        public override void ToSExpressionString(NodeWriter writer) {
             writer.WriteLine($"({NodeName}");
             writer.Indent();
-            Left.ToSExpressionString(writer);
-            Right.ToSExpressionString(writer);
+            Left.ToString(writer);
+            Right.ToString(writer);
             writer.Unindent();
             writer.WriteLine(")");
         }
