@@ -179,5 +179,38 @@ namespace WasmNet.Nodes {
 
         #endregion
 
+        #region F32
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32AbsOpcode opcode, WasmNodeArg arg) {
+            var expr = arg.Pop();
+            arg.Push(new F32AbsNode(expr));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F32NegOpcode opcode, WasmNodeArg arg) {
+            var expr = arg.Pop();
+            arg.Push(new F32NegNode(expr));
+            return null;
+        }
+
+        #endregion
+
+        #region F64
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64AbsOpcode opcode, WasmNodeArg arg) {
+            var expr = arg.Pop();
+            arg.Push(new F64AbsNode(expr));
+            return null;
+        }
+
+        WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(F64NegOpcode opcode, WasmNodeArg arg) {
+            var expr = arg.Pop();
+            arg.Push(new F64NegNode(expr));
+            return null;
+        }
+
+        #endregion
+
+
     }
 }

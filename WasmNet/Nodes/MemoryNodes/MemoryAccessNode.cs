@@ -8,6 +8,8 @@ namespace WasmNet.Nodes {
         public BaseNode Address { get; set; }
 
         public MemoryAccessNode(WasmMemoryImmediate immediate, BaseNode address) {
+            if (address.ResultType != WasmType.I32) throw new WasmNodeException($"expected i32 address");
+
             Immediate = immediate;
             Address = address;
         }

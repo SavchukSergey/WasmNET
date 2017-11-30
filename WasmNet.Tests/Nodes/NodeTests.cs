@@ -17,6 +17,9 @@ namespace WasmNet.Tests.Nodes {
                 .Where(t => baseOpcodeType.IsAssignableFrom(t))
                 .ToList();
             foreach (var opcode in opcodes) {
+                if (opcode == typeof(ElseOpcode)) continue;
+                if (opcode == typeof(EndOpcode)) continue;
+
                 var nodeName = opcode.FullName.Replace("Opcode", "Node");
                 var nodeType = assembly.GetType(nodeName);
                 Assert.IsNotNull(nodeType, $"missing node type of {opcode} opcode");

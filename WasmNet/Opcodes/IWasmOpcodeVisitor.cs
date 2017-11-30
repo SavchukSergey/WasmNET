@@ -59,9 +59,9 @@
 
         #region MemoryOpcodes
 
-        TResult Visit(I32LoadOpcode opcode, TArg arg);
+        #region I32
 
-        TResult Visit(I64LoadOpcode opcode, TArg arg);
+        TResult Visit(I32LoadOpcode opcode, TArg arg);
 
         TResult Visit(I32Load8SOpcode opcode, TArg arg);
 
@@ -71,24 +71,60 @@
 
         TResult Visit(I32Load16UOpcode opcode, TArg arg);
 
-        TResult Visit(I64Load16SOpcode opcode, TArg arg);
-
-        TResult Visit(I64Load16UOpcode opcode, TArg arg);
-
         TResult Visit(I32StoreOpcode opcode, TArg arg);
-
-        TResult Visit(I64StoreOpcode opcode, TArg arg);
 
         TResult Visit(I32Store8Opcode opcode, TArg arg);
 
         TResult Visit(I32Store16Opcode opcode, TArg arg);
+
+        #endregion
+
+        #region I64
+
+        TResult Visit(I64LoadOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load8SOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load8UOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load16SOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load16UOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load32SOpcode opcode, TArg arg);
+
+        TResult Visit(I64Load32UOpcode opcode, TArg arg);
+
+        TResult Visit(I64StoreOpcode opcode, TArg arg);
 
         TResult Visit(I64Store8Opcode opcode, TArg arg);
 
         TResult Visit(I64Store16Opcode opcode, TArg arg);
 
         TResult Visit(I64Store32Opcode opcode, TArg arg);
-        
+
+        #endregion
+
+        #region F32
+
+        TResult Visit(F32LoadOpcode opcode, TArg arg);
+
+        TResult Visit(F32StoreOpcode opcode, TArg arg);
+
+        #endregion
+
+        #region F64
+
+        TResult Visit(F64LoadOpcode opcode, TArg arg);
+
+        TResult Visit(F64StoreOpcode opcode, TArg arg);
+
+        #endregion
+
+        TResult Visit(CurrentMemoryOpcode opcode, TArg arg);
+
+        TResult Visit(GrowMemoryOpcode opcode, TArg arg);
+
         #endregion
 
         #region ConstantOpcodes
@@ -249,6 +285,22 @@
 
         #endregion
 
+        #region F32
+
+        TResult Visit(F32AbsOpcode opcode, TArg arg);
+
+        TResult Visit(F32NegOpcode opcode, TArg arg);
+
+        #endregion
+
+        #region F64
+
+        TResult Visit(F64AbsOpcode opcode, TArg arg);
+
+        TResult Visit(F64NegOpcode opcode, TArg arg);
+
+        #endregion
+
         #endregion
 
         #region ConversionOpcodes
@@ -257,6 +309,14 @@
 
         TResult Visit(I32WrapI64Opcode opcode, TArg arg);
 
+        TResult Visit(I32TruncSF32Opcode opcode, TArg arg);
+
+        TResult Visit(I32TruncUF32Opcode opcode, TArg arg);
+
+        TResult Visit(I32TruncSF64Opcode opcode, TArg arg);
+
+        TResult Visit(I32TruncUF64Opcode opcode, TArg arg);
+
         #endregion
 
         #region I64
@@ -264,6 +324,42 @@
         TResult Visit(I64ExtendSI32Opcode opcode, TArg arg);
 
         TResult Visit(I64ExtendUI32Opcode opcode, TArg arg);
+
+        TResult Visit(I64TruncSF32Opcode opcode, TArg arg);
+
+        TResult Visit(I64TruncUF32Opcode opcode, TArg arg);
+
+        TResult Visit(I64TruncSF64Opcode opcode, TArg arg);
+
+        TResult Visit(I64TruncUF64Opcode opcode, TArg arg);
+
+        #endregion
+
+        #region F32
+
+        TResult Visit(F32ConvertSI32Opcode opcode, TArg arg);
+
+        TResult Visit(F32ConvertUI32Opcode opcode, TArg arg);
+
+        TResult Visit(F32ConvertSI64Opcode opcode, TArg arg);
+
+        TResult Visit(F32ConvertUI64Opcode opcode, TArg arg);
+
+        TResult Visit(F32DemoteF64Opcode opcode, TArg arg);
+
+        #endregion
+
+        #region F64
+
+        TResult Visit(F64ConvertSI32Opcode opcode, TArg arg);
+
+        TResult Visit(F64ConvertUI32Opcode opcode, TArg arg);
+
+        TResult Visit(F64ConvertSI64Opcode opcode, TArg arg);
+
+        TResult Visit(F64ConvertUI64Opcode opcode, TArg arg);
+
+        TResult Visit(F64PromoteF32Opcode opcode, TArg arg);
 
         #endregion
 
