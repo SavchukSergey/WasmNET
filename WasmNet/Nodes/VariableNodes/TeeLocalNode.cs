@@ -16,11 +16,12 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => Variable.Type;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(tee_local ${Variable.Name}");
-            writer.Indent();
+            writer.OpenNode("tee_local");
+            writer.EnsureSpace();
+            writer.Write($"${Variable.Name}");
+            writer.EnsureSpace();
             Value.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.CloseNode();
         }
 
     }

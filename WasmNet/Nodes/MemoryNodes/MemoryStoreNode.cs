@@ -5,7 +5,7 @@ namespace WasmNet.Nodes {
 
         public ExecutableNode Value { get; }
 
-        public MemoryStoreNode(WasmMemoryImmediate immediate, ExecutableNode address, ExecutableNode value) : base(immediate, address) {
+        protected MemoryStoreNode(WasmMemoryImmediate immediate, ExecutableNode address, ExecutableNode value) : base(immediate, address) {
             if (value.ResultType != ValueType) throw new WasmNodeException($"expected {ValueType} value");
             Value = value;
         }
@@ -13,12 +13,19 @@ namespace WasmNet.Nodes {
         protected abstract WasmType ValueType { get; }
 
         public sealed override void ToString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}{FormatImmediate()}");
-            writer.Indent();
-            Address?.ToString(writer);
-            Value?.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.EnsureNewLine();
+            writer.OpenNode(NodeName);
+            writer.Write(FormatImmediate());
+
+            writer.EnsureNewLine();
+            Address.ToString(writer);
+
+            writer.EnsureNewLine();
+            Value.ToString(writer);
+
+            writer.EnsureNewLine();
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
         public override WasmType ResultType => WasmType.BlockType;

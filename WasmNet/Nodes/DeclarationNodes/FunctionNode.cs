@@ -8,7 +8,7 @@ namespace WasmNet.Nodes {
 
         public WasmFunctionSignature Signature { get; }
 
-        public BlockNode Execution { get; set; }
+        public NodesList Execution { get; set; }
 
         public IList<LocalNode> Parameters { get; } = new List<LocalNode>();
 
@@ -52,10 +52,12 @@ namespace WasmNet.Nodes {
                 writer.Write($" (result {ConvertValueType(Signature.Return)})");
             }
             if (Execution != null) {
+                writer.EnsureNewLine();
                 foreach (var local in Variables) {
                     local.ToString(writer);
                 }
                 Execution.ToString(writer);
+                writer.EnsureNewLine();
             }
             writer.CloseNode();
         }

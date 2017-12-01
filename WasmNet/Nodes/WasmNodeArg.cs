@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
-using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class WasmNodeArg {
 
-        private Stack<BlockNode> Blocks { get; } = new Stack<BlockNode>();
+        private Stack<NodesList> Blocks { get; } = new Stack<NodesList>();
 
-        private BlockNode Current => Blocks.Peek();
+        private NodesList Current => Blocks.Peek();
 
         public WasmNodeContext Context { get; set; }
 
-        public void PushBlock(BlockNode node) {
+        public void PushBlock(NodesList node) {
+            if (string.IsNullOrWhiteSpace(node.Label.Name)) {
+                node.Label.Name = $"label_{Blocks.Count}";
+            }
             Blocks.Push(node);
         }
 
-        public BlockNode PopBlock() {
+        public NodesList PopBlock() {
             var node = Blocks.Pop();
             //if (node.Signature != null) {
             //    var actualResult = node.ResultType;
@@ -42,7 +44,15 @@ namespace WasmNet.Nodes {
         }
 
         public virtual LocalNode ResolveLocal(uint index) {
-            throw new WasmNodeException("Local variables are not accessinble in current context");
+            throw new WasmNodeException("Local variables are not accessible in current context");
+        }
+
+        public Label ResolveLabel(uint relativeDepth) {
+            foreach (var block in Blocks) {
+                if (relativeDepth == 0) return block.Label;
+                relativeDepth--;
+            }
+            throw new WasmNodeException("unable to resolved label beyoud current nesting level");
         }
 
     }

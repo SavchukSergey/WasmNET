@@ -1,16 +1,23 @@
-﻿using System;
-using WasmNet.Data;
+﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class BrNode : ExecutableNode {
 
-        public BlockNode UnreachableNodes { get; } = new BlockNode(WasmType.BlockType);
+        public Label Target { get; }
+
+        public BrNode(Label target) {
+            Target = target;
+        }
 
         public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
-            //todo: relative depth
-            writer.WriteLine("(br 0)");
+            writer.EnsureNewLine();
+            writer.OpenNode("br");
+            writer.EnsureSpace();
+            writer.Write($"${Target.Name}");
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

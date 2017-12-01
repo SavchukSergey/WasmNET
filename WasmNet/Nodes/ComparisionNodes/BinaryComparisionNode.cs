@@ -13,12 +13,14 @@
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.NewLine();
+            writer.EnsureNewLine();
             writer.OpenNode(NodeName);
-            writer.NewLine();
+            writer.EnsureSpace();
             Left.ToString(writer);
+            writer.EnsureSpace();
             Right.ToString(writer);
             writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

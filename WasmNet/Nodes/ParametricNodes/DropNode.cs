@@ -3,7 +3,7 @@
 namespace WasmNet.Nodes {
     public class DropNode : ExecutableNode {
 
-        public ExecutableNode Operand { get; set; }
+        public ExecutableNode Operand { get; }
 
         public DropNode(ExecutableNode operand) {
             Operand = operand;
@@ -12,11 +12,12 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine("(drop");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode("drop");
+            writer.EnsureNewLine();
             Operand.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

@@ -11,7 +11,7 @@ namespace WasmNet.Nodes {
                 var variable = new GlobalNode (global.Type.Type) {
                     Name = $"global_{context.Module.Globals.Count}",
                     Mutable = global.Type.Mutable,
-                    Init = new BlockNode(global.Type.Type)
+                    Init = new NodesList(global.Type.Type)
                 };
                 context.Module.Globals.Add(variable);
             }
@@ -23,7 +23,7 @@ namespace WasmNet.Nodes {
                 var sig = typeSection.Entries[(int)func];
                 var node = new FunctionNode(sig) {
                     Name = $"func_{i}",
-                    Execution = new BlockNode(sig.Return)
+                    Execution = new NodesList(sig.Return)
                 };
                 context.Module.Functions.Add(node);
             }

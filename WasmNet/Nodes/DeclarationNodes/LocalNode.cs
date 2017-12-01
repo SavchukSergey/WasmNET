@@ -13,7 +13,14 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(local ${Name} {ConvertValueType(Type)})");
+            writer.EnsureNewLine();
+            writer.OpenNode("local");
+            writer.EnsureSpace();
+            writer.Write($"${Name}");
+            writer.EnsureSpace();
+            writer.Write(ConvertValueType(Type));
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

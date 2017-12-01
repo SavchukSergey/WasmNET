@@ -17,24 +17,24 @@ namespace WasmNet.Nodes {
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BlockOpcode opcode, WasmNodeArg arg) {
             var blockNode = new BlockNode(opcode.Signature);
             arg.Push(blockNode);
-            arg.PushBlock(blockNode);
+            arg.PushBlock(blockNode.Nodes);
             return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(LoopOpcode opcode, WasmNodeArg arg) {
             var loopNode = new LoopNode(opcode.Signature);
             arg.Push(loopNode);
-            arg.PushBlock(loopNode.Block);
+            arg.PushBlock(loopNode.Nodes);
             return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(IfOpcode opcode, WasmNodeArg arg) {
             var condition = arg.Pop();
             var ifNode = new IfNode(condition, opcode.Signature);
-            var thenBlock = new BlockNode(opcode.Signature);
+            var thenBlock = new NodesList(opcode.Signature);
             ifNode.Then = thenBlock;
             arg.Push(ifNode);
-            arg.PushBlock(ifNode.Then);
+            arg.PushBlock(thenBlock);
             return null;
         }
 
@@ -44,10 +44,10 @@ namespace WasmNet.Nodes {
             var ifNode = parentNode as IfNode;
             if (ifNode == null) throw new WasmNodeException("if node expected");
 
-            var elseNode = new BlockNode(ifNode.Signature);
-            ifNode.Else = elseNode;
+            var elseBlock = new NodesList(ifNode.Signature);
+            ifNode.Else = elseBlock;
             arg.Push(ifNode);
-            arg.PushBlock(elseNode);
+            arg.PushBlock(elseBlock);
             return null;
         }
 
@@ -61,21 +61,16 @@ namespace WasmNet.Nodes {
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BrOpcode opcode, WasmNodeArg arg) {
-            //todo: set relative depth
-            var node = new BrNode();
+            var label = arg.ResolveLabel(opcode.RelativeDepth);
+            var node = new BrNode(label);
             arg.Push(node);
-
-            //Skip unreachable code until end, else. 
-            //Rest commands may violate stack restrictions.
-            var oldBlock = arg.PopBlock();
-            arg.PushBlock(node.UnreachableNodes);
             return null;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BrIfOpcode opcode, WasmNodeArg arg) {
-            //todo: set relative depth
+            var label = arg.ResolveLabel(opcode.RelativeDepth);
             var condition = arg.Pop();
-            var node = new BrIfNode(condition);
+            var node = new BrIfNode(condition, label);
             arg.Push(node);
             return null;
         }
@@ -84,9 +79,10 @@ namespace WasmNet.Nodes {
             var operand = arg.Pop();
             var node = new BrTableNode(operand);
             foreach(var target in opcode.Targets) {
-                node.Targets.Add(target);
+                var label = arg.ResolveLabel(target);
+                node.Targets.Add(label);
             }
-            node.DefaultTarget = opcode.DefaultTarget;
+            node.DefaultTarget = arg.ResolveLabel(opcode.DefaultTarget);
             arg.Push(node);
             return null;
         }

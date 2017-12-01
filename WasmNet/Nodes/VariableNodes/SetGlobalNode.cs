@@ -16,11 +16,12 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(set_global ${Variable.Name}");
-            writer.Indent();
-            Value?.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.OpenNode("set_global");
+            writer.EnsureSpace();
+            writer.Write($"${Variable.Name}");
+            writer.EnsureSpace();
+            Value.ToString(writer);
+            writer.CloseNode();
         }
 
     }

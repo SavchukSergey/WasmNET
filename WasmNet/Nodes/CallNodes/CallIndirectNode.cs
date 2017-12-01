@@ -4,9 +4,9 @@ using WasmNet.Data;
 namespace WasmNet.Nodes {
     public class CallIndirectNode : ExecutableNode {
 
-        public WasmFunctionSignature Type { get; set; }
+        public WasmFunctionSignature Type { get; }
 
-        public ExecutableNode Element { get; set; }
+        public ExecutableNode Element { get; }
 
         public IList<ExecutableNode> Arguments { get; } = new List<ExecutableNode>();
 
@@ -18,15 +18,21 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => Type.Return;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(call_indirect");
+            writer.EnsureNewLine();
+            writer.OpenNode("call_indirect");
 
-            writer.Indent();
-            Element?.ToString(writer);
+            if (Arguments.Count > 0) writer.EnsureNewLine();
+            else writer.EnsureSpace();
+
+            Element.ToString(writer);
+
             foreach (var arg in Arguments) {
+                writer.EnsureNewLine();
                 arg.ToString(writer);
             }
-            writer.Unindent();
-            writer.WriteLine(")");
+
+            if (Arguments.Count > 0) writer.EnsureNewLine();
+            writer.CloseNode();
         }
 
     }

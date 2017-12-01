@@ -11,11 +11,11 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode(NodeName);
+            writer.EnsureSpace();
             Expression.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.CloseNode();
         }
 
         protected abstract string NodeName { get; }

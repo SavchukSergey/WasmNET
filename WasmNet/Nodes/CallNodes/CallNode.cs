@@ -15,20 +15,14 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => Function.Signature.Return;
 
         public override void ToString(NodeWriter writer) {
-            writer.StartLine();
-            writer.Write($"(call ${Function.Name}");
-            if (Arguments.Count > 0) {
-                writer.EndLine();
-                writer.Indent();
-                foreach (var arg in Arguments) {
-                    arg.ToString(writer);
-                }
-                writer.Unindent();
-                writer.WriteLine(")");
-            } else {
-                writer.Write(")");
-                writer.EndLine();
+            writer.EnsureNewLine();
+            writer.OpenNode("call");
+            foreach (var arg in Arguments) {
+                writer.EnsureNewLine();
+                arg.ToString(writer);
             }
+            if (Arguments.Count > 0) writer.EnsureNewLine();
+            writer.CloseNode();
         }
 
     }

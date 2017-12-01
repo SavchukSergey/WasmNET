@@ -12,7 +12,10 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.I64;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(i64.const {Value})");
+            writer.OpenNode($"i64.const");
+            writer.EnsureSpace();
+            writer.Write(Value);
+            writer.CloseNode();
         }
 
     }

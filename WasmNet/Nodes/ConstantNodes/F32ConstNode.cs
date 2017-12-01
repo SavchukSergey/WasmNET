@@ -12,7 +12,10 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.F32;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(f32.const {Value})");
+            writer.OpenNode($"f32.const");
+            writer.EnsureSpace();
+            writer.Write(Value);
+            writer.CloseNode();
         }
 
     }

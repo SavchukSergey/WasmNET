@@ -15,12 +15,14 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode(NodeName);
+            writer.EnsureSpace();
             Left.ToString(writer);
+            writer.EnsureSpace();
             Right.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
         protected abstract string NodeName { get; }

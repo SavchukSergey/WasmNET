@@ -49,6 +49,7 @@ namespace WasmNet.Nodes {
                 func.ToString(writer);
             }
 
+            writer.EnsureNewLine();
             writer.CloseNode();
         }
 

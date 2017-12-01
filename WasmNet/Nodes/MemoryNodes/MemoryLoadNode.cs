@@ -7,11 +7,16 @@ namespace WasmNet.Nodes {
         }
 
         public sealed override void ToString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}{FormatImmediate()}");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode(NodeName);
+            writer.Write(FormatImmediate());
+
+            writer.EnsureNewLine();
             Address.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+
+            writer.EnsureNewLine();
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

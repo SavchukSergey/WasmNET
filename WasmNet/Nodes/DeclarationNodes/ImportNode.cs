@@ -8,11 +8,12 @@
         public BaseNode Node { get; set; }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(import \"{Module}\" \"{Field}\" ");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode("import");
+            writer.Write($" \"{Module}\" \"{Field}\" ");
             Node?.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

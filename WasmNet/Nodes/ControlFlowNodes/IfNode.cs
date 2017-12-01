@@ -3,8 +3,8 @@
 namespace WasmNet.Nodes {
     public class IfNode : ExecutableNode {
 
-        private BlockNode _then;
-        private BlockNode _else;
+        private NodesList _then;
+        private NodesList _else;
 
         public ExecutableNode Condition { get; }
 
@@ -18,34 +18,53 @@ namespace WasmNet.Nodes {
 
         public override WasmType ResultType => Signature;
 
-        public BlockNode Then {
+        public NodesList Then {
             get {
                 return _then;
             }
             set {
-                if ((value != null ? value.ResultType : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.ResultType} then block to {Signature} if block");
+                if ((value != null ? value.Signature : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.Signature} then block to {Signature} if block");
                 _then = value;
             }
         }
 
-        public BlockNode Else {
+        public NodesList Else {
             get {
                 return _else;
             }
             set {
-                if ((value != null ? value.ResultType : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.ResultType} else block to {Signature} if block");
+                if ((value != null ? value.Signature : WasmType.BlockType) != Signature) throw new WasmNodeException($"cannot assign {value.Signature} else block to {Signature} if block");
                 _else = value;
             }
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(if {ConvertType(Signature)}");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode("if");
+
+            if (!string.IsNullOrWhiteSpace(_then.Label.Name)) {
+                writer.EnsureSpace();
+                writer.Write($"${_then.Label.Name}");
+            }
+
+            writer.EnsureSpace();
+            writer.Write($"{ConvertType(Signature)}");
+
+            writer.EnsureNewLine();
             Condition.ToString(writer);
+
+            writer.EnsureNewLine();
             Then.ToString(writer);
-            Else?.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.EnsureNewLine();
+
+            if (Else != null) {
+                //todo: else's label
+                new ElseNode(_else).ToString(writer);
+                writer.EnsureNewLine();
+            }
+
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

@@ -12,7 +12,10 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(get_local ${Variable.Name})");
+            writer.OpenNode($"get_local");
+            writer.EnsureSpace();
+            writer.Write($"${Variable.Name}");
+            writer.CloseNode();
         }
 
     }

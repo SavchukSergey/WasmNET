@@ -6,7 +6,10 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine("(nop)");
+            writer.EnsureNewLine();
+            writer.OpenNode("nop");
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

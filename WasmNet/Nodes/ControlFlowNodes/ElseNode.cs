@@ -1,12 +1,12 @@
 ﻿using WasmNet.Data;
 
 namespace WasmNet.Nodes {
-    public class BlockNode : ExecutableNode {
+    public class ElseNode : ExecutableNode {
 
         public NodesList Nodes { get; }
 
-        public BlockNode(WasmType signature) {
-            Nodes = new NodesList(signature);
+        public ElseNode(NodesList nodes) {
+            Nodes = nodes;
         }
 
         public override WasmType ResultType => Nodes.Signature;
@@ -15,13 +15,12 @@ namespace WasmNet.Nodes {
 
         public override void ToString(NodeWriter writer) {
             writer.NewLine();
-            writer.OpenNode("block");
+            writer.OpenNode("else");
             if (ResultType != WasmType.BlockType) {
-                writer.EnsureSpace();
+                writer.Write(" ");
                 writer.Write(ConvertType(ResultType));
             }
             if (!string.IsNullOrWhiteSpace(Nodes.Label.Name)) {
-                writer.EnsureSpace();
                 writer.Write("$");
                 writer.Write(Nodes.Label.Name);
             }

@@ -6,9 +6,9 @@ namespace WasmNet.Nodes {
 
         public ExecutableNode Operand { get; set; }
 
-        public IList<uint> Targets { get; } = new List<uint>(); //tofo: frame reference
+        public IList<Label> Targets { get; } = new List<Label>();
 
-        public uint DefaultTarget { get; set; }
+        public Label DefaultTarget { get; set; }
 
         public override WasmType ResultType => WasmType.BlockType;
 
@@ -17,7 +17,16 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            //todo:
+            writer.EnsureNewLine();
+            writer.OpenNode("br_table");
+            foreach (var target in Targets) {
+                writer.EnsureNewLine();
+                writer.Write($"${target.Name}");
+            }
+            writer.EnsureNewLine();
+            writer.Write($"${DefaultTarget.Name}");
+            writer.CloseNode();
+            //todo: syntax?
         }
 
     }

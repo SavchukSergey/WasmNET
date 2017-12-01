@@ -9,9 +9,9 @@
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.NewLine();
+            writer.EnsureNewLine();
             writer.OpenNode(NodeName);
-            writer.NewLine();
+            writer.EnsureSpace();
             Expression.ToString(writer);
             writer.CloseNode();
         }
