@@ -38,8 +38,8 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.StartLine();
-            writer.Write($"(func ${Name}");
+            writer.OpenNode("func");
+            writer.Write($" ${Name}");
             for (var i = 0; i < Parameters.Count; i++) {
                 var param = Parameters[i];
                 writer.Write($" (param ");
@@ -52,17 +52,12 @@ namespace WasmNet.Nodes {
                 writer.Write($" (result {ConvertValueType(Signature.Return)})");
             }
             if (Execution != null) {
-                writer.EndLine();
-                writer.Indent();
                 foreach (var local in Variables) {
                     local.ToString(writer);
                 }
                 Execution.ToString(writer);
-                writer.Unindent();
-                writer.StartLine();
             }
-            writer.Write(")");
-            writer.EndLine();
+            writer.CloseNode();
         }
 
         private static string Convert(WasmType? type) {

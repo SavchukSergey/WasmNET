@@ -34,8 +34,7 @@ namespace WasmNet.Nodes {
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine("(module ");
-            writer.Indent();
+            writer.OpenNode("module");
 
             foreach(var import in Imports) {
                 import.ToString(writer);
@@ -46,10 +45,11 @@ namespace WasmNet.Nodes {
             }
 
             foreach (var func in Functions) {
+                writer.NewLine();
                 func.ToString(writer);
             }
-            writer.Unindent();
-            writer.WriteLine(")");
+
+            writer.CloseNode();
         }
 
     }

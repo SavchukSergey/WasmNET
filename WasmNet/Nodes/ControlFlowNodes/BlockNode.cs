@@ -54,6 +54,7 @@ namespace WasmNet.Nodes {
                 node.ToString(writer);
             }
             writer.CloseNode();
+            writer.NewLine();
         }
 
     }
