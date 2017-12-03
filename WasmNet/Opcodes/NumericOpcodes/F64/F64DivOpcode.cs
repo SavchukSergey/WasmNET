@@ -5,6 +5,12 @@
             return visitor.Visit(this, arg);
         }
 
+        public override void Execute(WasmFunctionState state) {
+            var right = state.PopF64();
+            var left = state.PopF64();
+            state.PushF64(left / right);
+        }
+
         public override string ToString() => "f64.div";
 
     }

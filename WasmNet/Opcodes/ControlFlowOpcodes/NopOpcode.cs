@@ -5,6 +5,9 @@
             return visitor.Visit(this, arg);
         }
 
+        public override void Execute(WasmFunctionState state) {
+        }
+
         public override string ToString() => "nop";
 
     }

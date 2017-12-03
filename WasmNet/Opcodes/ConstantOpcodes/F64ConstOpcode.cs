@@ -7,6 +7,10 @@
             return visitor.Visit(this, arg);
         }
 
+        public override void Execute(WasmFunctionState state) {
+            state.PushF64(Value);
+        }
+
         public override string ToString() => $"f64.const {Value}";
 
     }

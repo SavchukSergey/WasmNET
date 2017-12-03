@@ -5,6 +5,11 @@
             return visitor.Visit(this, arg);
         }
 
+        public override void Execute(WasmFunctionState state) {
+            var value = state.PopUI64();
+            state.PushF64(value);
+        }
+
         public override string ToString() => "f64.convert_u/i64";
 
     }

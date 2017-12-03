@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Opcodes {
-    public class F64NearestOpcode : BaseOpcode {
+    public class F64NearestOpcode : F64UnaryNumericOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);

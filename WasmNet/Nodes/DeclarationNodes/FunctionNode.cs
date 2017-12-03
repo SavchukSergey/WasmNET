@@ -39,7 +39,7 @@ namespace WasmNet.Nodes {
 
         public override void ToString(NodeWriter writer) {
             writer.OpenNode("func");
-            writer.Write($" ${Name}");
+            writer.WriteFunctionName(this);
             for (var i = 0; i < Parameters.Count; i++) {
                 var param = Parameters[i];
                 writer.OpenNode("param");

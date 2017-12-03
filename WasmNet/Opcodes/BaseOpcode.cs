@@ -3,5 +3,7 @@
 
         public abstract TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg);
 
+        public abstract void Execute(WasmFunctionState state);
+
     }
 }

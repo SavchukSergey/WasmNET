@@ -1,9 +1,11 @@
 ﻿namespace WasmNet.Opcodes {
-    public class I64XorOpcode : BaseOpcode {
+    public class I64XorOpcode : I64UBinaryNumericOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
+
+        protected override ulong Execute(ulong left, ulong right) => left ^ right;
 
         public override string ToString() => "i64.xor";
 
