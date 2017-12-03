@@ -5,5 +5,7 @@
 
         public uint Offset { get; set; }
 
+        public override string ToString() => $"offset={Offset}";
+
     }
 }

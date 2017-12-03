@@ -9,6 +9,7 @@ namespace WasmNet.Nodes {
 
         public SetGlobalNode(GlobalNode variable, ExecutableNode value) {
             if (variable.Type != value.ResultType) throw new WasmNodeException($"cannot assign {value.ResultType} to {variable.Type} variable");
+            if (!variable.Mutable) throw new WasmNodeException($"cannot assign {value.ResultType} to not mutable variable");
             Variable = variable;
             Value = value;
         }

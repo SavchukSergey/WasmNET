@@ -5,10 +5,10 @@
             var right = state.PopF32();
             var left = state.PopF32();
             var res = Execute(left, right);
-            state.PushF64(res);
+            state.PushF32(res);
         }
 
-        protected abstract double Execute(float left, float right);
+        protected abstract float Execute(float left, float right);
 
     }
 }

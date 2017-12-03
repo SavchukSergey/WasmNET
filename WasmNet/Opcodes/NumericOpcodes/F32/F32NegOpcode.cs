@@ -5,7 +5,7 @@
             return visitor.Visit(this, arg);
         }
 
-        protected override double Execute(float arg) => -arg;
+        protected override float Execute(float arg) => -arg;
 
         public override string ToString() => "f32.neg";
 

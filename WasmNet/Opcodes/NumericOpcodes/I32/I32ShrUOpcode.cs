@@ -5,7 +5,7 @@
             return visitor.Visit(this, arg);
         }
 
-        protected override uint Execute(uint left, uint right) => left - right;
+        protected override uint Execute(uint left, uint right) => left >> (int)right;
 
         public override string ToString() => "i32.shr_u";
 

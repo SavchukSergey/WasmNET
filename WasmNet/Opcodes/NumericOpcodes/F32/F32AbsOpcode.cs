@@ -7,7 +7,7 @@ namespace WasmNet.Opcodes {
             return visitor.Visit(this, arg);
         }
 
-        protected override double Execute(float arg) => Math.Abs(arg);
+        protected override float Execute(float arg) => Math.Abs(arg);
 
         public override string ToString() => "f32.abs";
 

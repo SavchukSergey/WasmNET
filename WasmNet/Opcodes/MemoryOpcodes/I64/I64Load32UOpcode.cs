@@ -1,15 +1,17 @@
-﻿using WasmNet.Data;
-
-namespace WasmNet.Opcodes {
-    public class I64Load32UOpcode : BaseOpcode {
-
-        public WasmMemoryImmediate Address { get; set; }
+﻿namespace WasmNet.Opcodes {
+    public class I64Load32UOpcode : MemoryAccessOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
 
-        public override string ToString() => $"i64.load32_u {Address}";
+        public override void Execute(WasmFunctionState state) {
+            var adr = state.PopUI32();
+            var val = state.Memory.ReadUInt32(adr, Immediate);
+            state.PushUI32(val);
+        }
+
+        public override string ToString() => $"i64.load32_u {Immediate}";
 
     }
 }

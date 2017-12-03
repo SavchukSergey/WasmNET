@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Opcodes {
-    public abstract class F64UnaryNumericOpcode : BinaryComparisionOpcode {
+    public abstract class F64UnaryNumericOpcode : BaseOpcode {
 
         public sealed override void Execute(WasmFunctionState state) {
             var arg = state.PopF64();

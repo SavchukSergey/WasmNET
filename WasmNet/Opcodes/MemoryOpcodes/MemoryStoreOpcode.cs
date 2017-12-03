@@ -1,4 +1,4 @@
 ﻿namespace WasmNet.Opcodes {
-    public abstract class MemoryStoreOpcode : BaseOpcode {
+    public abstract class MemoryStoreOpcode : MemoryAccessOpcode {
     }
 }

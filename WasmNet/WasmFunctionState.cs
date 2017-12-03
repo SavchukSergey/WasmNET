@@ -1,9 +1,14 @@
-﻿namespace WasmNet {
+﻿using System;
+using WasmNet.Data;
+
+namespace WasmNet {
     public class WasmFunctionState {
 
         public int InstructionPointer { get; set; }
 
         public WasmModuleInstance Module { get; set; }
+
+        public WasmType PeekType() => throw new NotImplementedException();
 
         public void PushSI32(int value) {
         }
@@ -49,6 +54,16 @@
 
         public double PopF64() {
             return 0;
+        }
+
+        public WasmMemory Memory => throw new NotImplementedException();
+
+        public WasmVariable ResolveLocalVariable(uint index) {
+            throw new NotImplementedException();
+        }
+
+        public WasmVariable ResolveGlobalVariable(uint index) {
+            throw new NotImplementedException();
         }
 
     }
