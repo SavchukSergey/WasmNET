@@ -21,10 +21,10 @@ namespace WasmNet.Nodes {
             writer.OpenNode("br_table");
             foreach (var target in Targets) {
                 writer.EnsureNewLine();
-                writer.Write($"${target.Name}");
+                writer.WriteLabelName(target);
             }
             writer.EnsureNewLine();
-            writer.Write($"${DefaultTarget.Name}");
+            writer.WriteLabelName(DefaultTarget);
             writer.CloseNode();
             //todo: syntax?
         }

@@ -16,15 +16,14 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
-            if (Expression == null) {
-                writer.WriteLine("(return)");
-            } else {
-                writer.WriteLine("(return");
-                writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode("return");
+            if (Expression != null) {
+                writer.EnsureSpace();
                 Expression.ToString(writer);
-                writer.Unindent();
-                writer.WriteLine(")");
             }
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

@@ -14,6 +14,8 @@ namespace WasmNet.Nodes {
 
         public Label Label { get; } = new Label();
 
+        public bool Empty => _nodes.First == null;
+
         public WasmType ActualResultType {
             get {
                 //all extra values are ignored

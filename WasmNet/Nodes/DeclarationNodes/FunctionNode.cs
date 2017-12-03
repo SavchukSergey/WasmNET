@@ -42,14 +42,18 @@ namespace WasmNet.Nodes {
             writer.Write($" ${Name}");
             for (var i = 0; i < Parameters.Count; i++) {
                 var param = Parameters[i];
-                writer.Write($" (param ");
+                writer.OpenNode("param");
                 if (Execution != null) {
-                    writer.Write($"${param.Name} ");
+                    writer.EnsureSpace();
+                    writer.Write($"${param.Name}");
                 }
-                writer.Write($"{ConvertValueType(param.Type)})");
+                writer.WriteValue(param.Type);
+                writer.CloseNode();
             }
             if (Signature.Return != WasmType.BlockType) {
-                writer.Write($" (result {ConvertValueType(Signature.Return)})");
+                writer.OpenNode("result");
+                writer.WriteValue(Signature.Return);
+                writer.CloseNode();
             }
             if (Execution != null) {
                 writer.EnsureNewLine();

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using WasmNet.Data;
 
 namespace WasmNet.Nodes {
     public class NodeWriter {
@@ -11,6 +12,7 @@ namespace WasmNet.Nodes {
 
         public void OpenNode(string nodeName) {
             EnsureIndentation();
+            EnsureSpace();
             _sb.Append('(');
             _sb.Append(nodeName);
             Indent();
@@ -24,15 +26,11 @@ namespace WasmNet.Nodes {
             _lineDirty = true;
         }
 
-        public void NewLine() {
-            _sb.AppendLine();
-            _lineSpaced = false;
-            _lineDirty = false;
-        }
-
         public void EnsureNewLine() {
             if (_lineDirty) {
-                NewLine();
+                _sb.AppendLine();
+                _lineSpaced = false;
+                _lineDirty = false;
             }
         }
 
@@ -52,8 +50,78 @@ namespace WasmNet.Nodes {
             _sb.Append(' ');
         }
 
+        public void WriteLabelName(Label label) {
+            if (!string.IsNullOrWhiteSpace(label.Name)) {
+                EnsureSpace();
+                _sb.Append('$');
+                _sb.Append(label.Name);
+            }
+        }
+
+        public void WriteFunctionName(FunctionNode func) {
+            if (!string.IsNullOrWhiteSpace(func.Name)) {
+                EnsureSpace();
+                _sb.Append('$');
+                _sb.Append(func.Name);
+            }
+        }
+
+        public void WriteVariableName(LocalNode local) {
+            if (!string.IsNullOrWhiteSpace(local.Name)) {
+                EnsureSpace();
+                _sb.Append('$');
+                _sb.Append(local.Name);
+            }
+        }
 
 
+        public void WriteValueOrVoid(WasmType type) {
+            switch (type) {
+                case WasmType.I32:
+                    EnsureSpace();
+                    _sb.Append("i32");
+                    break;
+                case WasmType.I64:
+                    EnsureSpace();
+                    _sb.Append("i64");
+                    break;
+                case WasmType.F32:
+                    EnsureSpace();
+                    _sb.Append("f32");
+                    break;
+                case WasmType.F64:
+                    EnsureSpace();
+                    _sb.Append("f64");
+                    break;
+                case WasmType.BlockType:
+                    break;
+                default:
+                    throw new WasmNodeException($"unknown value type {type}");
+            }
+        }
+
+        public void WriteValue(WasmType type) {
+            switch (type) {
+                case WasmType.I32:
+                    EnsureSpace();
+                    _sb.Append("i32");
+                    break;
+                case WasmType.I64:
+                    EnsureSpace();
+                    _sb.Append("i64");
+                    break;
+                case WasmType.F32:
+                    EnsureSpace();
+                    _sb.Append("f32");
+                    break;
+                case WasmType.F64:
+                    EnsureSpace();
+                    _sb.Append("f64");
+                    break;
+                default:
+                    throw new WasmNodeException($"unknown value type {type}");
+            }
+        }
 
         public void Write(string val) {
             _sb.Append(val);

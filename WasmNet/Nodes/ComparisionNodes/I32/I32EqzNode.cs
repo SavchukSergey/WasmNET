@@ -10,9 +10,5 @@ namespace WasmNet.Nodes {
 
         protected override string NodeName => "i32.eqz";
 
-        public override void ToString(NodeWriter writer) {
-            writer.Write($"({Expression} == 0)");
-        }
-
     }
 }

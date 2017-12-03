@@ -5,7 +5,7 @@ namespace WasmNet.Nodes {
 
         public LocalNode Variable { get; }
 
-        public BaseNode Value { get; }
+        public ExecutableNode Value { get; }
 
         public TeeLocalNode(LocalNode variable, ExecutableNode value) {
             if (variable.Type != value.ResultType) throw new WasmNodeException($"cannot assign {value.ResultType} to {variable.Type} variable");
@@ -16,12 +16,13 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => Variable.Type;
 
         public override void ToString(NodeWriter writer) {
+            writer.EnsureNewLine();
             writer.OpenNode("tee_local");
-            writer.EnsureSpace();
-            writer.Write($"${Variable.Name}");
+            writer.WriteVariableName(Variable);
             writer.EnsureSpace();
             Value.ToString(writer);
             writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

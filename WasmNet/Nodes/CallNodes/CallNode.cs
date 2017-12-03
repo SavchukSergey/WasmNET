@@ -8,7 +8,7 @@ namespace WasmNet.Nodes {
             Function = func;
         }
 
-        public FunctionNode Function { get; set; }
+        public FunctionNode Function { get; }
 
         public IList<ExecutableNode> Arguments { get; } = new List<ExecutableNode>();
 
@@ -17,12 +17,14 @@ namespace WasmNet.Nodes {
         public override void ToString(NodeWriter writer) {
             writer.EnsureNewLine();
             writer.OpenNode("call");
+            writer.WriteFunctionName(Function);
             foreach (var arg in Arguments) {
                 writer.EnsureNewLine();
                 arg.ToString(writer);
             }
             if (Arguments.Count > 0) writer.EnsureNewLine();
             writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

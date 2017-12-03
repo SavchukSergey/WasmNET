@@ -5,16 +5,17 @@ namespace WasmNet.Nodes {
 
         public string Name { get; set; }
 
-        public WasmType Type { get; private set; }
+        public WasmType Type { get; }
 
-        public bool Mutable { get; set; }
+        public bool Mutable { get; }
 
-        public NodesList Init { get; set; }
+        public NodesList Init { get; }
 
-        public GlobalNode(WasmType type) {
-            //todo: assert init block type
+        public GlobalNode(WasmType type, bool mutable) {
             AssertValueType(type);
             Type = type;
+            Init = new NodesList(type);
+            Mutable = mutable;
         }
 
         public override void ToString(NodeWriter writer) {
@@ -28,10 +29,10 @@ namespace WasmNet.Nodes {
             if (Mutable) {
                 writer.Write("mut ");
             }
-            writer.Write(ConvertValueType(Type));
+            writer.WriteValue(Type);
             writer.Write(")");
 
-            if (Init != null) {
+            if (Init != null && !Init.Empty) {
                 writer.EnsureNewLine();
                 Init.ToString(writer);
                 writer.EnsureNewLine();

@@ -3,20 +3,19 @@
 namespace WasmNet.Nodes {
     public abstract class ReinterpretationNode : ExecutableNode {
 
-        public ExecutableNode Expression { get; set; }
+        public ExecutableNode Expression { get; }
 
         protected ReinterpretationNode(ExecutableNode expression) {
-            //todo: move to setters? or readonly? check null
             if (expression.ResultType != OperandType) throw new WasmNodeException($"expected {OperandType} operand");
             Expression = expression;
         }
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"({NodeName}");
-            writer.Indent();
+            writer.EnsureNewLine();
+            writer.OpenNode(NodeName);
+            writer.EnsureSpace();
             Expression.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.CloseNode();
         }
 
         protected abstract WasmType OperandType { get; }

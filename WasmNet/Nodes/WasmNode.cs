@@ -8,10 +8,8 @@ namespace WasmNet.Nodes {
 
         private static void DeclareGlobals(WasmNodeContext context, WasmGlobalSection section) {
             foreach (var global in section.Entries) {
-                var variable = new GlobalNode (global.Type.Type) {
-                    Name = $"global_{context.Module.Globals.Count}",
-                    Mutable = global.Type.Mutable,
-                    Init = new NodesList(global.Type.Type)
+                var variable = new GlobalNode (global.Type.Type, global.Type.Mutable) {
+                    Name = $"global_{context.Module.Globals.Count}"
                 };
                 context.Module.Globals.Add(variable);
             }
@@ -78,9 +76,8 @@ namespace WasmNet.Nodes {
                         });
                         break;
                     case WasmExternalKind.Global:
-                        var global = new GlobalNode (import.Global.Type) {
-                            Name = $"{import.Module}_{import.Field}",
-                            Mutable = import.Global.Mutable
+                        var global = new GlobalNode (import.Global.Type, import.Global.Mutable) {
+                            Name = $"{import.Module}_{import.Field}"
                         };
                         moduleNode.ImportedGlobals.Add(global);
                         moduleNode.Imports.Add(new ImportNode {

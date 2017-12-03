@@ -42,13 +42,8 @@ namespace WasmNet.Nodes {
             writer.EnsureNewLine();
             writer.OpenNode("if");
 
-            if (!string.IsNullOrWhiteSpace(_then.Label.Name)) {
-                writer.EnsureSpace();
-                writer.Write($"${_then.Label.Name}");
-            }
-
-            writer.EnsureSpace();
-            writer.Write($"{ConvertType(Signature)}");
+            writer.WriteLabelName(_then.Label);
+            writer.WriteValueOrVoid(Signature);
 
             writer.EnsureNewLine();
             Condition.ToString(writer);
@@ -58,7 +53,6 @@ namespace WasmNet.Nodes {
             writer.EnsureNewLine();
 
             if (Else != null) {
-                //todo: else's label
                 new ElseNode(_else).ToString(writer);
                 writer.EnsureNewLine();
             }

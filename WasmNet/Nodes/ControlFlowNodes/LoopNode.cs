@@ -14,13 +14,9 @@ namespace WasmNet.Nodes {
         public override void ToString(NodeWriter writer) {
             writer.EnsureNewLine();
             writer.OpenNode("loop");
-            if (!string.IsNullOrWhiteSpace(Nodes.Label.Name)) {
-                writer.EnsureSpace();
-                writer.Write($"${Nodes.Label.Name}");
-            }
+            writer.WriteLabelName(Nodes.Label);
 
-            writer.EnsureSpace();
-            writer.Write($"{ConvertType(Nodes.Signature)}");
+            writer.WriteValueOrVoid(ResultType);
 
             writer.EnsureNewLine();
             Nodes.ToString(writer);

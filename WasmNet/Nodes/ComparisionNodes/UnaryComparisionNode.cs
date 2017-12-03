@@ -8,7 +8,7 @@
             Expression = expression;
         }
 
-        public override void ToString(NodeWriter writer) {
+        public sealed override void ToString(NodeWriter writer) {
             writer.EnsureNewLine();
             writer.OpenNode(NodeName);
             writer.EnsureSpace();

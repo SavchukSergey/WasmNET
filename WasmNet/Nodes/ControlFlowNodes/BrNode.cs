@@ -14,8 +14,7 @@ namespace WasmNet.Nodes {
         public override void ToString(NodeWriter writer) {
             writer.EnsureNewLine();
             writer.OpenNode("br");
-            writer.EnsureSpace();
-            writer.Write($"${Target.Name}");
+            writer.WriteLabelName(Target);
             writer.CloseNode();
             writer.EnsureNewLine();
         }

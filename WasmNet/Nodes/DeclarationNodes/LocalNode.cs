@@ -5,7 +5,7 @@ namespace WasmNet.Nodes {
 
         public string Name { get; set; }
 
-        public WasmType Type { get; private set; }
+        public WasmType Type { get; }
 
         public LocalNode(WasmType type) {
             AssertValueType(type);
@@ -16,9 +16,8 @@ namespace WasmNet.Nodes {
             writer.EnsureNewLine();
             writer.OpenNode("local");
             writer.EnsureSpace();
-            writer.Write($"${Name}");
-            writer.EnsureSpace();
-            writer.Write(ConvertValueType(Type));
+            writer.WriteVariableName(this);
+            writer.WriteValue(Type);
             writer.CloseNode();
             writer.EnsureNewLine();
         }

@@ -16,11 +16,13 @@ namespace WasmNet.Nodes {
         public override WasmType ResultType => WasmType.BlockType;
 
         public override void ToString(NodeWriter writer) {
-            writer.WriteLine($"(br_if ${Target.Name}");
-            writer.Indent();
-            Condition?.ToString(writer);
-            writer.Unindent();
-            writer.WriteLine(")");
+            writer.EnsureNewLine();
+            writer.OpenNode("br_if");
+            writer.WriteLabelName(Target);
+            Condition.ToString(writer);
+            writer.EnsureNewLine();
+            writer.CloseNode();
+            writer.EnsureNewLine();
         }
 
     }

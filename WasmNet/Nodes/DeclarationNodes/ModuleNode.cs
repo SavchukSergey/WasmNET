@@ -45,7 +45,7 @@ namespace WasmNet.Nodes {
             }
 
             foreach (var func in Functions) {
-                writer.NewLine();
+                writer.EnsureNewLine();
                 func.ToString(writer);
             }
 

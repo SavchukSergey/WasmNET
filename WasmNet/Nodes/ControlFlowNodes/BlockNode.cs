@@ -14,21 +14,14 @@ namespace WasmNet.Nodes {
         public WasmType ActualResultType => Nodes.ActualResultType;
 
         public override void ToString(NodeWriter writer) {
-            writer.NewLine();
+            writer.EnsureNewLine();
             writer.OpenNode("block");
-            if (ResultType != WasmType.BlockType) {
-                writer.EnsureSpace();
-                writer.Write(ConvertType(ResultType));
-            }
-            if (!string.IsNullOrWhiteSpace(Nodes.Label.Name)) {
-                writer.EnsureSpace();
-                writer.Write("$");
-                writer.Write(Nodes.Label.Name);
-            }
-            writer.NewLine();
+            writer.WriteValueOrVoid(ResultType);
+            writer.WriteLabelName(Nodes.Label);
+            writer.EnsureNewLine();
             Nodes.ToString(writer);
             writer.CloseNode();
-            writer.NewLine();
+            writer.EnsureNewLine();
         }
 
     }
