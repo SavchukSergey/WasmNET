@@ -5,6 +5,8 @@
             return visitor.Visit(this, arg);
         }
 
+        public override void Execute(WasmFunctionState state) => throw new System.NotImplementedException();
+
         public override string ToString() => "f64.reinterpret/i64";
 
     }

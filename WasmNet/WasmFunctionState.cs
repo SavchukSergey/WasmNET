@@ -10,8 +10,13 @@ namespace WasmNet {
 
         public WasmType PeekType() => throw new NotImplementedException();
 
+        public void PushLabel(WasmType signature) {
+        }
+
         public void PushSI32(int value) {
         }
+
+        internal void PushUI32(object sizeUnits) => throw new NotImplementedException();
 
         public void PushUI32(uint value) {
         }

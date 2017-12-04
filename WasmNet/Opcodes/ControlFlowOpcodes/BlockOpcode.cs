@@ -9,6 +9,10 @@ namespace WasmNet.Opcodes {
             return visitor.Visit(this, arg);
         }
 
+        public override void Execute(WasmFunctionState state) {
+            state.PushLabel(Signature);
+        }
+
         public override string ToString() => $"block {Signature}";
 
     }

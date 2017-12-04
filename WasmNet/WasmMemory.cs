@@ -4,6 +4,10 @@ using WasmNet.Data;
 namespace WasmNet {
     public class WasmMemory {
 
+        public uint Resize(uint val) => throw new NotImplementedException();
+
+        public uint SizeUnits => throw new NotImplementedException();
+
         public float ReadFloat32(uint address, WasmMemoryImmediate immediate) => throw new NotImplementedException();
 
         public void WriteFloat32(uint address, WasmMemoryImmediate immediate, float value) => throw new NotImplementedException();
