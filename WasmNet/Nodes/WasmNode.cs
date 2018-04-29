@@ -8,7 +8,7 @@ namespace WasmNet.Nodes {
 
         private static void DeclareGlobals(WasmNodeContext context, WasmGlobalSection section) {
             foreach (var global in section.Entries) {
-                var variable = new GlobalNode (global.Type.Type, global.Type.Mutable) {
+                var variable = new GlobalNode(global.Type.Type, global.Type.Mutable) {
                     Name = $"global_{context.Module.Globals.Count}"
                 };
                 context.Module.Globals.Add(variable);
@@ -44,7 +44,7 @@ namespace WasmNet.Nodes {
             }
         }
 
-        public static void Compile(WasmModule module) {
+        public static ModuleNode Compile(WasmModule module) {
             var funcSection = module.ReadFunctionSection();
             var codeSection = module.ReadCodeSection();
             var typeSection = module.ReadTypeSection();
@@ -76,7 +76,7 @@ namespace WasmNet.Nodes {
                         });
                         break;
                     case WasmExternalKind.Global:
-                        var global = new GlobalNode (import.Global.Type, import.Global.Mutable) {
+                        var global = new GlobalNode(import.Global.Type, import.Global.Mutable) {
                             Name = $"{import.Module}_{import.Field}"
                         };
                         moduleNode.ImportedGlobals.Add(global);
@@ -113,10 +113,7 @@ namespace WasmNet.Nodes {
 
             }
 
-            var writer = new NodeWriter();
-            moduleNode.ToString(writer);
-            Console.WriteLine(writer.ToString());
-            Console.WriteLine();
+            return moduleNode;
         }
 
         WasmNodeResult IWasmOpcodeVisitor<WasmNodeArg, WasmNodeResult>.Visit(BaseOpcode opcode, WasmNodeArg arg) => throw new System.NotImplementedException();
