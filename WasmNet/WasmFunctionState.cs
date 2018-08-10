@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using WasmNet.Data;
 
 namespace WasmNet {
     public class WasmFunctionState {
+
+        private Stack<WasmStackEntry> _stack = new Stack<WasmStackEntry>();
 
         public int InstructionPointer { get; set; }
 
@@ -19,6 +23,10 @@ namespace WasmNet {
         internal void PushUI32(object sizeUnits) => throw new NotImplementedException();
 
         public void PushUI32(uint value) {
+            _stack.Push(new WasmStackEntry {
+                UInt32 = value,
+                Type = WasmType.I32
+            });
         }
 
         public void PushSI64(long value) {
@@ -42,7 +50,11 @@ namespace WasmNet {
         }
 
         public uint PopUI32() {
-            return 0;
+            var value = _stack.Pop();
+            if (value.Type != WasmType.I32) {
+                throw new WasmFormatException("Expected stack i32 entry");
+            }
+            return value.UInt32;
         }
 
         public long PopSI64() {
@@ -61,6 +73,8 @@ namespace WasmNet {
             return 0;
         }
 
+        public bool StackEmpty => !_stack.Any();
+
         public WasmMemory Memory => throw new NotImplementedException();
 
         public WasmVariable ResolveLocalVariable(uint index) {
@@ -72,4 +86,13 @@ namespace WasmNet {
         }
 
     }
+
+    public struct WasmStackEntry {
+
+        public uint UInt32;
+
+        public WasmType Type;
+
+    }
+
 }
