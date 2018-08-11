@@ -45,11 +45,11 @@ namespace WasmNet.Nodes {
         }
 
         public static ModuleNode Compile(WasmModule module) {
-            var funcSection = module.ReadFunctionSection();
-            var codeSection = module.ReadCodeSection();
-            var typeSection = module.ReadTypeSection();
-            var importSection = module.ReadImportSection();
-            var globalSection = module.ReadGlobalSection();
+            var funcSection = module.Function;
+            var codeSection = module.Code;
+            var typeSection = module.Type;
+            var importSection = module.Import;
+            var globalSection = module.Global;
 
             var moduleNode = new ModuleNode();
 

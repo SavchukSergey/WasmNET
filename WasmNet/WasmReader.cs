@@ -25,7 +25,7 @@ namespace WasmNet {
             };
             while (!Eof) {
                 var section = ReadSection();
-                module.Sections.Add(section);
+                module.AcceptSection(section);
             }
             return module;
         }
