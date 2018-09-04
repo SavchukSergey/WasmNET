@@ -13,5 +13,10 @@ namespace WasmNet {
 
         public double Float64 { get; set; }
 
+        public void SetUI32(uint value) {
+            UInt32 = value;
+            Type = WasmType.I32;
+        }
+
     }
 }

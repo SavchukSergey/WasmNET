@@ -10,7 +10,7 @@ namespace WasmNet {
 
         public int InstructionPointer { get; set; }
 
-        public WasmModuleInstance Module { get; set; }
+        public WasmModuleInstance ModuleInstance { get; set; }
 
         public WasmType PeekType() => throw new NotImplementedException();
 
@@ -18,9 +18,18 @@ namespace WasmNet {
         }
 
         public void PushSI32(int value) {
+            _stack.Push(new WasmStackEntry {
+                UInt32 = (uint)value,
+                Type = WasmType.I32
+            });
         }
 
-        internal void PushUI32(object sizeUnits) => throw new NotImplementedException();
+        public void PushUI32(int value) {
+            _stack.Push(new WasmStackEntry {
+                UInt32 = (uint)value,
+                Type = WasmType.I32
+            });
+        }
 
         public void PushUI32(uint value) {
             _stack.Push(new WasmStackEntry {
@@ -30,11 +39,17 @@ namespace WasmNet {
         }
 
         public void PushSI64(long value) {
-
+            _stack.Push(new WasmStackEntry {
+                UInt64 = (ulong)value,
+                Type = WasmType.I64
+            });
         }
 
         public void PushUI64(ulong value) {
-
+            _stack.Push(new WasmStackEntry {
+                UInt64 = value,
+                Type = WasmType.I64
+            });
         }
 
         public void PushF32(float value) {
@@ -78,18 +93,33 @@ namespace WasmNet {
         public WasmMemory Memory => throw new NotImplementedException();
 
         public WasmVariable ResolveLocalVariable(uint index) {
-            throw new NotImplementedException();
+            return _locals[(int)index];
         }
 
         public WasmVariable ResolveGlobalVariable(uint index) {
             throw new NotImplementedException();
         }
 
+        public WasmFunctionState(WasmFunctionSignature signature, WasmFunctionBody body) {
+            var locals = (uint)signature.Parameters.Count;
+            foreach (var loc in body.Locals) {
+                locals += loc.Count;
+            }
+            _locals = new List<WasmVariable>((int)locals);
+            for (var i = 0; i < locals; i++) {
+                _locals.Add(new WasmVariable());
+            }
+        }
+
+        private readonly IList<WasmVariable> _locals;
+
     }
 
     public struct WasmStackEntry {
 
         public uint UInt32;
+
+        public ulong UInt64;
 
         public WasmType Type;
 

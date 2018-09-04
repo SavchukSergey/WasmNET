@@ -45,7 +45,7 @@ namespace WasmNet {
 
         public WasmModuleInstance CreateInstance() {
             //todo: execute start
-            return new WasmModuleInstance {
+            return new WasmModuleInstance(this) {
 
             };
         }

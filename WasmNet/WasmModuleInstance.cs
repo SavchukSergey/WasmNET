@@ -3,9 +3,12 @@
 
         public WasmModuleExports Exports { get; }
 
-        public WasmModuleInstance() {
+        public WasmModule Module { get; }
+
+        public WasmModuleInstance(WasmModule module) {
+            Module = module;
             Exports = new WasmModuleExports(this);
         }
-        
+
     }
 }
