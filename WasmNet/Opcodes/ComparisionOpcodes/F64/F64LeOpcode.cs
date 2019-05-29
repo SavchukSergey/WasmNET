@@ -1,11 +1,9 @@
 ﻿namespace WasmNet.Opcodes {
-    public class F64LeOpcode : F64BinaryComparisionOpcode {
+    public class F64LeOpcode : ComparisionOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        protected override bool Compare(double left, double right) => left <= right;
 
         public override string ToString() => "f64.le";
 

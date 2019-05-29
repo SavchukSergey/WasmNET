@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WasmNet.Data;
 
-namespace WasmNet {
+namespace WasmNet.Runtime {
     public class WasmFunctionState {
 
         private Stack<WasmStackEntry> _stack = new Stack<WasmStackEntry>();
@@ -15,6 +15,13 @@ namespace WasmNet {
         public WasmType PeekType() => throw new NotImplementedException();
 
         public void PushLabel(WasmBlockType signature) {
+        }
+
+        public void PushBool(bool value) {
+            _stack.Push(new WasmStackEntry {
+                UInt32 = value ? 1u : 0u,
+                Type = WasmType.I32
+            });
         }
 
         public void PushSI32(int value) {
@@ -58,6 +65,10 @@ namespace WasmNet {
 
         public void PushF64(double value) {
 
+        }
+
+        public void PopVoid() {
+            _stack.Pop();
         }
 
         public int PopSI32() {

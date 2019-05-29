@@ -1,13 +1,9 @@
-﻿using System;
-
-namespace WasmNet.Opcodes {
-    public class F64MaxOpcode : F64BinaryNumericOpcode {
+﻿namespace WasmNet.Opcodes {
+    public class F64MaxOpcode : BaseNumericOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        protected override double Execute(double left, double right) => Math.Max(left, right);
 
         public override string ToString() => "f64.max";
 

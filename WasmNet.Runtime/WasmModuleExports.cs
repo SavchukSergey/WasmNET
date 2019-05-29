@@ -1,7 +1,7 @@
 using System;
 using WasmNet.Data;
 
-namespace WasmNet {
+namespace WasmNet.Runtime {
     public class WasmModuleExports {
 
         private readonly WasmModuleInstance _instance;

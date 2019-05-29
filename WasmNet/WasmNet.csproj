@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <ApplicationIcon />
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Nodes\WasmNode.*.cs" DependentUpon="Nodes\WasmNode.cs" />
+    <Compile Update="WasmReader.*.cs" DependentUpon="WasmReader.cs" />
   </ItemGroup>
 
 </Project>

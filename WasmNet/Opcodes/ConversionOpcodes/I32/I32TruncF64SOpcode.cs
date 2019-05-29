@@ -5,11 +5,6 @@
             return visitor.Visit(this, arg);
         }
 
-        public override void Execute(WasmFunctionState state) {
-            var arg = state.PopF64();
-            state.PushSI32((int)arg);
-        }
-
         public override string ToString() => "i32.trunc_f64_s";
 
     }

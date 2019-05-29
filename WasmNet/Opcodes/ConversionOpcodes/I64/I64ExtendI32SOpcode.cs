@@ -5,11 +5,6 @@
             return visitor.Visit(this, arg);
         }
 
-        public override void Execute(WasmFunctionState state) {
-            var arg = state.PopSI32();
-            state.PushSI64(arg);
-        }
-
         public override string ToString() => "i64.extend_i32_s";
 
     }

@@ -11,11 +11,6 @@
             return visitor.Visit(this, arg);
         }
 
-        public override void Execute(WasmFunctionState state) {
-            var val = state.PopUI32();
-            state.PushUI32(state.Memory.Resize(val));
-        }
-
         public override string ToString() => "memory.grow";
 
     }

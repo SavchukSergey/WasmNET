@@ -1,4 +1,4 @@
-﻿namespace WasmNet {
+﻿namespace WasmNet.Runtime {
     public class WasmModuleInstance {
 
         public WasmModuleExports Exports { get; }

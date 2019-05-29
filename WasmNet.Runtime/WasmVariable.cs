@@ -1,6 +1,6 @@
 ﻿using WasmNet.Data;
 
-namespace WasmNet {
+namespace WasmNet.Runtime {
     public class WasmVariable {
 
         public WasmType Type { get; set; }

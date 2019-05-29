@@ -6,8 +6,6 @@ namespace WasmNet.Opcodes {
 
         public abstract TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg);
 
-        public abstract void Execute(WasmFunctionState state);
-
         protected string Format(WasmBlockType type) {
             switch (type) {
                 case WasmBlockType.I32:

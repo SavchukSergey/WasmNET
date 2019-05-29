@@ -1,7 +1,7 @@
 ﻿using System;
 using WasmNet.Data;
 
-namespace WasmNet {
+namespace WasmNet.Runtime {
     public class WasmMemory {
 
         public uint Resize(uint val) => throw new NotImplementedException();

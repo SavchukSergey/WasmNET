@@ -10,12 +10,6 @@ namespace WasmNet.Opcodes {
             return visitor.Visit(this, arg);
         }
 
-        public override void Execute(WasmFunctionState state) {
-            var adr = state.PopUI32();
-            var val = state.Memory.ReadSInt32(adr, Immediate);
-            state.PushSI32(val);
-        }
-
         public override string ToString() => $"i64.load32_s {Immediate}";
 
     }

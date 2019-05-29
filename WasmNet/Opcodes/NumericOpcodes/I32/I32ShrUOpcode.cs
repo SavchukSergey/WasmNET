@@ -1,11 +1,9 @@
 ﻿namespace WasmNet.Opcodes {
-    public class I32ShrUOpcode : I32UBinaryNumericOpcode {
+    public class I32ShrUOpcode : BaseNumericOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        protected override uint Execute(uint left, uint right) => left >> (int)right;
 
         public override string ToString() => "i32.shr_u";
 

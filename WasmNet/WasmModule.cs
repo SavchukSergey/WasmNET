@@ -43,13 +43,6 @@ namespace WasmNet {
 
         public WasmCodeSection Code => CodeSections.FirstOrDefault();
 
-        public WasmModuleInstance CreateInstance() {
-            //todo: execute start
-            return new WasmModuleInstance(this) {
-
-            };
-        }
-
         public void AcceptSection(WasmSection section) {
             var reader = new WasmReader(section.Payload);
             switch (section.Code) {

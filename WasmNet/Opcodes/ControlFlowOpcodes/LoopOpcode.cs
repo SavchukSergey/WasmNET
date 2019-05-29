@@ -13,8 +13,6 @@ namespace WasmNet.Opcodes {
             return visitor.Visit(this, arg);
         }
 
-        public override void Execute(WasmFunctionState state) => throw new System.NotImplementedException();
-
         public override string ToString() => $"loop {Format(Signature)}";
 
     }

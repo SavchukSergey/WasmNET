@@ -11,10 +11,6 @@
             return visitor.Visit(this, arg);
         }
 
-        public override void Execute(WasmFunctionState state) {
-            state.PushSI64(Value);
-        }
-
         public override string ToString() => $"i64.const {Value}";
 
     }
