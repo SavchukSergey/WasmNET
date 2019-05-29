@@ -1,9 +1,14 @@
 ﻿namespace WasmNet.Data {
     public class WasmLocalEntry {
 
-        public uint Count { get; set; }
+        public WasmLocalEntry(WasmType type, uint count) {
+            Type = type;
+            Count = count;
+        }
 
-        public WasmType Type { get; set; }
+        public uint Count { get; }
+
+        public WasmType Type { get; }
 
     }
 }

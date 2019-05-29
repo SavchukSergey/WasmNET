@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WasmNet.Data;
 
 namespace WasmNet.Sections {
     public class WasmTypeSection {
 
-        public IList<WasmFunctionSignature> Entries { get; } = new List<WasmFunctionSignature>();
+        public WasmTypeSection(IReadOnlyList<WasmFunctionSignature> signatures) {
+            if (signatures == null) {
+                throw new ArgumentNullException(nameof(signatures));
+            }
+            Entries = signatures;
+        }
+
+        public IReadOnlyList<WasmFunctionSignature> Entries { get; }
 
     }
 }

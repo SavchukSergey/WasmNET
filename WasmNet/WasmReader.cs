@@ -62,10 +62,9 @@ namespace WasmNet {
         }
 
         public WasmLocalEntry ReadLocalEntry() {
-            return new WasmLocalEntry {
-                Count = ReadVarUInt32(),
-                Type = ReadValueType()
-            };
+            var count = ReadVarUInt32();
+            var type = ReadValueType();
+            return new WasmLocalEntry(type, count);
         }
 
         public WasmInitExpression ReadInitExpression() {
@@ -75,21 +74,6 @@ namespace WasmNet {
                 opcode = ReadOpcode();
                 res.Opcodes.Add(opcode);
             } while (!(opcode is EndOpcode));
-            return res;
-        }
-
-        public WasmFunctionSignature ReadFunctionSignature() {
-            var type = ReadType();
-            if (type != WasmType.Func) throw new WasmFormatException("func type expected");
-            var paramCount = ReadVarUInt32();
-            var res = new WasmFunctionSignature();
-            for (var i = 0; i < paramCount; i++) {
-                res.Parameters.Add(ReadValueType());
-            }
-            var returnCount = ReadVarUInt1();
-            for (var i = 0; i < returnCount; i++) {
-                res.Returns.Add(ReadValueType());
-            }
             return res;
         }
 
@@ -162,22 +146,6 @@ namespace WasmNet {
             return res;
         }
 
-        public WasmFunctionBody ReadFunctionBody() {
-            var res = new WasmFunctionBody();
-            var bodySize = ReadVarUInt32();
-            var bodyBytes = ReadBytes(bodySize);
-            var bodyReader = new WasmReader(bodyBytes);
-            var locals = bodyReader.ReadVarUInt32();
-            for (var i = 0; i < locals; i++) {
-                res.Locals.Add(bodyReader.ReadLocalEntry());
-            }
-            while (!bodyReader.Eof) {
-                res.Opcodes.Add(bodyReader.ReadOpcode());
-            }
-            return res;
-
-        }
-
         public WasmMemoryEntry ReadMemoryEntry() {
             return new WasmMemoryEntry {
                 Limits = ReadLimits()
@@ -189,16 +157,6 @@ namespace WasmNet {
                 ElementType = ReadElementType(),
                 Limits = ReadLimits()
             };
-        }
-
-        public WasmTypeSection ReadTypeSection() {
-            var res = new WasmTypeSection();
-            var count = ReadVarUInt32();
-            for (var i = 0; i < count; i++) {
-                var sig = ReadFunctionSignature();
-                res.Entries.Add(sig);
-            }
-            return res;
         }
 
         public WasmImportSection ReadImportSection() {

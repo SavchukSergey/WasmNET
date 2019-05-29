@@ -1,12 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace WasmNet.Data {
     public class WasmFunctionSignature {
 
-        public IList<WasmType> Parameters { get; } = new List<WasmType>();
+        public WasmFunctionSignature(IReadOnlyList<WasmType> parameters, IReadOnlyList<WasmType> returns) {
+            if (parameters == null) {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            if (returns == null) {
+                throw new ArgumentNullException(nameof(returns));
+            }
+            Parameters = parameters;
+            Returns = returns;
+        }
 
-        public IList<WasmType> Returns { get; } = new List<WasmType>();
+        public IReadOnlyList<WasmType> Parameters { get; }
+
+        public IReadOnlyList<WasmType> Returns { get; }
 
         public WasmType Return => Returns.Count > 0 ? Returns[0] : WasmType.BlockType;
 
