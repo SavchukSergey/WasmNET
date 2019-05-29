@@ -3,7 +3,11 @@
 namespace WasmNet.Opcodes {
     public abstract class MemoryAccessOpcode : BaseOpcode {
 
-        public WasmMemoryImmediate Immediate { get; set; }
+        protected MemoryAccessOpcode(WasmMemoryImmediate immediate) {
+            Immediate = immediate;
+        }
+
+        public WasmMemoryImmediate Immediate { get; }
 
     }
 }

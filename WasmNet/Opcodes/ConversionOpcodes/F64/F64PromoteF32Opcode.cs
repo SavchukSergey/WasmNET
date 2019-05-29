@@ -10,7 +10,7 @@
             state.PushF64(arg);
         }
 
-        public override string ToString() => "f64.promote/f32";
+        public override string ToString() => "f64.promote_f32";
 
     }
 }

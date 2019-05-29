@@ -1,17 +1,16 @@
 ﻿namespace WasmNet.Opcodes {
-    public class CurrentMemoryOpcode : BaseOpcode {
-
-        public byte Reserved { get; set; }
+    public class F32ConvertI32SOpcode : BaseOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
 
         public override void Execute(WasmFunctionState state) {
-            state.PushUI32(state.Memory.SizeUnits);
+            var value = state.PopSI32();
+            state.PushF32(value);
         }
 
-        public override string ToString() => "current_memory";
+        public override string ToString() => "f32.convert_i32_s";
 
     }
 }

@@ -7,7 +7,7 @@
 
         public override void Execute(WasmFunctionState state) => throw new System.NotImplementedException();
 
-        public override string ToString() => "f64.reinterpret/i64";
+        public override string ToString() => "f64.reinterpret_i64";
 
     }
 }

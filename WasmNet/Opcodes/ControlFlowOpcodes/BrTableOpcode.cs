@@ -3,9 +3,19 @@
 namespace WasmNet.Opcodes {
     public class BrTableOpcode : BaseOpcode {
 
-        public IList<uint> Targets { get; } = new List<uint>();
+        public BrTableOpcode(uint defaultTarget, params uint[] targets) {
+            DefaultTarget = defaultTarget;
+            Targets = targets;
+        }
 
-        public uint DefaultTarget { get; set; }
+        public BrTableOpcode(uint defaultTarget, List<uint> targets) {
+            DefaultTarget = defaultTarget;
+            Targets = targets.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<uint> Targets { get; }
+
+        public uint DefaultTarget { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
@@ -13,7 +23,7 @@ namespace WasmNet.Opcodes {
 
         public override void Execute(WasmFunctionState state) => throw new System.NotImplementedException();
 
-        public override string ToString() => $"br_table TODO";
+        public override string ToString() => $"br_table {string.Join(' ', Targets)} {DefaultTarget}";
 
     }
 }

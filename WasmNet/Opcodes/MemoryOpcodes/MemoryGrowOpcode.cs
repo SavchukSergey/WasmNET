@@ -1,7 +1,11 @@
 ﻿namespace WasmNet.Opcodes {
-    public class GrowMemoryOpcode : BaseOpcode {
+    public class MemoryGrowOpcode : BaseOpcode {
 
-        public byte Reserved { get; set; }
+        public MemoryGrowOpcode(byte reserved) {
+            Reserved = reserved;
+        }
+
+        public byte Reserved { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
@@ -12,7 +16,7 @@
             state.PushUI32(state.Memory.Resize(val));
         }
 
-        public override string ToString() => "grow_memory";
+        public override string ToString() => "memory.grow";
 
     }
 }

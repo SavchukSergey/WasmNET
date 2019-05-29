@@ -10,7 +10,7 @@
             state.PushUI32((uint)arg);
         }
 
-        public override string ToString() => "i32.wrap/i64";
+        public override string ToString() => "i32.wrap_i64";
 
     }
 }

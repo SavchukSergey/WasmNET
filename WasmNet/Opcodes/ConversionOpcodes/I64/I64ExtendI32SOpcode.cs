@@ -1,5 +1,5 @@
 ﻿namespace WasmNet.Opcodes {
-    public class I64ExtendSI32Opcode : BaseOpcode {
+    public class I64ExtendI32SOpcode : BaseOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
@@ -10,7 +10,7 @@
             state.PushSI64(arg);
         }
 
-        public override string ToString() => "i64.extend_s/i32";
+        public override string ToString() => "i64.extend_i32_s";
 
     }
 }

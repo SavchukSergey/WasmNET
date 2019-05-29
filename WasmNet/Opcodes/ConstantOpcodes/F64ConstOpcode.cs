@@ -1,7 +1,13 @@
-﻿namespace WasmNet.Opcodes {
+﻿using System.Globalization;
+
+namespace WasmNet.Opcodes {
     public class F64ConstOpcode : BaseOpcode {
 
-        public double Value { get; set; }
+        public F64ConstOpcode(double value) {
+            Value = value;
+        }
+
+        public double Value { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
@@ -11,7 +17,7 @@
             state.PushF64(Value);
         }
 
-        public override string ToString() => $"f64.const {Value}";
+        public override string ToString() => $"f64.const {Value.ToString(CultureInfo.InvariantCulture)}";
 
     }
 }

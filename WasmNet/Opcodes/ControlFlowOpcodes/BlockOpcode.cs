@@ -3,7 +3,11 @@
 namespace WasmNet.Opcodes {
     public class BlockOpcode : BaseOpcode {
 
-        public WasmType Signature { get; set; }
+        public BlockOpcode(WasmBlockType signature) {
+            Signature = signature;
+        }
+
+        public WasmBlockType Signature { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
@@ -13,7 +17,7 @@ namespace WasmNet.Opcodes {
             state.PushLabel(Signature);
         }
 
-        public override string ToString() => $"block {Signature}";
+        public override string ToString() => $"block {Format(Signature)}";
 
     }
 }

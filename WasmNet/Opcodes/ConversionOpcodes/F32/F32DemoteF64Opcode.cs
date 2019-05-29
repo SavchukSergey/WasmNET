@@ -10,7 +10,7 @@
             state.PushF32((float)arg);
         }
 
-        public override string ToString() => "f32.demote/f64";
+        public override string ToString() => "f32.demote_f64";
 
     }
 }

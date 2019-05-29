@@ -1,21 +1,21 @@
 ﻿namespace WasmNet.Opcodes {
-    public class I64ConstOpcode : BaseOpcode {
+    public class MemorySizeOpcode : BaseOpcode {
 
-        public I64ConstOpcode(long value) {
-            Value = value;
+        public MemorySizeOpcode(byte reserved) {
+            Reserved = reserved;
         }
 
-        public long Value { get; }
+        public byte Reserved { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
 
         public override void Execute(WasmFunctionState state) {
-            state.PushSI64(Value);
+            state.PushUI32(state.Memory.SizeUnits);
         }
 
-        public override string ToString() => $"i64.const {Value}";
+        public override string ToString() => "memory.size";
 
     }
 }

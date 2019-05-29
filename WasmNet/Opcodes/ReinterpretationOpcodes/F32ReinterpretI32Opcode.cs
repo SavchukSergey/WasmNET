@@ -7,7 +7,7 @@
 
         public override void Execute(WasmFunctionState state) => throw new System.NotImplementedException();
 
-        public override string ToString() => "f32.reinterpret/i32";
+        public override string ToString() => "f32.reinterpret_i32";
 
     }
 }

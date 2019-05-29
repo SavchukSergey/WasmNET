@@ -1,7 +1,11 @@
 ﻿namespace WasmNet.Opcodes {
     public class BrOpcode : BaseOpcode {
 
-        public uint RelativeDepth { get; set; }
+        public BrOpcode(uint relativeDepth) {
+            RelativeDepth = relativeDepth;
+        }
+
+        public uint RelativeDepth { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);

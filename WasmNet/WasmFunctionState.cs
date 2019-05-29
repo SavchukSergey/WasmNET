@@ -14,7 +14,7 @@ namespace WasmNet {
 
         public WasmType PeekType() => throw new NotImplementedException();
 
-        public void PushLabel(WasmType signature) {
+        public void PushLabel(WasmBlockType signature) {
         }
 
         public void PushSI32(int value) {

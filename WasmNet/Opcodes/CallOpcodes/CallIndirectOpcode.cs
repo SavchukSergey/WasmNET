@@ -1,9 +1,14 @@
 ﻿namespace WasmNet.Opcodes {
     public class CallIndirectOpcode : BaseOpcode {
 
-        public uint TypeIndex { get; set; }
+        public CallIndirectOpcode(uint typeIndex, uint reserved) {
+            TypeIndex = typeIndex;
+            Reserved = reserved;
+        }
 
-        public uint Reserved { get; set; }
+        public uint TypeIndex { get; }
+
+        public uint Reserved { get; }
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);

@@ -1,16 +1,16 @@
 ﻿namespace WasmNet.Opcodes {
-    public class I32TruncSF64Opcode : BaseOpcode {
+    public class F64ConvertI32SOpcode : BaseOpcode {
 
         public override TResult AcceptVistor<TArg, TResult>(IWasmOpcodeVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
 
         public override void Execute(WasmFunctionState state) {
-            var arg = state.PopF64();
-            state.PushSI32((int)arg);
+            var value = state.PopSI32();
+            state.PushF64(value);
         }
 
-        public override string ToString() => "i32.trunc_s/f64";
+        public override string ToString() => "f64.convert_i32_s";
 
     }
 }

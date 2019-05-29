@@ -98,6 +98,10 @@ namespace WasmNet {
             return (WasmType)_reader.ReadByte();
         }
 
+        public WasmBlockType ReadBlockType() {
+            return (WasmBlockType)_reader.ReadByte();
+        }
+
         public WasmOpcodeType ReadOpcodeType() {
             return (WasmOpcodeType)_reader.ReadByte();
         }
@@ -112,20 +116,6 @@ namespace WasmNet {
                     return type;
                 default:
                     throw new WasmFormatException("value type expected");
-            }
-        }
-
-        public WasmType ReadBlockType() {
-            var type = ReadType();
-            switch (type) {
-                case WasmType.I32:
-                case WasmType.I64:
-                case WasmType.F32:
-                case WasmType.F64:
-                case WasmType.BlockType:
-                    return type;
-                default:
-                    throw new WasmFormatException("block type expected");
             }
         }
 
